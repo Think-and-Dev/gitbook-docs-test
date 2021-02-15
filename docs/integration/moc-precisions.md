@@ -1,4 +1,4 @@
-# MoC recisions
+# MoC precisions
 
 The Money on Chain system handles different types of currency precision to operate with tokens and RBTC. The **MoCLibConnection** contract defines 2 variables that are used across the platform:
 

@@ -1,4 +1,4 @@
-## Using web3
+# Using web3
 
 You can use the technology that suits you best for your project to integrate with the Money on Chain platform, but you must use web3 to invoke the functions of smart contracts. You can learn how to use it with the following tutorials:
 

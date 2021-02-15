@@ -34,6 +34,7 @@ const Web3 = require('web3');
 //You must compile the smart contracts or use the official ABIs of the //repository
 const MocAbi = require('./contracts/moc/MoC.json');
 const MoCInrateAbi = require('./contracts/moc/MoCInrate.json');
+const MoCExchangeAbi = require('./contracts/moc/MoCExchange.json');
 const MoCStateAbi = require('./contracts/moc/MoCState.json');
 
 //Config params to TestNet
@@ -46,6 +47,7 @@ const web3 = new Web3(provider);
 //Contract addresses on testnet
 const mocContractAddress = '<contract-address>';
 const mocInrateAddress = '<contract-address>';
+const mocExchangeAddress = '<contract-address>';
 const mocStateAddress = '<contract-address>';
 const gasPrice = 60000000;
 
@@ -69,10 +71,16 @@ const execute = async () => {
     throw Error('Can not find MoC contract.');
   }
 
-  // Loading mocInrate contract. It is necessary to compute commissions
+  // Loading mocInrate contract. It is necessary to get fees for transaction types
   const mocInrate = await getContract(MoCInrateAbi.abi, mocInrateAddress);
   if (!mocInrate) {
     throw Error('Can not find MoC Inrate contract.');
+  }
+
+  // Loading mocExchange contract. It is necessary to compute commissions and vendor markup
+  const mocExchange = await getContract(MoCExchangeAbi.abi, mocExchangeAddress);
+  if (!mocExchange) {
+    throw Error('Can not find MoC Exchange contract.');
   }
 
   // Loading mocState contract. It is necessary to compute max BPRO available to mint
@@ -90,8 +98,8 @@ const execute = async () => {
     let btcMarkup;
     let mocMarkup;
     // Set transaction types
-    const txTypeFeesRBTC = await mocHelper.mocInrate.MINT_BPRO_FEES_RBTC();
-    const txTypeFeesMOC = await mocHelper.mocInrate.MINT_BPRO_FEES_MOC();
+    const txTypeFeesRBTC = await mocInrate.methods.MINT_BPRO_FEES_RBTC();
+    const txTypeFeesMOC = await mocInrate.methods.MINT_BPRO_FEES_MOC();
     // Compute fees
     const params = {
       account: from,
@@ -106,7 +114,7 @@ const execute = async () => {
       mocCommission,
       btcMarkup,
       mocMarkup
-    } = await mocHelper.mocExchange.calculateCommissionsWithPrices(params, { from }));
+    } = await mocExchange.methods.calculateCommissionsWithPrices(params, { from }));
     // Computes totalBtcAmount to call mintBpro. If commission is paid in RBTC, add it to value
     const totalBtcAmount = toContract(btcCommission.plus(btcMarkup).plus(weiAmount));
     console.log(`Calling Bpro minting with account: ${from} and amount: ${weiAmount}.`);
@@ -128,6 +136,7 @@ const execute = async () => {
   const maxBproAvailable = await mocState.methods.maxMintBProAvalaible().call();
   console.log('Max Available BPRO: '.concat(maxBproAvailable.toString()));
   const btcAmount = '0.00005';
+  const vendorAccount = '<vendor-address>'
 
   // Call mint
   await mintBpro(btcAmount, vendorAccount, logEnd);

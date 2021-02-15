@@ -105,6 +105,7 @@ const execute = async () => {
   console.log('=== Max amount of BPro to redeem ', bproFinalAmount);
 
   const bproAmount = '0.00001';
+  const vendorAccount = '<vendor-address>'
 
   // Call redeem
   await redeemBpro(bproAmount, vendorAccount);
