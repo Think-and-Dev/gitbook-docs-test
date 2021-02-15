@@ -13,6 +13,7 @@
    * [Coverage](rationale/main-concepts.md#coverage)
    * [Tokens](rationale/main-concepts.md#tokens)
    * [Leveraged Instruments](rationale/main-concepts.md#leveraged-instruments)
+   * [Oracle](rationale/main-concepts.md#oracle)
 * [System states](rationale/system-states.md)
 * [Public actions](rationale/public-actions.md)
    * [User actions](rationale/user-actions.md)

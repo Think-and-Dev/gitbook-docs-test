@@ -1,6 +1,6 @@
 # Example code redeeming all DOC
 
-In the following example we will show how to invoke redeemAllDoc using Money on Chain contract. As a condition to do this the Moc contract must be paused(). Check the [DOC redeemption section](#redeeming-docs) for more details.
+In the following example we will show how to invoke redeemAllDoc using Money on Chain contract. As a condition to do this the Moc contract must be paused(). Check the [DOC redeemption section](integration/redeeming-docs.md) for more details.
 
 We will use **truffle** and **testnet** network.
 You can find code examples into _/examples_ dir.

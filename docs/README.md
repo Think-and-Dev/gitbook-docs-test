@@ -11,7 +11,7 @@ absorbs the USD-BTC rate fluctuations, and BTC2X is leveraged borrowing
 value from BitPro and DoC holders, with a daily interest rate being paid
 to the former.
 
-You can find a [full explanation about the platform here](MOC.md).
+You can find a [full explanation about the platform here](rationale/introduction.md).
 
-You can learn [how to integrate your apps to the platform here](integration-to-MOC-platform.md).
+You can learn [how to integrate your apps to the platform here](integration/introduction-to-moc.md).
 

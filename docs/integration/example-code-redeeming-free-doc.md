@@ -1,6 +1,6 @@
 # Example code redeeming Free DOC
 
-In the following example we will show how to invoke redeemFreeDoc from Money on Chain contract.This method allows to redeem DOC outside the settlement and they are limited by user balance. Check the [DOC redeemption section](#redeeming-docs) for more details.
+In the following example we will show how to invoke redeemFreeDoc from Money on Chain contract.This method allows to redeem DOC outside the settlement and they are limited by user balance. Check the [DOC redeemption section](integration/redeeming-docs.md) for more details.
 
 We will learn how to:
 
