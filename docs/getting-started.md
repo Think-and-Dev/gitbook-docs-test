@@ -67,7 +67,7 @@ Coverage test use their own node, so there is no need to run Ganache separately.
 
 ### Security and Audits
 
-[Deployed Contracts](Contracts%20verification.md)
+[Deployed Contracts](contracts-verification.md)
 [Audits](https://github.com/money-on-chain/Audits)
 
 For more technical information you can see our [ABI documentation](abis/README.md)
