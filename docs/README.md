@@ -1,5 +1,3 @@
-This is the main RBTC-collateralized stablecoin contract
-
 # Introduction
 
 Money On Chain is a suite of smart contracts dedicated to providing a
