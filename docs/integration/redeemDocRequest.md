@@ -1,6 +1,7 @@
 # Redeeming DOCs on Settlement: redeemDocRequest
 
 `function redeemDocRequest(uint256 docAmount) public`
+
 There is only one redeem request per user during a settlement. A new reedeem request is created if the user invokes it for the first time or has its value updated if it already exists.
 
 ## Parameters of the operation
@@ -20,7 +21,7 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-docs.md#the-MoC-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-docs.md#the-moc-contract-is-paused).
 
 ### Settlement is not ready:
 

@@ -37,7 +37,7 @@ btcSent (msg.value) >= CommissionParamsStruct.amount + CommissionParamsStruct.am
 ```
 If fees are paid in MoC, then `btcSent (msg.value) == CommissionParamsStruct.amount`
 
-- If you are redeeming and fees are paid in RBTC, the transaction returns the amount in RBTC discounting the previously calculated fees.  If the operation involves interests, you should substract them as well.
+- If you are redeeming and fees are paid in RBTC, the transaction returns the amount in RBTC discounting the previously calculated fees.  If the operation involves interests, you should subtract them as well.
 
 ```
 totalBtc = <token>ToBtc(finalAmount);

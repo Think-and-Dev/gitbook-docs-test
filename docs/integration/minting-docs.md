@@ -2,7 +2,7 @@
 
 DOC can only be minted in exchange for RBTC. Given an amount of RBTC paid to the contract, the system calculates the corresponding DOCs amount to mint, RBTC and DOC balances are added to the Money on Chain system and the new tokens are sent to the user.
 
-In this tutorial the method (or function) that is of interest to us is `function mintDocVendors(uint256 btcToMint, address vendorAccount) public payable` As you can see this function is payable, this means that it is prepared to receive RBTCs.
+In this tutorial the method (or function) that is of interest to us is `function mintDocVendors(uint256 btcToMint, address vendorAccount) public payable`. As you can see this function is payable, this means that it is prepared to receive RBTCs.
 
 NOTE: there is a retrocompatibility function called `function mintDoc(uint256 btcToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
@@ -45,8 +45,7 @@ To know if the contract is liquidated you can ask the **MocState** for the **sta
 
 ### The MoC contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppables contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol)
-In that state, the contract doesn't allow minting any type of token.
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppable contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol). In that state, the contract doesn't allow minting any type of token.
 
 To know if this is the case you can ask to **MoC** if it's **paused()**.
 
@@ -70,7 +69,7 @@ In the following sections we will give some code on how this can be done through
 ​
 To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
-Assuming you already have your project up and running (if you don't, please follow [this link](https://github.com/money-on-chain/main-RBTC-contract/blob/master/README.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
+Assuming you already have your project up and running (if you don't, please follow [this link](../getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​
 
 ```
@@ -111,11 +110,11 @@ params.vendorAccount = vendorAccount;
 CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
 
 uint256 fees = commission.btcCommission - commission.btcMarkup;
-// If commission is paid in RBTC, substract it from value
+// If commission is paid in RBTC, subtract it from value
 moc.mintDocVendors.value(msg.value)(msg.value - fees);
 ```
 ​
-You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the bpro token.
+You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the DoC token.
 ​
 This will leave you with a contract similar to the following
 ​
@@ -165,7 +164,7 @@ contract YourMintingDocContract {
       params.vendorAccount = vendorAccount;
 
       CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
-      // If commission is paid in RBTC, substract it from value
+      // If commission is paid in RBTC, subtract it from value
       uint256 fees = commission.btcCommission - commission.btcMarkup;
       // Mint some new DoC
       moc.mintDocVendors.value(msg.value)(msg.value - fees);
@@ -177,4 +176,4 @@ contract YourMintingDocContract {
 }
 ```
 
-And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and BPro when deploying YourContract and you are done.
+And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and DoC when deploying YourMintingDocContract and you are done.

@@ -1,4 +1,4 @@
-# Official Money on Chain ABIS
+# Official Money on Chain ABIs
 
 In the Money on Chain repository you can find the [official ABIs of the platform](https://github.com/money-on-chain/web-billfold-app/tree/develop/contracts/moc). You can use them to build your own decentralized applications to invoke the functions of smart contracts.
 

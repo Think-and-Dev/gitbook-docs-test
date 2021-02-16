@@ -4,7 +4,7 @@ The Money On Chain's Smart Contract suite is in control of the redeeming of its 
 
 This means that to redeem BitPros you must interact with the suite. The entry point are the same as explained in [Minting BitPros](minting-bitpros.md).
 
-In this tutorial the method (or function) that is of interest to us is `function redeemBProVendors(uint256 bproAmount, address vendorAccount) public`.
+In this tutorial the method (or function) that is of interest to us is `function redeemBProVendors(uint256 bproAmount, address vendorAccount) public`
 
 NOTE: there is a retrocompatibility function called `function redeemBPro(uint256 btcToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
@@ -54,11 +54,11 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is liquidated:
 
-In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more BitPros will be available for redeeming. The condition is the same as that explained in [The MoC contract is liquidated](minting-bitpros.md#the-MoC-contract-is-liquidated).
+In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more BitPros will be available for redeeming. The condition is the same as that explained in [The MoC contract is liquidated](minting-bitpros.md#the-moc-contract-is-liquidated).
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-bitpros.md#the-MoC-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-bitpros.md#the-moc-contract-is-paused).
 
 ### Not enough gas:
 
@@ -74,7 +74,7 @@ In the following sections we will give some code on how this can be done through
 ​
 To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
-Assuming you already have your project up and running (if you don't, please follow [this link](https://github.com/money-on-chain/main-RBTC-contract/blob/master/README.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
+Assuming you already have your project up and running (if you don't, please follow [this link](../getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​
 
 ```
@@ -93,7 +93,6 @@ To deploy the contracts you can use
 npm run deploy-reset-development
 ```
 
-​
 Having done that lets you use our contract as a dependency to your contract. For this let's suppose you are doing some kind of contract that when executing a certain task charges a fixed commission. Now let's suppose that the commission is sent in RBTCs because it is easier for the user but actually you want some BitPros. The good news is that you can do this instantly just by minting them. The code necessary to do this is actually pretty simple.
 ​
 You just have to import the contract
@@ -155,5 +154,5 @@ contract YourRedeemingBproContract {
 }​
 ```
 
-And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and BPro when deploying YourContract and you are done.
+And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and BPro when deploying YourRedeemingBproContract and you are done.
 ​​

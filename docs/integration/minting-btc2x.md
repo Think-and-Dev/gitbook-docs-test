@@ -2,7 +2,7 @@
 
 BTC2X can only be minted in exchange for RBTC.
 
-In this tutorial the method (or function) that is of interest to us is `function mintBProxVendors(bytes32 bucket, uint256 btcToMint, address vendorAccount) public payable` As you can see this function is payable, this means that it is prepared to receive RBTCs.
+In this tutorial the method (or function) that is of interest to us is `function mintBProxVendors(bytes32 bucket, uint256 btcToMint, address vendorAccount) public payable`. As you can see this function is payable, this means that it is prepared to receive RBTCs.
 
 NOTE: there is a retrocompatibility function called `function mintBProx(bytes32 bucket, uint256 btcToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
@@ -14,7 +14,7 @@ A bucket is a bag that stores the balances of the leveraged token holders. Curre
 
 There is also a bucket named _C0_ but it should not be used to mint and redeem BTC2X.
 
-In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [from outside blockchain](from-outside-of-the-blockchain.md) section.
+In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [From outside the blockchain](from-outside-the-blockchain.md) section.
 
 ```js
 const BUCKET_X2 = web3.utils.asciiToHex('X2', 32);
@@ -39,7 +39,7 @@ The amount sent in RBTCs to the contract can be considered as a parameter of the
 - The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
 - The fifth part is always returned, so if you have doubts of how much you should send, keep in mind that if you send too much RBTCs we will return everything that it is not used for commissions or minting.
 
-All the needed calculations for the third and fouth parts are explained in more detail [here](fees-calculation.md).
+All the needed calculations for the third and fourth parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 
@@ -56,8 +56,7 @@ To know if the contract is liquidated you can ask the **MocState** for the **sta
 
 ### The MoC contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppables contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol)
-In that state, the contract doesn't allow minting any type of token.
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppable contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol). In that state, the contract doesn't allow minting any type of token.
 
 To know if this is the case you can ask to **MoC** if it's **paused()**.
 
@@ -92,7 +91,7 @@ In the following sections we will give some code on how this can be done through
 
 To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
-Assuming you already have your project up and running (if you don't, please follow [this link](https://github.com/money-on-chain/main-RBTC-contract/blob/master/README.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
+Assuming you already have your project up and running (if you don't, please follow [this link](../getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​
 
 ```
@@ -131,13 +130,13 @@ params.txTypeFeesRBTC = mocInrate.MINT_BTCX_FEES_RBTC();
 params.vendorAccount = vendorAccount;
 
 CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
-// If commission is paid in RBTC, substract it from value
+// If commission is paid in RBTC, subtract it from value
 uint256 fees = commission.btcCommission - commission.btcMarkup;
 // Mint some new BTCX
 moc.mintBProxVendors.value(msg.value)(msg.value - fees);
 ```
 
-You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the bpro token.
+You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the BUCKET_X2 bucket.
 ​
 This will leave you with a contract similar to the following
 ​
@@ -147,7 +146,6 @@ This will leave you with a contract similar to the following
 pragma solidity 0.5.8;
 ​
 import "money-on-chain/contracts/MoC.sol";
-import "money-on-chain/contracts/token/BProToken.sol";
 import 'money-on-chain/contracts/MoCInrate.sol';
 import 'money-on-chain/contracts/MoCExchange.sol';
 // Here you will import your own dependencies
@@ -183,7 +181,7 @@ contract YourMintingBtc2xContract {
       params.vendorAccount = vendorAccount;
 
       CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
-      // If commission is paid in RBTC, substract it from value
+      // If commission is paid in RBTC, subtract it from value
       uint256 fees = commission.btcCommission - commission.btcMarkup;
       // Mint some new BTCX
       moc.mintBProxVendors.value(msg.value)(msg.value - fees);

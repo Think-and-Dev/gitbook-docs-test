@@ -1,6 +1,7 @@
 # Redeeming DOCs on Settlement: alterRedeemRequestAmount
 
 `alterRedeemRequestAmount(bool isAddition, uint256 delta) public`
+
 There is only at most one redeem request per user during a settlement. A new redeem request is created if the user invokes it for the first time or updates its value if it already exists.
 
 ## Parameters of the operation
@@ -9,7 +10,7 @@ There is only at most one redeem request per user during a settlement. A new red
 
 **true** if you increase the amount of the redemption order amount, **false** otherwise.
 
-####The delta parameter
+### The delta parameter
 
 It is the amount that the contract will be used to update a DOCs redeem request amount.
 This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and can be greater than user's balance at request time, allowing to, for example, redeem all future user's DOCs.
@@ -25,7 +26,7 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-docs.md#the-MoC-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-docs.md#the-moc-contract-is-paused).
 
 ### Settlement is not ready:
 

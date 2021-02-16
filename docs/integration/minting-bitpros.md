@@ -42,8 +42,7 @@ To know if the contract is liquidated you can ask the **MocState** for the **sta
 
 #### The MoC contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppables contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol)
-In that state, the contract doesn't allow minting any type of token.
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppable contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol). In that state, the contract doesn't allow minting any type of token.
 
 To know if this is the case you can ask to **MoC** if it's **paused()**.
 
@@ -76,7 +75,7 @@ In the following sections we will give some code on how this can be done through
 ​
 To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
-Assuming you already have your project up and running (if you don't, please follow [this link](https://github.com/money-on-chain/main-RBTC-contract/blob/master/README.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
+Assuming you already have your project up and running (if you don't, please follow [this link](../getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​
 
 ```
@@ -95,7 +94,6 @@ To deploy the contracts you can use
 npm run deploy-reset-development
 ```
 
-​
 Having done that lets you use our contract as a dependency to your contract. For this let's suppose you are doing some kind of contract that when executing a certain task charges a fixed commission. Now let's suppose that the commission is sent in RBTCs because it is easier for the user but actually you want some BitPros. The good news is that you can do this instantly just by minting them. The code necessary to do this is actually pretty simple.
 ​
 You just have to import the contracts
@@ -130,11 +128,11 @@ params.vendorAccount = vendorAccount;
 CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
 
 uint256 fees = commission.btcCommission - commission.btcMarkup;
-// If commission is paid in RBTC, substract it from value
+// If commission is paid in RBTC, subtract it from value
 moc.mintBProVendors.value(msg.value)(msg.value - fees);
 ```
 
-You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the bpro token.
+You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the BPro token.
 ​
 This will leave you with a contract similar to the following
 ​
@@ -183,7 +181,7 @@ contract YourMintingBproContract {
       params.vendorAccount = vendorAccount;
 
       CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
-      // If commission is paid in RBTC, substract it from value
+      // If commission is paid in RBTC, subtract it from value
       uint256 fees = commission.btcCommission - commission.btcMarkup;
       // Mint some new BitPro
       moc.mintBProVendors.value(msg.value)(msg.value - fees);

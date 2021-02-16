@@ -2,7 +2,7 @@
 
 The Money On Chain's Smart Contract suite is in control of redeeming its tokens, including the BTC2X token. This means that the return of BTC2X is controlled programmatically by said suite. ​A user can "sell" their BTC2X back to the contract and have RBTC deposited are sent back to the user, alongside the refunded interests (waiting in inrateBag) for the remaining time until the settlement (not yet charged).
 
-In this tutorial the method (or function) that is of interest to us is `function redeemBProxVendors(bytes32 bucket, uint256 bproxAmount, address vendorAccount) public`.
+In this tutorial the method (or function) that is of interest to us is `function redeemBProxVendors(bytes32 bucket, uint256 bproxAmount, address vendorAccount) public`
 
 NOTE: there is a retrocompatibility function called `function redeemBProx(bytes32 bucket, uint256 bproxAmount)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
@@ -14,7 +14,7 @@ A bucket is a bag that stores the balances of the leveraged token holders. Curre
 
 There is also a bucket named _C0_ but it should not be used to mint and redeem BTC2X.
 
-In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [From outside the blockchain](from-outside-of-the-blockchain.md) section.
+In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [From outside the blockchain](from-outside-the-blockchain.md) section.
 
 ```js
 const BUCKET_X2 = web3.utils.asciiToHex('X2', 32);
@@ -50,7 +50,7 @@ The fourth part corresponds to the vendor markup, which refers to the fee a vend
 
 The fifth part returns the amount in RBTC adding the computed interest and discounting the previously calculated commissions (if paid in RBTC).
 
-All the needed calculations for the third and fouth parts are explained in more detail [here](fees-calculation.md).
+All the needed calculations for the third and fourth parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 
@@ -67,8 +67,7 @@ To know if the contract is liquidated you can ask the **MocState** for the **sta
 
 ### The MoC contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppables contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol)
-In that state, the contract doesn't allow minting any type of token.
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppable contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol). In that state, the contract doesn't allow minting any type of token.
 
 To know if this is the case you can ask to **MoC** if it's **paused()**.
 
@@ -98,7 +97,7 @@ In the following sections we will give some code on how this can be done through
 ​
 To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
-Assuming you already have your project up and running (if you don't, please follow [this link](https://github.com/money-on-chain/main-RBTC-contract/blob/master/README.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
+Assuming you already have your project up and running (if you don't, please follow [this link](../getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​
 
 ```
