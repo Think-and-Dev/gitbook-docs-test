@@ -1,14 +1,12 @@
 ‌# Summary​
 
-## General
-
 * [Introduction](README.md)
 * [Getting started](getting-started.md)
 
 ## Money on Chain platform
 
 * [Introduction](rationale/introduction.md)
-* [Main Concepts](rationale/main-concepts.md)
+* [Main concepts](rationale/main-concepts.md)
 * [System states](rationale/system-states.md)
 * [Public actions](rationale/public-actions.md)
    * [User actions](rationale/user-actions.md)
@@ -34,9 +32,9 @@
    * [DocToken](rationale/doctoken.md)
    * [MocToken](rationale/moctoken.md)
    * [PriceProvider](rationale/priceprovider.md)
-* [Contract Mocks](rationale/contract-mocks.md)
+* [Contract mocks](rationale/contract-mocks.md)
 * [Relevant patterns and choices](rationale/relevant-patterns-and-choices.md)
-* [Data Dictionary](rationale/data-dictionary.md)
+* [Data dictionary](rationale/data-dictionary.md)
 * [Getting started](rationale/getting-started.md)
 
 

@@ -22,7 +22,7 @@ Although the name deleveraging evokes a broader process, in this case it just re
 
 ### DoC redeem requests
 
-As explained in the [redeem section](redeeming-docs.md), docs are not entirely liquid but need to be programmed to be redeemed (burn DoC and retrieve RBTC). Users enter a list (currently called queue in anticipation of future pagination) waiting to be executed during settlement.
+As explained in the [redeem section](../integration/redeeming-docs.md), docs are not entirely liquid but need to be programmed to be redeemed (burn DoC and retrieve RBTC). Users enter a list (currently called queue in anticipation of future pagination) waiting to be executed during settlement.
 This events simply goes through the aforementioned collection burning the corresponding DoC amount[^1], sending the equivalent RBTC (at the current BTC-USD rate) and obviously updating the bucket balances in the process.
 Said collection should be empty at the end of the process.
 
@@ -44,10 +44,10 @@ For a leveraged bucket, reaching coverage liquidation point (~1) means that user
 
 By adding the CommissionSplitter contract and set it as the destination of Money on Chain commissions (just as a normal commission destination address), the splitting process can be made.
 
-The CommissionSplitter contract will accummulate commissions until the `split()` function is called. At that moment a part of the commissions will be added to Money on Chain reserves using the Collateral Injection functionality and the other part will be sent to a final destination address.
+The CommissionSplitter contract will accumulate commissions until the `split()` function is called. At that moment a part of the commissions will be added to Money on Chain reserves using the Collateral Injection functionality and the other part will be sent to a final destination address.
 
 ## Collateral injection
 
-Collateral injection is the operation of adding reserveTokens to the system's reserves without minting RiskPro. This come in handy when reserves are runnning low and there is a need of Stable token minting.
+Collateral injection is the operation of adding reserveTokens to the system's reserves without minting RiskPro. This come in handy when reserves are running low and there is a need of Stable token minting.
 
 This injection is made by sending funds directly to the main MoC Contract, this will result in executing the fallback function which will update the internal values according to the sent value.

@@ -33,11 +33,11 @@ docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest
 ### With Coverage
 
 - `npm run coverage`
-- browse: [./coverage/index.html](./coverage/index.html)
+- browse: `./coverage/index.html` inside your project folder.
 
 ## Deploy
 
-(Truffle suite)[https://github.com/trufflesuite/truffle] is recommended to compile and deploy the contracts. There are a set of scripts to easy this process for the different known environments. Each environment (and network) might defer in its configuration settings, you can adjust this values in the the `migrations/config/config.json` file.
+[Truffle suite](https://github.com/trufflesuite/truffle) is recommended to compile and deploy the contracts. There are a set of scripts to easy this process for the different known environments. Each environment (and network) might defer in its configuration settings, you can adjust this values in the the `migrations/config/config.json` file.
 
 At the end of the deployment the addresses of the most relevant contracts will be displayed. If you are interested in another contracts you should look inside some files depending if the contracts is upgradeable or not.
 
