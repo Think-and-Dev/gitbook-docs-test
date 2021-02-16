@@ -1,10 +1,10 @@
 ‌# Summary​
 
 * [Introduction](README.md)
+* [Contracts verification](contracts-verification.md)
 
 ## Money on Chain platform
 
-* [Introduction](rationale/introduction.md)
 * [Main concepts](rationale/main-concepts.md)
 * [System states](rationale/system-states.md)
 * [Public actions](rationale/public-actions.md)
