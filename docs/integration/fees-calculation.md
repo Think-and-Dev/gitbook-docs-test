@@ -12,7 +12,7 @@ struct CommissionParamsStruct{
   address vendorAccount; // Vendor address
 }
 ```
-You must assign all the parameters to the struct before calling the function. Transaction types for every operation are explained [here](integration/commission-fees-values.md). You must have an instance of the **MoCInrate** contract in order to access every valid transaction type.
+You must assign all the parameters to the struct before calling the function. Transaction types for every operation are explained [here](commission-fees-values.md). You must have an instance of the **MoCInrate** contract in order to access every valid transaction type.
 
 Fees will be paid in MoC in case the user has MoC token balance and allowance; otherwise they will be paid in RBTC.
 

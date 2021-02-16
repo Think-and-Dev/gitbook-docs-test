@@ -14,7 +14,7 @@ A bucket is a bag that stores the balances of the leveraged token holders. Curre
 
 There is also a bucket named _C0_ but it should not be used to mint and redeem BTC2X.
 
-In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [from outside blockchain](integration/from-outside-of-the-blockchain.md) section.
+In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [from outside blockchain](from-outside-of-the-blockchain.md) section.
 
 ```js
 const BUCKET_X2 = web3.utils.asciiToHex('X2', 32);
@@ -27,7 +27,7 @@ This parameter uses a precision of the type **reservePrecision** that contains 1
 
 ### The vendorAccount parameter
 
-It is the address of the vendor who will receive a [markup](integration/vendor-markup.md) from the current transaction.
+It is the address of the vendor who will receive a [markup](vendor-markup.md) from the current transaction.
 
 ### The value sent
 
@@ -35,11 +35,11 @@ The amount sent in RBTCs to the contract can be considered as a parameter of the
 
 - The first part will be used to mint some BTC2X, the size of this part depends directly on the btcToMint, and it may be smaller than btcToMint.
 - The second part will be used to compute and pay interests that can be queried with the `calcMintInterestValues(bucket, finalBtcToMint)` of the **MocInrate** contract.
-- The third part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](integration/commission-fees-values.md) section.
-- The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](integration/vendor-markup.md) section.
+- The third part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
+- The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
 - The fifth part is always returned, so if you have doubts of how much you should send, keep in mind that if you send too much RBTCs we will return everything that it is not used for commissions or minting.
 
-All the needed calculations for the third and fouth parts are explained in more detail [here](integration/fees-calculation.md).
+All the needed calculations for the third and fouth parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 

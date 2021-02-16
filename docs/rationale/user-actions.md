@@ -45,7 +45,7 @@ The BitPros and RBTC are simply discounted from the base bucket.
 
 A DoC redeem request can be created to redeem any amount of DoCs, but this will be processed on next settlement.
 The intended amount can be greater than user's balance at request time, allowing to, for example, redeem all future user's DoCs regardless of whether their balance increases.
-The redemption of DoCs at the settlement is explained in detail in [its own section](rationale/process-actions.md#settlement)
+The redemption of DoCs at the settlement is explained in detail in [its own section](process-actions.md#settlement)
 
 #### Outside of settlement
 

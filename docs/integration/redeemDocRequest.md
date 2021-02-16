@@ -20,7 +20,7 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](integration/minting-docs.md#the-MoC-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-docs.md#the-MoC-contract-is-paused).
 
 ### Settlement is not ready:
 
@@ -42,4 +42,4 @@ If this situation occurs then you can contact the [Money on Chain team](https://
 
 ## Commissions
 
-The redeemDocRequest operation has no commissions, but when the settlement runs, the total amount of redeem requests will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](integration/commission-fees-values.md) section.
+The redeemDocRequest operation has no commissions, but when the settlement runs, the total amount of redeem requests will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.

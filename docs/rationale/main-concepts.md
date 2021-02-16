@@ -18,12 +18,12 @@ Locked RBTC amount is a result of the amount of DoCs and their price in BTC (BTC
 
 ### DoC
 
-Its value is pegged to one dollar, in the sense that the SC (using [Oracle's](rationale/main-concepts.md#oracle) btc/usd price) will always[^1] return the equivalent amount of Bitcoin to satisfy that convertibility.
+Its value is pegged to one dollar, in the sense that the SC (using [Oracle's](main-concepts.md#oracle) btc/usd price) will always[^1] return the equivalent amount of Bitcoin to satisfy that convertibility.
 It's targeted towards users seeking to avoid crypto's market volatility.
 It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the Moc system.
 The more DocS minted, the more BTC2X can be minted, since they are used for leverage.
 
-[^1]: Needs sufficient collateral (coverage > 1) and redeems are only processed during [Settlements](rationale/process-actions.md#settlement)
+[^1]: Needs sufficient collateral (coverage > 1) and redeems are only processed during [Settlements](process-actions.md#settlement)
 
 ### BitPro
 
@@ -47,4 +47,4 @@ It can _not_ be traded freely and does _not_ have an ERC20 interface. BTCX posit
 
 ## Oracle
 
-It's crucial to the system workflow to have an up to date BTC-USD rate price feed to relay on. This is currently achieved by a separate contract so that it can be easily replaced in the future without affecting the MOC system. See [PriceProvider](rationale/priceprovider.md).
+It's crucial to the system workflow to have an up to date BTC-USD rate price feed to relay on. This is currently achieved by a separate contract so that it can be easily replaced in the future without affecting the MOC system. See [PriceProvider](priceprovider.md).

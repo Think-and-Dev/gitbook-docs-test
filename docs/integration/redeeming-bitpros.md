@@ -2,7 +2,7 @@
 
 The Money On Chain's Smart Contract suite is in control of the redeeming of its tokens, including the BitPro token. This means that the return of BitPros is controlled programmatically by said suite. ​A user can "sell" their BitPro back to the contract and recover the corresponding amount of RBTC.
 
-This means that to redeem BitPros you must interact with the suite. The entry point are the same as explained in [Minting BitPros](integration/minting-bitpros.md).
+This means that to redeem BitPros you must interact with the suite. The entry point are the same as explained in [Minting BitPros](minting-bitpros.md).
 
 In this tutorial the method (or function) that is of interest to us is `function redeemBProVendors(uint256 bproAmount, address vendorAccount) public`.
 
@@ -36,13 +36,13 @@ userAmount  = Math.min(bproAmount, userBalance);
 bproFinalAmount = Math.min(userAmount, absoluteMaxBPro);
 ```
 
-The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](integration/commission-fees-values.md) section.
+The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
 
-The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](integration/vendor-markup.md) section.
+The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
 
 The fourth part returns the amount in RBTC discounting the previously calculated fees.
 
-All the needed calculations for the second and third parts are explained in more detail [here](integration/fees-calculation.md).
+All the needed calculations for the second and third parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 
@@ -54,11 +54,11 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is liquidated:
 
-In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more BitPros will be available for redeeming. The condition is the same as that explained in [The MoC contract is liquidated](integration/minting-bitpros.md#the-MoC-contract-is-liquidated).
+In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more BitPros will be available for redeeming. The condition is the same as that explained in [The MoC contract is liquidated](minting-bitpros.md#the-MoC-contract-is-liquidated).
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](integration/minting-bitpros.md#the-MoC-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-bitpros.md#the-MoC-contract-is-paused).
 
 ### Not enough gas:
 

@@ -15,7 +15,7 @@ This parameter uses a precision of the type **reservePrecision** that contains 1
 
 ### The vendorAccount parameter
 
-It is the address of the vendor who will receive a [markup](integration/vendor-markup.md) from the current transaction.
+It is the address of the vendor who will receive a [markup](vendor-markup.md) from the current transaction.
 
 
 Money on Chain is a dynamic system that allows you to redeem a maximum amount of free DOCS and can be obtained by calling the `freeDoc()` view of the **MocState** contract.
@@ -42,11 +42,11 @@ The first part transforms the amount **docAmount** into an RBTC amount, but 3 th
 
 The second part will be used to compute and pay the interests of the operation that depends on the abundance of DOCs in the MOC system. The value can be obtained by invoking the function `calcDocRedInterestValues(finalDocAmount, docsBtcValue)` of the contract **MocInrate** and also has an accuracy of 18 decimal places.
 
-The third part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](integration/commission-fees-values.md) section.
+The third part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
 
-The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](integration/vendor-markup.md) section.
+The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
 
-All the needed calculations for the third and fouth parts are explained in more detail [here](integration/fees-calculation.md).
+All the needed calculations for the third and fouth parts are explained in more detail [here](fees-calculation.md).
 
 The fifth part returns the amount in RBTC discounting the previously calculated fees and interests.
 
@@ -60,7 +60,7 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](integration/minting-docs.md#the-MoC-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-docs.md#the-MoC-contract-is-paused).
 
 ### The MoC contract is in protected mode:
 

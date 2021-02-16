@@ -1,6 +1,6 @@
 # Example code redeeming DOC Request
 
-In the following example we will show how to invoke redeemDocRequest using Money on Chain contract. This method can recieve any amount of DOC to redeem, but this will be processed on the next settlement. Check the [DOC redeemption section](integration/redeeming-docs.md) for more details.
+In the following example we will show how to invoke redeemDocRequest using Money on Chain contract. This method can recieve any amount of DOC to redeem, but this will be processed on the next settlement. Check the [DOC redeemption section](redeeming-docs.md) for more details.
 
 We will use **truffle** and **testnet** network.
 You can find code examples into _/examples_ dir.

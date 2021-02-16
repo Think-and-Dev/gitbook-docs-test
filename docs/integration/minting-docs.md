@@ -16,18 +16,18 @@ It could be the case, depending on the state of the contract, that a value less 
 
 ### The vendorAccount parameter
 
-It is the address of the vendor who will receive a [markup](integration/vendor-markup.md) from the current transaction.
+It is the address of the vendor who will receive a [markup](vendor-markup.md) from the current transaction.
 
 ### The value sent
 
 The amount sent in RBTCs to the contract can be considered as a parameter of the transaction, which is why it will be explained in this section. You have to take into consideration that it will be split in four.
 
 - The first part will be used to mint some DOC, the size of this part depends directly on the **btcToMint**. For security reasons, the system allows to mint a maximum amount of DOCs that can be obtained by invoking the `absoluteMaxDoc()` function of the **MoCState** contract.
-- The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](integration/commission-fees-values.md) section.
-- The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](integration/vendor-markup.md) section.
+- The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
+- The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
 - The fourth part is always returned, so if you have doubts of how much you should send, keep in mind that if you send too much RBTCs we will return everything that it is not used for commissions or minting.
 
-All the needed calculations for the second and third parts are explained in more detail [here](integration/fees-calculation.md).
+All the needed calculations for the second and third parts are explained in more detail [here](fees-calculation.md).
 
 
 ### Gas limit and gas price

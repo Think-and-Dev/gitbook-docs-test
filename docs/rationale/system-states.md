@@ -1,6 +1,6 @@
 # System states
 
-System state is ruled by the global [Coverage](rationale/main-concepts.md#Coverage) value, and it's relation with the Objective Coverage (Cobj), currently set to 4.
+System state is ruled by the global [Coverage](main-concepts.md#Coverage) value, and it's relation with the Objective Coverage (Cobj), currently set to 4.
 
 - Above coverage
 

@@ -18,7 +18,7 @@
   }
 ```
 
-MoC also handles the [System states](rationale/system-states.md) by a series of modifiers:
+MoC also handles the [System states](system-states.md) by a series of modifiers:
 
 - _atState_: requires certain state to allow execution
 

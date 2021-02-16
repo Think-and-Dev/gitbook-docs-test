@@ -14,7 +14,7 @@ A bucket is a bag that stores the balances of the leveraged token holders. Curre
 
 There is also a bucket named _C0_ but it should not be used to mint and redeem BTC2X.
 
-In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [From outside the blockchain](integration/from-outside-of-the-blockchain.md) section.
+In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [From outside the blockchain](from-outside-of-the-blockchain.md) section.
 
 ```js
 const BUCKET_X2 = web3.utils.asciiToHex('X2', 32);
@@ -27,7 +27,7 @@ This parameter uses a precision of the type **reservePrecision** that contains 1
 
 ### The vendorAccount parameter
 
-It is the address of the vendor who will receive a [markup](integration/vendor-markup.md) from the current transaction.
+It is the address of the vendor who will receive a [markup](vendor-markup.md) from the current transaction.
 
 
 The redeeming process is divided into 5 parts:
@@ -44,13 +44,13 @@ rbtcToRedeem = bproxToBtc(bproxToRedeem, bucket);
 
 The second part computes interests to be paid to the user.
 
-The third part will be used to pay the commission, this part is a percentage of the first part. The commission fees are explained in [this](integration/commission-fees-values.md) section.
+The third part will be used to pay the commission, this part is a percentage of the first part. The commission fees are explained in [this](commission-fees-values.md) section.
 
-The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](integration/vendor-markup.md) section.
+The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
 
 The fifth part returns the amount in RBTC adding the computed interest and discounting the previously calculated commissions (if paid in RBTC).
 
-All the needed calculations for the third and fouth parts are explained in more detail [here](integration/fees-calculation.md).
+All the needed calculations for the third and fouth parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 

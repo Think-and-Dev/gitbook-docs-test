@@ -22,7 +22,7 @@ Although the name deleveraging evokes a broader process, in this case it just re
 
 ### DoC redeem requests
 
-As explained in the [redeem section](integration/redeeming-docs.md), docs are not entirely liquid but need to be programmed to be redeemed (burn DoC and retrieve RBTC). Users enter a list (currently called queue in anticipation of future pagination) waiting to be executed during settlement.
+As explained in the [redeem section](redeeming-docs.md), docs are not entirely liquid but need to be programmed to be redeemed (burn DoC and retrieve RBTC). Users enter a list (currently called queue in anticipation of future pagination) waiting to be executed during settlement.
 This events simply goes through the aforementioned collection burning the corresponding DoC amount[^1], sending the equivalent RBTC (at the current BTC-USD rate) and obviously updating the bucket balances in the process.
 Said collection should be empty at the end of the process.
 
