@@ -1,7 +1,6 @@
 ‌# Summary​
 
 * [Introduction](README.md)
-* [Contracts verification](contracts-verification.md)
 
 ## Money on Chain platform
 
@@ -75,9 +74,10 @@
     * [Example code minting BTC2X](integration/example-code-minting-btc2x.md)
     * [Example code redeeming BTC2X](integration/example-code-redeeming-btc2x.md)
 
-## Smart contract ABIs
+## Smart contracts
 
-* [ABIs documentation](abis/introduction.md)
+* [Contracts verification](contracts-verification.md)
+* [ABIs documentation](abis/abi-documentation.md)
     * [BProToken](abis/BProToken.md)
     * [BtcPriceProviderMock](abis/BtcPriceProviderMock.md)
     * [DocToken](abis/DocToken.md)

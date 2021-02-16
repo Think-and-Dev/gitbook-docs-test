@@ -73,7 +73,7 @@ The addresses of the deployed proxies will be in a file called `zos.<network-id>
 - [Deployed Contracts](../contracts-verification.md)
 - [Audits](https://github.com/money-on-chain/Audits)
 
-For more technical information you can see our [ABI documentation](../abis/introduction.md)
+For more technical information you can see our [ABI documentation](../abis/abi-documentation.md).
 
 ## Settings
 
