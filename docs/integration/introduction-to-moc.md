@@ -17,4 +17,4 @@ MoC system is a network of cooperative smart contracts working together to ultim
 - _Tokens_: Tokens backed by the system (OwnerBurnableToken, DocToken, BProToken, MoCToken)
 - _External Dependencies_: External contracts the system relies on, in this case the Oracle or price provider; this could evolve independently of MoC system as along as the interface is maintained. (PriceProvider)
 
-Also you can read official information about [MoC architecture and Money on Chain's smart contracts](../rationale/introduction.md)
+Also you can read official information about [MoC architecture and Money on Chain's smart contracts](../README.md)

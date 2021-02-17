@@ -23,7 +23,7 @@ docker pull trufflesuite/ganache-cli;
 docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest
 ```
 
-## Run Rsk Local Node
+## Run RSK Local Node
 
 - With Docker:
 
@@ -70,7 +70,7 @@ The addresses of the deployed proxies will be in a file called `zos.<network-id>
 
 ## Security and Audits
 
-- [Deployed Contracts](../contracts-verification.md)
+- [Deployed contracts](../contracts-verification.md)
 - [Audits](https://github.com/money-on-chain/Audits)
 
 For more technical information you can see our [ABI documentation](../abis/abi-documentation.md).

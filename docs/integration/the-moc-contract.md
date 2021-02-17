@@ -1,4 +1,4 @@
-# The Moc Contract
+# The MoC Contract
 
 The Money On Chain's Smart Contract suite is in control of the minting and redeeming of its tokens, including the BitPro, DOC and BTC2X tokens. This means that the generation of new tokens is controlled programmatically by said suite. To get some new tokens you should interact with the suite. The entry point is the MoC smart contract whose addresses are available on the following networks:
 
