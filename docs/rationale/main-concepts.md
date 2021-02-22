@@ -7,7 +7,7 @@ It's identified by a name (currently `C0` and `X2`).
 It has a "balance" of RBTC, DoC, and BitPro.
 If it's a leverage (X) bucket, it also stores the balances of the leveraged token (currently only BTC2X) holders (`bproxBalances` and `activeBalances`).
 If it's instead a base bucket, it has a RBTC balance (`inrateBag`) from interests accumulated by leveraged instruments allocations, daily processing will move the corresponding daily payment from this "bag" to base bucket balance.
-Balance accounting between buckets is articulated by a series of Smart Contracts that constitute the MOC ecosystem.
+Balance accounting between buckets is articulated by a series of Smart Contracts that constitute the MoC ecosystem.
 
 ## Coverage
 
@@ -18,22 +18,18 @@ Locked RBTC amount is a result of the amount of DoCs and their price in BTC (BTC
 
 ### DoC
 
-Its value is pegged to one dollar, in the sense that the SC (using [Oracle's](main-concepts.md#oracle) btc/usd price) will always[^1] return the equivalent amount of Bitcoin to satisfy that convertibility.
-It's targeted towards users seeking to avoid crypto's market volatility.
-It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the Moc system.
-The more DocS minted, the more BTC2X can be minted, since they are used for leverage.
+Its value is pegged to one dollar, in the sense that the SC (using [Oracle's](main-concepts.md#oracle) btc/usd price) will always[^1] return the equivalent amount of Bitcoin to satisfy that convertibility. It's targeted towards users seeking to avoid crypto's market volatility.
+It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the MoC system. The more DocS minted, the more BTC2X can be minted, since they are used for leverage.
 
 [^1]: Needs sufficient collateral (coverage > 1) and redeems are only processed during [Settlements](process-actions.md#settlement)
 
 ### BitPro
 
-It's targeted towards users seeking to _hodl_ Bitcoins and also receive a passive income from it.
-It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the Moc system.
-The more BitPros minted (introducing RBTC to the system), the more coverage the system has, since they add value to the system without locking any.
+It's targeted towards users seeking to _hodl_ Bitcoins and also receive a passive income from it. It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the MoC system. The more BitPros minted (introducing RBTC to the system), the more coverage the system has, since they add value to the system without locking any.
 
 ### MoC
-TBD
-It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the Moc system.
+
+The MoC token is designed to govern a decentralized autonomous organization (DAO), and can also be used to pay fees for the use of the platform at a lower rate than those to be paid with BTC. MoC holders will also be able to get a reward for staking and providing services to the platform. MoC token holders will vote on contract modifications and new features. On a basic level, the DAO decides whether or not to update the code of the smart contract.
 
 ## Leveraged instruments
 
@@ -47,4 +43,4 @@ It can _not_ be traded freely and does _not_ have an ERC20 interface. BTCX posit
 
 ## Oracle
 
-It's crucial to the system workflow to have an up to date BTC-USD rate price feed to relay on. This is currently achieved by a separate contract so that it can be easily replaced in the future without affecting the MOC system. See [PriceProvider](priceprovider.md).
+It's crucial to the system workflow to have an up to date BTC-USD rate price feed to relay on. This is currently achieved by a separate contract so that it can be easily replaced in the future without affecting the MoC system. See [PriceProvider](priceprovider.md).
