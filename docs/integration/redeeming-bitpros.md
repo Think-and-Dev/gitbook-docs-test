@@ -38,7 +38,7 @@ bproFinalAmount = Math.min(userAmount, absoluteMaxBPro);
 
 The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
 
-The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
+The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
 
 The fourth part returns the amount in RBTC discounting the previously calculated fees.
 

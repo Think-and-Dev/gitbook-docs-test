@@ -56,7 +56,7 @@
     * [Minting BTC2X](integration/minting-btc2x.md)
     * [Redeeming BTC2X](integration/redeeming-btc2x.md)
 * [Commission fees values](integration/commission-fees-values.md)
-* [Vendor markup](integration/vendor-markup.md)
+* [Vendors](integration/vendors.md)
 * [Fees calculation](integration/fees-calculation.md)
 * [From outside the blockchain](integration/from-outside-the-blockchain.md)
     * [Using RSK nodes](integration/using-rsk-nodes.md)

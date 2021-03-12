@@ -16,8 +16,7 @@ This contract holds the system variables to manage the state, whether it's the s
 
 ## MoCVendors
 
-Deals with those vendors who want to integrate their platform with the MoC ecosystem. Vendors can charge a markup of up to 1% of the value to mint/redeem, and receive this value as MoC tokens. These tokens neither receive rewards nor vote nor can they participate as an oracle or as
-no other function that MoC stakeholders have in the Staking Machine.
+Deals with those [vendors](vendors.md) who want to integrate their platform with the MoC ecosystem.
 
 - mainnet: [ TBD ](TBD)
 - testnet: [ TBD ](TBD)

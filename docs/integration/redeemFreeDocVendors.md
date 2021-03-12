@@ -15,7 +15,7 @@ This parameter uses a precision of the type **reservePrecision** that contains 1
 
 ### The vendorAccount parameter
 
-It is the address of the vendor who will receive a [markup](vendor-markup.md) from the current transaction.
+It is the address of the vendor who will receive a [markup](vendors.md#markup) from the current transaction.
 
 
 Money on Chain is a dynamic system that allows you to redeem a maximum amount of free DOCS and can be obtained by calling the `freeDoc()` view of the **MocState** contract.
@@ -44,7 +44,7 @@ The second part will be used to compute and pay the interests of the operation t
 
 The third part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
 
-The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
+The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
 
 All the needed calculations for the third and fourth parts are explained in more detail [here](fees-calculation.md).
 

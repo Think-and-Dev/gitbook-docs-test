@@ -14,7 +14,7 @@ Maybe, depending on the state of the contract, a value lesser than btcToMint wil
 
 ### The vendorAccount parameter
 
-It is the address of the vendor who will receive a [markup](vendor-markup.md) from the current transaction.
+It is the address of the vendor who will receive a [markup](vendors.md#markup) from the current transaction.
 
 ### The value sent
 
@@ -22,7 +22,7 @@ The amount sent in RBTCs to the contract can be considered as a parameter of the
 
 - The first part will be used to mint some BitPro, the size of this part depends directly on the btcToMint, and, as explained in the previous section, it may be smaller than btcToMint.
 - The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
-- The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendor-markup.md) section.
+- The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
 - The fourth part is always returned, so if you have doubts of how much you should send, keep in mind that if you send too much RBTCs we will return everything that it is not used for commissions or minting.
 
 All the needed calculations for the second and third parts are explained in more detail [here](fees-calculation.md).
