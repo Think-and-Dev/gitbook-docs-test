@@ -1,8 +1,10 @@
 # Introduction
 
-Money On Chain is a suite of smart contracts dedicated to providing a bitcoin-collateralized stable-coin, Dollar On Chain, (DoC); a passive income hodler-targeted token, BitPro (BPRO), and a leveraged Bitcoin investment instrument (BTCX series).
+Money On Chain is a suite of smart contracts dedicated to providing a RIF-collateralized stable-coin, Dollar On Chain, (RDOC); a passive income hodler-targeted token, RIFPro (RIFP), and a leveraged Bitcoin investment instrument (RIFX series).
 
-The rationale behind this is that deposits of Rootstock-BTC (RBTC) help collateralize the DoCs, BitPro absorbs the USD-BTC rate fluctuations, and BTC2X is leveraged borrowing value from BitPro and DoC holders, with a daily interest rate being paid to the former.
+Money on Chain runs on the [RSK network](https://www.rsk.co/) and uses the RIF token as reserve assets to back Money on Chain. You can find more info on the RIF token and decentralized economies [here](https://www.rifos.org/).
+
+The rationale behind this is that deposits of RIF help collateralize the RDOCs, RIFPro absorbs the USD-RIF rate fluctuations, and RIF2X is leveraged borrowing value from RIFPro and RDOC holders, with a daily interest rate being paid to the former.
 
 You can find a [full explanation about the platform starting here](rationale/main-concepts.md).
 

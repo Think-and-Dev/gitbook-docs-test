@@ -1,46 +1,44 @@
 ---
-id: version-0.1.10-BtcPriceProviderMock
-title: BtcPriceProviderMock
-original_id: BtcPriceProviderMock
+id: version-0.1.10-PriceProviderMock
+title: PriceProviderMock
+original_id: PriceProviderMock
 ---
 
-# BtcPriceProviderMock.sol
+# PriceProviderMock.sol
 
-View Source: [contracts/mocks/BtcPriceProviderMock.sol](../contracts/mocks/BtcPriceProviderMock.sol)
+View Source: [contracts/mocks/PriceProviderMock.sol](../../contracts/mocks/PriceProviderMock.sol)
 
 **↗ Extends: [PriceFeed](PriceFeed.md), [PriceProvider](PriceProvider.md)**
 
-**BtcPriceProviderMock** - version: 0.1.10
+**PriceProviderMock** - version: 0.1.10
 
 ## Contract Members
 **Constants & Variables**
 
 ```js
-bytes32 internal btcPrice;
+bytes32 internal price;
 bool internal has;
 
 ```
 
 ## Functions
 
-- [(uint256 price)](#)
+- [(uint256 _price)](#)
 - [peek()](#peek)
 - [poke(uint128 val_, uint32 )](#poke)
 - [post(uint128 val_, uint32 , address )](#post)
 
 ### 
 
-Constructor
-
 ```js
-function (uint256 price) public nonpayable
+function (uint256 _price) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| price | uint256 | BTC price for mock contract | 
+| _price | uint256 |  | 
 
 ### peek
 

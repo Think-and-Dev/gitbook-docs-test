@@ -6,7 +6,7 @@ original_id: MoCSettlementMock
 
 # MoCSettlementMock.sol
 
-View Source: [contracts/mocks/MoCSettlementMock.sol](../contracts/mocks/MoCSettlementMock.sol)
+View Source: [contracts/mocks/MoCSettlementMock.sol](../../contracts/mocks/MoCSettlementMock.sol)
 
 **↗ Extends: [MoCSettlement](MoCSettlement.md)**
 
@@ -27,7 +27,7 @@ uint256 internal constant STEPS;
 - [pubRunDeleveraging()](#pubrundeleveraging)
 - [pubRunRedeemDoc()](#pubrunredeemdoc)
 - [setBlockSpan(uint256 _blockSpan)](#setblockspan)
-- [docRedemptionStepCountForTest()](#docredemptionstepcountfortest)
+- [stableTokenRedemptionStepCountForTest()](#stabletokenredemptionstepcountfortest)
 
 ### 
 
@@ -92,13 +92,13 @@ function setBlockSpan(uint256 _blockSpan) public nonpayable
 | ------------- |------------- | -----|
 | _blockSpan | uint256 | number of blocks | 
 
-### docRedemptionStepCountForTest
+### stableTokenRedemptionStepCountForTest
 
-Returns the amount of steps for the Doc Redemption task
+Returns the amount of steps for the StableToken Redemption task
 which is the amount of redeem requests in the queue. (Used in tests only)
 
 ```js
-function docRedemptionStepCountForTest() public view
+function stableTokenRedemptionStepCountForTest() public view
 returns(uint256)
 ```
 

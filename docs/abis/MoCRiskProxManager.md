@@ -1,16 +1,16 @@
 ---
-id: version-0.1.10-MoCBProxManager
-title: MoCBProxManager
-original_id: MoCBProxManager
+id: version-0.1.10-MoCRiskProxManager
+title: MoCRiskProxManager
+original_id: MoCRiskProxManager
 ---
 
-# MoCBProxManager.sol
+# MoCRiskProxManager.sol
 
-View Source: [contracts/MoCBProxManager.sol](../contracts/MoCBProxManager.sol)
+View Source: [contracts/MoCRiskProxManager.sol](../../contracts/MoCRiskProxManager.sol)
 
 **↗ Extends: [MoCBucketContainer](MoCBucketContainer.md)**
 
-**MoCBProxManager** - version: 0.1.10
+**MoCRiskProxManager** - version: 0.1.10
 
 ## Contract Members
 **Constants & Variables**
@@ -27,16 +27,14 @@ uint256[50] private upgradeGap;
 ## Functions
 
 - [initialize(address connectorAddress, address _governor, uint256 _c0Cobj, uint256 _x2Cobj)](#initialize)
-- [bproxBalanceOf(bytes32 bucket, address userAddress)](#bproxbalanceof)
+- [riskProxBalanceOf(bytes32 bucket, address userAddress)](#riskproxbalanceof)
 - [hasValidBalance(bytes32 bucket, address userAddress, uint256 index)](#hasvalidbalance)
-- [assignBProx(bytes32 bucket, address payable account, uint256 bproxAmount, uint256 totalCost)](#assignbprox)
-- [removeBProx(bytes32 bucket, address payable userAddress, uint256 bproxAmount, uint256 totalCost)](#removebprox)
-- [setBProxBalanceOf(bytes32 bucket, address payable userAddress, uint256 value)](#setbproxbalanceof)
+- [assignRiskProx(bytes32 bucket, address payable account, uint256 riskProxAmount, uint256 totalCost)](#assignriskprox)
+- [removeRiskProx(bytes32 bucket, address payable userAddress, uint256 riskProxAmount, uint256 totalCost)](#removeriskprox)
+- [setRiskProxBalanceOf(bytes32 bucket, address payable userAddress, uint256 value)](#setriskproxbalanceof)
 - [initializeValues(address _governor)](#initializevalues)
 
 ### initialize
-
-Initializes the contract
 
 ```js
 function initialize(address connectorAddress, address _governor, uint256 _c0Cobj, uint256 _x2Cobj) public nonpayable initializer 
@@ -46,17 +44,17 @@ function initialize(address connectorAddress, address _governor, uint256 _c0Cobj
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| connectorAddress | address | MoCConnector contract address | 
-| _governor | address | Governor contract address | 
-| _c0Cobj | uint256 | Bucket C0 objective coverage | 
-| _x2Cobj | uint256 | Bucket X2 objective coverage | 
+| connectorAddress | address |  | 
+| _governor | address |  | 
+| _c0Cobj | uint256 |  | 
+| _x2Cobj | uint256 |  | 
 
-### bproxBalanceOf
+### riskProxBalanceOf
 
 returns user balance
 
 ```js
-function bproxBalanceOf(bytes32 bucket, address userAddress) public view
+function riskProxBalanceOf(bytes32 bucket, address userAddress) public view
 returns(uint256)
 ```
 
@@ -68,7 +66,7 @@ total balance for the userAddress
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bucket | bytes32 | BProx corresponding bucket to get balance from | 
+| bucket | bytes32 | RiskProx corresponding bucket to get balance from | 
 | userAddress | address | user address to get balance from | 
 
 ### hasValidBalance
@@ -92,55 +90,55 @@ true if the user has assigned balance
 | userAddress | address | user address to verify balance for | 
 | index | uint256 | index, starting from 1, where the address of the user is being kept | 
 
-### assignBProx
+### assignRiskProx
 
-Assigns the amount of BProx
+Assigns the amount of RiskProx
 
 ```js
-function assignBProx(bytes32 bucket, address payable account, uint256 bproxAmount, uint256 totalCost) public nonpayable onlyWhitelisted 
+function assignRiskProx(bytes32 bucket, address payable account, uint256 riskProxAmount, uint256 totalCost) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bucket | bytes32 | bucket from which the BProx will be removed | 
+| bucket | bytes32 | bucket from which the RiskProx will be removed | 
 | account | address payable | user address to redeem for | 
-| bproxAmount | uint256 | bprox amount to redeem [using mocPresicion] | 
-| totalCost | uint256 | btc value of bproxAmount [using reservePrecision] | 
+| riskProxAmount | uint256 | riskProx amount to redeem [using mocPresicion] | 
+| totalCost | uint256 | ReserveToken value of riskProxAmount [using reservePrecision] | 
 
-### removeBProx
+### removeRiskProx
 
-Removes the amount of BProx and substract BTC cost from bucket
+Removes the amount of RiskProx and substract ReserveTokens from bucket
 
 ```js
-function removeBProx(bytes32 bucket, address payable userAddress, uint256 bproxAmount, uint256 totalCost) public nonpayable onlyWhitelisted 
+function removeRiskProx(bytes32 bucket, address payable userAddress, uint256 riskProxAmount, uint256 totalCost) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bucket | bytes32 | bucket from which the BProx will be removed | 
+| bucket | bytes32 | bucket from which the RiskProx will be removed | 
 | userAddress | address payable | user address to redeem for | 
-| bproxAmount | uint256 | bprox amount to redeem [using mocPresicion] | 
-| totalCost | uint256 | btc value of bproxAmount [using reservePrecision] | 
+| riskProxAmount | uint256 | riskProx amount to redeem [using mocPresicion] | 
+| totalCost | uint256 | reserveToken value of riskProxAmount [using reservePrecision] | 
 
-### setBProxBalanceOf
+### setRiskProxBalanceOf
 
-Sets the amount of BProx
+Sets the amount of RiskProx
 
 ```js
-function setBProxBalanceOf(bytes32 bucket, address payable userAddress, uint256 value) public nonpayable onlyWhitelisted 
+function setRiskProxBalanceOf(bytes32 bucket, address payable userAddress, uint256 value) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bucket | bytes32 | bucket from which the BProx will be setted | 
+| bucket | bytes32 | bucket from which the RiskProx will be setted | 
 | userAddress | address payable | user address to redeem for | 
-| value | uint256 | bprox amount to redeem [using mocPresicion] | 
+| value | uint256 | riskProx amount to redeem [using mocPresicion] | 
 
 ### initializeValues
 
@@ -154,5 +152,5 @@ function initializeValues(address _governor) internal nonpayable
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _governor | address | Governor contract address | 
+| _governor | address |  | 
 

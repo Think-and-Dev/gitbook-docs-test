@@ -1,16 +1,16 @@
 ---
-id: version-0.1.10-DocToken
-title: DocToken
-original_id: DocToken
+id: version-0.1.10-StableToken
+title: StableToken
+original_id: StableToken
 ---
 
-# DocToken.sol
+# StableToken.sol
 
-View Source: [contracts/token/DocToken.sol](../contracts/token/DocToken.sol)
+View Source: [contracts/token/StableToken.sol](../../contracts/token/StableToken.sol)
 
 **↗ Extends: [ERC20Detailed](ERC20Detailed.md), [OwnerBurnableToken](OwnerBurnableToken.md)**
 
-**DocToken** - version: 0.1.10
+**StableToken** - version: 0.1.10
 
 ## Contract Members
 **Constants & Variables**

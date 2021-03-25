@@ -6,10 +6,10 @@ original_id: UpgraderTemplate
 
 # UpgraderTemplate (UpgraderTemplate.sol)
 
-View Source: [moc-governance/contracts/ChangersTemplates/UpgraderTemplate.sol](../moc-governance/contracts/ChangersTemplates/UpgraderTemplate.sol)
+View Source: [moc-governance/contracts/ChangersTemplates/UpgraderTemplate.sol](../../moc-governance/contracts/ChangersTemplates/UpgraderTemplate.sol)
 
 **↗ Extends: [ChangeContract](ChangeContract.md)**
-**↘ Derived Contracts: [MoCBProxManagerUpdater](MoCBProxManagerUpdater.md), [MockUpgraderTemplate](MockUpgraderTemplate.md)**
+**↘ Derived Contracts: [MockUpgraderTemplate](MockUpgraderTemplate.md)**
 
 **UpgraderTemplate** - version: 0.1.10
 

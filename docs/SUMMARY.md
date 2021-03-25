@@ -42,7 +42,7 @@
     * [The MoC Contract](integration/the-moc-contract.md)
     * [MoC Precisions](integration/moc-precisions.md)
     * [MoC State Contracts](integration/the-moc-state-contract.md)
-* [Getting BPros](integration/getting-bpros.md)
+* [Getting RIFPros](integration/getting-rifpros.md)
     * [Minting BitPros](integration/minting-bitpros.md)
     * [Redeeming BitPros](integration/redeeming-bitpros.md)
 * [Getting DOCs](integration/getting-docs.md)

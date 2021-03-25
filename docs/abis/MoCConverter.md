@@ -6,7 +6,7 @@ original_id: MoCConverter
 
 # MoCConverter.sol
 
-View Source: [contracts/MoCConverter.sol](../contracts/MoCConverter.sol)
+View Source: [contracts/MoCConverter.sol](../../contracts/MoCConverter.sol)
 
 **↗ Extends: [MoCBase](MoCBase.md), [MoCLibConnection](MoCLibConnection.md)**
 
@@ -27,22 +27,22 @@ uint256[50] private upgradeGap;
 ## Functions
 
 - [initialize(address connectorAddress)](#initialize)
-- [bproToBtc(uint256 amount)](#bprotobtc)
-- [btcToBPro(uint256 btcAmount)](#btctobpro)
-- [bproDiscToBtc(uint256 amount)](#bprodisctobtc)
-- [btcToBProDisc(uint256 btcAmount)](#btctobprodisc)
-- [docsToBtc(uint256 docAmount)](#docstobtc)
-- [docsToBtcWithPrice(uint256 docAmount, uint256 btcPrice)](#docstobtcwithprice)
-- [btcToDoc(uint256 btcAmount)](#btctodoc)
-- [bproxToBtc(uint256 bproxAmount, bytes32 bucket)](#bproxtobtc)
-- [bproxToBtcHelper(uint256 bproxAmount, bytes32 bucket)](#bproxtobtchelper)
-- [btcToBProx(uint256 btcAmount, bytes32 bucket)](#btctobprox)
-- [btcToBProWithPrice(uint256 btcAmount, uint256 price)](#btctobprowithprice)
-- [bproToBtcWithPrice(uint256 bproAmount, uint256 bproPrice)](#bprotobtcwithprice)
-- [mocToBtc(uint256 mocAmount)](#moctobtc)
-- [btcToMoC(uint256 btcAmount)](#btctomoc)
-- [mocToBtcWithPrice(uint256 mocAmount, uint256 btcPrice, uint256 mocPrice)](#moctobtcwithprice)
-- [btcToMoCWithPrice(uint256 btcAmount, uint256 btcPrice, uint256 mocPrice)](#btctomocwithprice)
+- [riskProToResToken(uint256 amount)](#riskprotorestoken)
+- [resTokenToRiskPro(uint256 resTokensAmount)](#restokentoriskpro)
+- [riskProDiscToResToken(uint256 amount)](#riskprodisctorestoken)
+- [resTokenToRiskProDisc(uint256 resTokensAmount)](#restokentoriskprodisc)
+- [stableTokensToResToken(uint256 stableTokenAmount)](#stabletokenstorestoken)
+- [stableTokensToResTokenWithPrice(uint256 stableTokenAmount, uint256 reservePrice)](#stabletokenstorestokenwithprice)
+- [resTokenToStableToken(uint256 resTokensAmount)](#restokentostabletoken)
+- [riskProxToResToken(uint256 riskProxAmount, bytes32 bucket)](#riskproxtorestoken)
+- [riskProxToResTokenHelper(uint256 riskProxAmount, bytes32 bucket)](#riskproxtorestokenhelper)
+- [resTokenToRiskProx(uint256 resTokensAmount, bytes32 bucket)](#restokentoriskprox)
+- [resTokenToRiskProWithPrice(uint256 resTokensAmount, uint256 price)](#restokentoriskprowithprice)
+- [riskProToResTokenWithPrice(uint256 riskProAmount, uint256 riskProPrice)](#riskprotorestokenwithprice)
+- [mocToResToken(uint256 mocAmount)](#moctorestoken)
+- [resTokenToMoC(uint256 resTokensAmount)](#restokentomoc)
+- [mocToResTokenWithPrice(uint256 mocAmount, uint256 reservePrice, uint256 mocPrice)](#moctorestokenwithprice)
+- [resTokenToMoCWithPrice(uint256 resTokensAmount, uint256 reservePrice, uint256 mocPrice)](#restokentomocwithprice)
 
 ### initialize
 
@@ -56,67 +56,67 @@ function initialize(address connectorAddress) public nonpayable initializer
 | ------------- |------------- | -----|
 | connectorAddress | address |  | 
 
-### bproToBtc
+### riskProToResToken
 
-BTC equivalent for the amount of bpros given
+ReserveTokens equivalent for the amount of riskPros given
 
 ```js
-function bproToBtc(uint256 amount) public view
+function riskProToResToken(uint256 amount) public view
 returns(uint256)
 ```
 
 **Returns**
 
-total BTC Price of the amount BPros [using reservePrecision]
+total ReserveTokens Price of the amount RiskPros [using reservePrecision].
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| amount | uint256 | Amount of BPro to calculate the total price | 
+| amount | uint256 | Amount of RiskPro to calculate the total price | 
 
-### btcToBPro
+### resTokenToRiskPro
 
-Converts BTC to BPro
+Converts Reserve to RiskPro
 
 ```js
-function btcToBPro(uint256 btcAmount) public view
+function resTokenToRiskPro(uint256 resTokensAmount) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BPro amount
+RiskPro amount
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 | BTC amount | 
+| resTokensAmount | uint256 | Reserve amount | 
 
-### bproDiscToBtc
+### riskProDiscToResToken
 
-BTC equivalent for the amount of bpro given applying the spotDiscountRate
+ReserveTokens equivalent for the amount of riskPro given applying the spotDiscountRate
 
 ```js
-function bproDiscToBtc(uint256 amount) public view
+function riskProDiscToResToken(uint256 amount) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BTC amount
+Reserve amount
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| amount | uint256 | amount of BPro [using mocPrecision] | 
+| amount | uint256 | amount of RiskPro [using reservePrecision] | 
 
-### btcToBProDisc
+### resTokenToRiskProDisc
 
 ```js
-function btcToBProDisc(uint256 btcAmount) public view
+function resTokenToRiskProDisc(uint256 resTokensAmount) public view
 returns(uint256)
 ```
 
@@ -124,12 +124,12 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 |  | 
+| resTokensAmount | uint256 |  | 
 
-### docsToBtc
+### stableTokensToResToken
 
 ```js
-function docsToBtc(uint256 docAmount) public view
+function stableTokensToResToken(uint256 stableTokenAmount) public view
 returns(uint256)
 ```
 
@@ -137,12 +137,12 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docAmount | uint256 |  | 
+| stableTokenAmount | uint256 |  | 
 
-### docsToBtcWithPrice
+### stableTokensToResTokenWithPrice
 
 ```js
-function docsToBtcWithPrice(uint256 docAmount, uint256 btcPrice) public view
+function stableTokensToResTokenWithPrice(uint256 stableTokenAmount, uint256 reservePrice) public view
 returns(uint256)
 ```
 
@@ -150,13 +150,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docAmount | uint256 |  | 
-| btcPrice | uint256 |  | 
+| stableTokenAmount | uint256 |  | 
+| reservePrice | uint256 |  | 
 
-### btcToDoc
+### resTokenToStableToken
 
 ```js
-function btcToDoc(uint256 btcAmount) public view
+function resTokenToStableToken(uint256 resTokensAmount) public view
 returns(uint256)
 ```
 
@@ -164,12 +164,12 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 |  | 
+| resTokensAmount | uint256 |  | 
 
-### bproxToBtc
+### riskProxToResToken
 
 ```js
-function bproxToBtc(uint256 bproxAmount, bytes32 bucket) public view
+function riskProxToResToken(uint256 riskProxAmount, bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -177,13 +177,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bproxAmount | uint256 |  | 
+| riskProxAmount | uint256 |  | 
 | bucket | bytes32 |  | 
 
-### bproxToBtcHelper
+### riskProxToResTokenHelper
 
 ```js
-function bproxToBtcHelper(uint256 bproxAmount, bytes32 bucket) public view
+function riskProxToResTokenHelper(uint256 riskProxAmount, bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -191,13 +191,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bproxAmount | uint256 |  | 
+| riskProxAmount | uint256 |  | 
 | bucket | bytes32 |  | 
 
-### btcToBProx
+### resTokenToRiskProx
 
 ```js
-function btcToBProx(uint256 btcAmount, bytes32 bucket) public view
+function resTokenToRiskProx(uint256 resTokensAmount, bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -205,13 +205,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 |  | 
+| resTokensAmount | uint256 |  | 
 | bucket | bytes32 |  | 
 
-### btcToBProWithPrice
+### resTokenToRiskProWithPrice
 
 ```js
-function btcToBProWithPrice(uint256 btcAmount, uint256 price) public view
+function resTokenToRiskProWithPrice(uint256 resTokensAmount, uint256 price) public view
 returns(uint256)
 ```
 
@@ -219,13 +219,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 |  | 
+| resTokensAmount | uint256 |  | 
 | price | uint256 |  | 
 
-### bproToBtcWithPrice
+### riskProToResTokenWithPrice
 
 ```js
-function bproToBtcWithPrice(uint256 bproAmount, uint256 bproPrice) public view
+function riskProToResTokenWithPrice(uint256 riskProAmount, uint256 riskProPrice) public view
 returns(uint256)
 ```
 
@@ -233,39 +233,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bproAmount | uint256 |  | 
-| bproPrice | uint256 |  | 
+| riskProAmount | uint256 |  | 
+| riskProPrice | uint256 |  | 
 
-### mocToBtc
-
-```js
-function mocToBtc(uint256 mocAmount) public view
-returns(uint256)
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| mocAmount | uint256 |  | 
-
-### btcToMoC
+### mocToResToken
 
 ```js
-function btcToMoC(uint256 btcAmount) public view
-returns(uint256)
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| btcAmount | uint256 |  | 
-
-### mocToBtcWithPrice
-
-```js
-function mocToBtcWithPrice(uint256 mocAmount, uint256 btcPrice, uint256 mocPrice) public view
+function mocToResToken(uint256 mocAmount) public view
 returns(uint256)
 ```
 
@@ -274,13 +248,39 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | mocAmount | uint256 |  | 
-| btcPrice | uint256 |  | 
+
+### resTokenToMoC
+
+```js
+function resTokenToMoC(uint256 resTokensAmount) public view
+returns(uint256)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| resTokensAmount | uint256 |  | 
+
+### mocToResTokenWithPrice
+
+```js
+function mocToResTokenWithPrice(uint256 mocAmount, uint256 reservePrice, uint256 mocPrice) public view
+returns(uint256)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| mocAmount | uint256 |  | 
+| reservePrice | uint256 |  | 
 | mocPrice | uint256 |  | 
 
-### btcToMoCWithPrice
+### resTokenToMoCWithPrice
 
 ```js
-function btcToMoCWithPrice(uint256 btcAmount, uint256 btcPrice, uint256 mocPrice) public view
+function resTokenToMoCWithPrice(uint256 resTokensAmount, uint256 reservePrice, uint256 mocPrice) public view
 returns(uint256)
 ```
 
@@ -288,7 +288,7 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 |  | 
-| btcPrice | uint256 |  | 
+| resTokensAmount | uint256 |  | 
+| reservePrice | uint256 |  | 
 | mocPrice | uint256 |  | 
 

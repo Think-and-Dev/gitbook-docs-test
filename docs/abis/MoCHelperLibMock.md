@@ -6,7 +6,7 @@ original_id: MoCHelperLibMock
 
 # MoCHelperLibMock.sol
 
-View Source: [contracts/mocks/MoCHelperLibMock.sol](../contracts/mocks/MoCHelperLibMock.sol)
+View Source: [contracts/mocks/MoCHelperLibMock.sol](../../contracts/mocks/MoCHelperLibMock.sol)
 
 **MoCHelperLibMock** - version: 0.1.10
 
@@ -27,20 +27,20 @@ event MethodCalled(bytes32  name);
 ## Functions
 
 - [()](#)
-- [spotInrate(uint256 tMin, uint256 tMax, uint256 doc0, uint256 doct)](#spotinrate)
-- [maxBProWithDiscount(uint256 nB, uint256 nDoc, uint256 utpdu, uint256 peg, uint256 btcPrice, uint256 bproUsdPrice, uint256 spotDiscount)](#maxbprowithdiscount)
+- [spotInrate(uint256 tMin, uint256 tMax, uint256 stableToken0, uint256 stableTokent)](#spotinrate)
+- [maxRiskProWithDiscount(uint256 nReserve, uint256 nStableToken, uint256 utpdu, uint256 peg, uint256 reservePrice, uint256 riskProUsdPrice, uint256 spotDiscount)](#maxriskprowithdiscount)
 - [inrateAvg(uint256 tMax, uint256 fact, uint256 tMin, uint256 abRat1, uint256 abRat2)](#inrateavg)
 - [avgInt(uint256 tMax, uint256 fact, uint256 tMin, uint256 abRat1, uint256 abRat2)](#avgint)
 - [potential(uint256 tMax, uint256 fact, uint256 tMin, uint256 abRat)](#potential)
 - [integral(uint256 tMax, uint256 fact, uint256 tMin, uint256 abRat)](#integral)
-- [bproSpotDiscountRate(uint256 bproLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov)](#bprospotdiscountrate)
-- [bucketTransferAmountInfiniteLeverage(uint256 nB, uint256 delta)](#buckettransferamountinfiniteleverage)
-- [bucketTransferAmount(uint256 nB, uint256 lev)](#buckettransferamount)
-- [coverage(uint256 nB, uint256 lB)](#coverage)
+- [riskProSpotDiscountRate(uint256 riskProLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov)](#riskprospotdiscountrate)
+- [bucketTransferAmountInfiniteLeverage(uint256 nReserve, uint256 delta)](#buckettransferamountinfiniteleverage)
+- [bucketTransferAmount(uint256 nReserve, uint256 lev)](#buckettransferamount)
+- [coverage(uint256 nReserve, uint256 lB)](#coverage)
 - [leverageFromCoverage(uint256 cov)](#leveragefromcoverage)
-- [leverage(uint256 nB, uint256 lB)](#leverage)
-- [maxBProxBtcValue(uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 lev)](#maxbproxbtcvalue)
-- [maxBProxBtcValueInfiniteLeverage(uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 delta)](#maxbproxbtcvalueinfiniteleverage)
+- [leverage(uint256 nReserve, uint256 lB)](#leverage)
+- [maxRiskProxResTokenValue(uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 lev)](#maxriskproxrestokenvalue)
+- [maxRiskProxReserveValueInfiniteLeverage(uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 delta)](#maxriskproxreservevalueinfiniteleverage)
 
 ### 
 
@@ -58,7 +58,7 @@ function () public nonpayable
 ### spotInrate
 
 ```js
-function spotInrate(uint256 tMin, uint256 tMax, uint256 doc0, uint256 doct) public view
+function spotInrate(uint256 tMin, uint256 tMax, uint256 stableToken0, uint256 stableTokent) public view
 returns(uint256)
 ```
 
@@ -68,13 +68,13 @@ returns(uint256)
 | ------------- |------------- | -----|
 | tMin | uint256 |  | 
 | tMax | uint256 |  | 
-| doc0 | uint256 |  | 
-| doct | uint256 |  | 
+| stableToken0 | uint256 |  | 
+| stableTokent | uint256 |  | 
 
-### maxBProWithDiscount
+### maxRiskProWithDiscount
 
 ```js
-function maxBProWithDiscount(uint256 nB, uint256 nDoc, uint256 utpdu, uint256 peg, uint256 btcPrice, uint256 bproUsdPrice, uint256 spotDiscount) public view
+function maxRiskProWithDiscount(uint256 nReserve, uint256 nStableToken, uint256 utpdu, uint256 peg, uint256 reservePrice, uint256 riskProUsdPrice, uint256 spotDiscount) public view
 returns(uint256)
 ```
 
@@ -82,12 +82,12 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nB | uint256 |  | 
-| nDoc | uint256 |  | 
+| nReserve | uint256 |  | 
+| nStableToken | uint256 |  | 
 | utpdu | uint256 |  | 
 | peg | uint256 |  | 
-| btcPrice | uint256 |  | 
-| bproUsdPrice | uint256 |  | 
+| reservePrice | uint256 |  | 
+| riskProUsdPrice | uint256 |  | 
 | spotDiscount | uint256 |  | 
 
 ### inrateAvg
@@ -156,10 +156,10 @@ returns(uint256)
 | tMin | uint256 |  | 
 | abRat | uint256 |  | 
 
-### bproSpotDiscountRate
+### riskProSpotDiscountRate
 
 ```js
-function bproSpotDiscountRate(uint256 bproLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov) public view
+function riskProSpotDiscountRate(uint256 riskProLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov) public view
 returns(uint256)
 ```
 
@@ -167,7 +167,7 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bproLiqDiscountRate | uint256 |  | 
+| riskProLiqDiscountRate | uint256 |  | 
 | liq | uint256 |  | 
 | utpdu | uint256 |  | 
 | cov | uint256 |  | 
@@ -175,7 +175,7 @@ returns(uint256)
 ### bucketTransferAmountInfiniteLeverage
 
 ```js
-function bucketTransferAmountInfiniteLeverage(uint256 nB, uint256 delta) public view
+function bucketTransferAmountInfiniteLeverage(uint256 nReserve, uint256 delta) public view
 returns(uint256)
 ```
 
@@ -183,13 +183,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nB | uint256 |  | 
+| nReserve | uint256 |  | 
 | delta | uint256 |  | 
 
 ### bucketTransferAmount
 
 ```js
-function bucketTransferAmount(uint256 nB, uint256 lev) public view
+function bucketTransferAmount(uint256 nReserve, uint256 lev) public view
 returns(uint256)
 ```
 
@@ -197,13 +197,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nB | uint256 |  | 
+| nReserve | uint256 |  | 
 | lev | uint256 |  | 
 
 ### coverage
 
 ```js
-function coverage(uint256 nB, uint256 lB) public view
+function coverage(uint256 nReserve, uint256 lB) public view
 returns(uint256)
 ```
 
@@ -211,7 +211,7 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nB | uint256 |  | 
+| nReserve | uint256 |  | 
 | lB | uint256 |  | 
 
 ### leverageFromCoverage
@@ -230,7 +230,7 @@ returns(uint256)
 ### leverage
 
 ```js
-function leverage(uint256 nB, uint256 lB) public view
+function leverage(uint256 nReserve, uint256 lB) public view
 returns(uint256)
 ```
 
@@ -238,13 +238,13 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nB | uint256 |  | 
+| nReserve | uint256 |  | 
 | lB | uint256 |  | 
 
-### maxBProxBtcValue
+### maxRiskProxResTokenValue
 
 ```js
-function maxBProxBtcValue(uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 lev) public view
+function maxRiskProxResTokenValue(uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 lev) public view
 returns(uint256)
 ```
 
@@ -252,15 +252,15 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nDoc | uint256 |  | 
+| nStableToken | uint256 |  | 
 | peg | uint256 |  | 
-| btcPrice | uint256 |  | 
+| reservePrice | uint256 |  | 
 | lev | uint256 |  | 
 
-### maxBProxBtcValueInfiniteLeverage
+### maxRiskProxReserveValueInfiniteLeverage
 
 ```js
-function maxBProxBtcValueInfiniteLeverage(uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 delta) public view
+function maxRiskProxReserveValueInfiniteLeverage(uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 delta) public view
 returns(uint256)
 ```
 
@@ -268,8 +268,8 @@ returns(uint256)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| nDoc | uint256 |  | 
+| nStableToken | uint256 |  | 
 | peg | uint256 |  | 
-| btcPrice | uint256 |  | 
+| reservePrice | uint256 |  | 
 | delta | uint256 |  | 
 

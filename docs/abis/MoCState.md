@@ -6,7 +6,7 @@ original_id: MoCState
 
 # MoCState.sol
 
-View Source: [contracts/MoCState.sol](../contracts/MoCState.sol)
+View Source: [contracts/MoCState.sol](../../contracts/MoCState.sol)
 
 **↗ Extends: [MoCLibConnection](MoCLibConnection.md), [MoCBase](MoCBase.md), [MoCEMACalculator](MoCEMACalculator.md)**
 **↘ Derived Contracts: [MoCStateMock](MoCStateMock.md)**
@@ -19,7 +19,7 @@ View Source: [contracts/MoCState.sol](../contracts/MoCState.sol)
 ```js
 enum States {
  Liquidated,
- BProDiscount,
+ RiskProDiscount,
  BelowCobj,
  AboveCobj
 }
@@ -32,7 +32,7 @@ enum States {
 struct InitializeParams {
  address connectorAddress,
  address governor,
- address btcPriceProvider,
+ address priceProvider,
  uint256 liq,
  uint256 utpdu,
  uint256 maxDiscRate,
@@ -40,7 +40,7 @@ struct InitializeParams {
  uint256 ema,
  uint256 smoothFactor,
  uint256 emaBlockSpan,
- uint256 maxMintBPro,
+ uint256 maxMintRiskPro,
  address mocPriceProvider,
  address mocTokenAddress,
  address mocVendorsAddress,
@@ -57,23 +57,23 @@ struct InitializeParams {
 enum MoCState.States public state;
 uint256 public dayBlockSpan;
 uint256 public peg;
-uint256 public bproMaxDiscountRate;
+uint256 public riskProMaxDiscountRate;
 uint256 public liq;
 uint256 public utpdu;
-uint256 public rbtcInSystem;
+uint256 public reserves;
 uint256 public liquidationPrice;
+uint256 public maxMintRiskPro;
 bool public liquidationEnabled;
 uint256 public protected;
-uint256 public maxMintBPro;
 
 //internal members
-contract PriceProvider internal btcPriceProvider;
+contract PriceProvider internal priceProvider;
 contract MoCSettlement internal mocSettlement;
 contract MoCConverter internal mocConverter;
-contract DocToken internal docToken;
-contract BProToken internal bproToken;
-contract MoCBProxManager internal bproxManager;
-contract TexPriceProvider internal mocPriceProvider;
+contract StableToken internal stableToken;
+contract RiskProToken internal riskProToken;
+contract MoCRiskProxManager internal riskProxManager;
+contract PriceProvider internal mocPriceProvider;
 contract MoCToken internal mocToken;
 contract MoCVendors internal mocVendors;
 
@@ -86,7 +86,7 @@ uint256[50] private upgradeGap;
 
 ```js
 event StateTransition(enum MoCState.States  newState);
-event BtcPriceProviderUpdated(address  oldAddress, address  newAddress);
+event PriceProviderUpdated(address  oldAddress, address  newAddress);
 event MoCPriceProviderUpdated(address  oldAddress, address  newAddress);
 event MoCTokenChanged(address  mocTokenAddress);
 event MoCVendorsChanged(address  mocVendorsAddress);
@@ -98,54 +98,54 @@ event MoCVendorsChanged(address  mocVendorsAddress);
 - [setMaxDiscountRate(uint256 rate)](#setmaxdiscountrate)
 - [getMaxDiscountRate()](#getmaxdiscountrate)
 - [setDayBlockSpan(uint256 blockSpan)](#setdayblockspan)
-- [setBtcPriceProvider(address btcProviderAddress)](#setbtcpriceprovider)
-- [getBtcPriceProvider()](#getbtcpriceprovider)
+- [setPriceProvider(address priceProviderAddress)](#setpriceprovider)
+- [getPriceProvider()](#getpriceprovider)
 - [getDayBlockSpan()](#getdayblockspan)
-- [subtractRbtcFromSystem(uint256 btcAmount)](#subtractrbtcfromsystem)
-- [addToRbtcInSystem(uint256 btcAmount)](#addtorbtcinsystem)
-- [bproTotalSupply()](#bprototalsupply)
-- [docTotalSupply()](#doctotalsupply)
+- [substractFromReserves(uint256 amount)](#substractfromreserves)
+- [addToReserves(uint256 amount)](#addtoreserves)
+- [riskProTotalSupply()](#riskprototalsupply)
+- [stableTokenTotalSupply()](#stabletokentotalsupply)
 - [cobj()](#cobj)
-- [collateralRbtcInSystem()](#collateralrbtcinsystem)
+- [collateralReserves()](#collateralreserves)
 - [globalCoverage()](#globalcoverage)
-- [lockedBitcoin(bytes32 bucket)](#lockedbitcoin)
-- [getRbtcInBitPro(bytes32 bucket)](#getrbtcinbitpro)
-- [getRbtcRemainder()](#getrbtcremainder)
+- [lockedReserveTokens(bytes32 bucket)](#lockedreservetokens)
+- [getResTokensInRiskPro(bytes32 bucket)](#getrestokensinriskpro)
+- [getReservesRemainder()](#getreservesremainder)
 - [coverage(bytes32 bucket)](#coverage)
-- [abundanceRatio(uint256 doc0)](#abundanceratio)
+- [abundanceRatio(uint256 stableToken0)](#abundanceratio)
 - [currentAbundanceRatio()](#currentabundanceratio)
 - [leverage(bytes32 bucket)](#leverage)
-- [globalMaxDoc()](#globalmaxdoc)
-- [freeDoc()](#freedoc)
-- [maxDoc(bytes32 bucket)](#maxdoc)
-- [globalMaxBPro()](#globalmaxbpro)
-- [absoluteMaxDoc()](#absolutemaxdoc)
-- [maxBPro(bytes32 bucket)](#maxbpro)
-- [maxBProx(bytes32 bucket)](#maxbprox)
-- [maxBProxBtcValue(bytes32 bucket)](#maxbproxbtcvalue)
-- [absoluteMaxBPro()](#absolutemaxbpro)
-- [maxBProWithDiscount()](#maxbprowithdiscount)
-- [globalLockedBitcoin()](#globallockedbitcoin)
-- [bproTecPrice()](#bprotecprice)
-- [bucketBProTecPrice(bytes32 bucket)](#bucketbprotecprice)
-- [bucketBProTecPriceHelper(bytes32 bucket)](#bucketbprotecpricehelper)
-- [bproDiscountPrice()](#bprodiscountprice)
-- [bproUsdPrice()](#bprousdprice)
-- [maxBProxBProValue(bytes32 bucket)](#maxbproxbprovalue)
-- [bproxBProPrice(bytes32 bucket)](#bproxbproprice)
-- [bproSpotDiscountRate()](#bprospotdiscountrate)
+- [globalMaxStableToken()](#globalmaxstabletoken)
+- [freeStableToken()](#freestabletoken)
+- [maxStableToken(bytes32 bucket)](#maxstabletoken)
+- [globalMaxRiskPro()](#globalmaxriskpro)
+- [absoluteMaxStableToken()](#absolutemaxstabletoken)
+- [maxRiskPro(bytes32 bucket)](#maxriskpro)
+- [maxRiskProx(bytes32 bucket)](#maxriskprox)
+- [maxRiskProxResTokenValue(bytes32 bucket)](#maxriskproxrestokenvalue)
+- [absoluteMaxRiskPro()](#absolutemaxriskpro)
+- [maxRiskProWithDiscount()](#maxriskprowithdiscount)
+- [globalLockedReserveTokens()](#globallockedreservetokens)
+- [riskProTecPrice()](#riskprotecprice)
+- [bucketRiskProTecPrice(bytes32 bucket)](#bucketriskprotecprice)
+- [bucketRiskProTecPriceHelper(bytes32 bucket)](#bucketriskprotecpricehelper)
+- [riskProDiscountPrice()](#riskprodiscountprice)
+- [riskProUsdPrice()](#riskprousdprice)
+- [maxRiskProxRiskProValue(bytes32 bucket)](#maxriskproxriskprovalue)
+- [riskProxRiskProPrice(bytes32 bucket)](#riskproxriskproprice)
+- [riskProSpotDiscountRate()](#riskprospotdiscountrate)
 - [daysToSettlement()](#daystosettlement)
 - [blocksToSettlement()](#blockstosettlement)
 - [isLiquidationReached()](#isliquidationreached)
 - [getLiquidationPrice()](#getliquidationprice)
-- [getBucketNBTC(bytes32 bucket)](#getbucketnbtc)
-- [getBucketNBPro(bytes32 bucket)](#getbucketnbpro)
-- [getBucketNDoc(bytes32 bucket)](#getbucketndoc)
+- [getBucketNReserve(bytes32 bucket)](#getbucketnreserve)
+- [getBucketNRiskPro(bytes32 bucket)](#getbucketnriskpro)
+- [getBucketNStableToken(bytes32 bucket)](#getbucketnstabletoken)
 - [getBucketCobj(bytes32 bucket)](#getbucketcobj)
 - [getInrateBag(bytes32 bucket)](#getinratebag)
 - [getBcons()](#getbcons)
-- [getBitcoinPrice()](#getbitcoinprice)
-- [calculateBitcoinMovingAverage()](#calculatebitcoinmovingaverage)
+- [getReserveTokenPrice()](#getreservetokenprice)
+- [calculateReserveTokenMovingAverage()](#calculatereservetokenmovingaverage)
 - [getLiq()](#getliq)
 - [setLiq(uint256 _liq)](#setliq)
 - [getUtpdu()](#getutpdu)
@@ -157,8 +157,8 @@ event MoCVendorsChanged(address  mocVendorsAddress);
 - [getLiquidationEnabled()](#getliquidationenabled)
 - [setLiquidationEnabled(bool _liquidationEnabled)](#setliquidationenabled)
 - [nextState()](#nextstate)
-- [setMaxMintBPro(uint256 _maxMintBPro)](#setmaxmintbpro)
-- [getMaxMintBPro()](#getmaxmintbpro)
+- [setMaxMintRiskPro(uint256 _maxMintRiskPro)](#setmaxmintriskpro)
+- [getMaxMintRiskPro()](#getmaxmintriskpro)
 - [setMoCPriceProvider(address mocProviderAddress)](#setmocpriceprovider)
 - [getMoCPriceProvider()](#getmocpriceprovider)
 - [getMoCPrice()](#getmocprice)
@@ -169,7 +169,7 @@ event MoCVendorsChanged(address  mocVendorsAddress);
 - [setMoCTokenInternal(address mocTokenAddress)](#setmoctokeninternal)
 - [setMoCVendorsInternal(address mocVendorsAddress)](#setmocvendorsinternal)
 - [setLiquidationPrice()](#setliquidationprice)
-- [initializeValues(address _governor, address _btcPriceProvider, uint256 _liq, uint256 _utpdu, uint256 _maxDiscRate, uint256 _dayBlockSpan, uint256 _maxMintBPro, address _mocPriceProvider, bool _liquidationEnabled, uint256 _protected)](#initializevalues)
+- [initializeValues(address _governor, address _priceProvider, uint256 _liq, uint256 _utpdu, uint256 _maxDiscRate, uint256 _dayBlockSpan, uint256 _maxMintRiskPro, address _mocPriceProvider, bool _liquidationEnabled, uint256 _protected)](#initializevalues)
 - [initializeContracts(address _mocTokenAddress, address _mocVendorsAddress)](#initializecontracts)
 
 ### initialize
@@ -204,7 +204,7 @@ function setMaxDiscountRate(uint256 rate) public nonpayable onlyAuthorizedChange
 
 ### getMaxDiscountRate
 
-Returns the value of the BPro max discount rate configuration param
+return the value of the RiskPro max discount rate configuration param
 
 ```js
 function getMaxDiscountRate() public view
@@ -213,7 +213,7 @@ returns(uint256)
 
 **Returns**
 
-bproMaxDiscountRate BPro max discount rate
+riskProMaxDiscountRate RiskPro max discount rate
 
 **Arguments**
 
@@ -234,32 +234,32 @@ function setDayBlockSpan(uint256 blockSpan) public nonpayable onlyAuthorizedChan
 | ------------- |------------- | -----|
 | blockSpan | uint256 | blocks there are in a day | 
 
-### setBtcPriceProvider
+### setPriceProvider
 
-Sets a new BTCProvider contract
+Sets a new PriceProvider contract
 
 ```js
-function setBtcPriceProvider(address btcProviderAddress) public nonpayable onlyAuthorizedChanger 
+function setPriceProvider(address priceProviderAddress) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcProviderAddress | address | address of the BTC price provider contract | 
+| priceProviderAddress | address | address of the price provider contract | 
 
-### getBtcPriceProvider
+### getPriceProvider
 
-Gets the BTCPriceProviderAddress
+Gets the PriceProviderAddress
 
 ```js
-function getBtcPriceProvider() public view
+function getPriceProvider() public view
 returns(address)
 ```
 
 **Returns**
 
-address of the BTC price provider contract
+address of the price provider contract
 
 **Arguments**
 
@@ -284,40 +284,40 @@ blocks there are in a day
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### subtractRbtcFromSystem
+### substractFromReserves
 
-Subtract the btc amount passed by parameter to the total Bitcoin Amount
+Subtract the reserve amount passed by parameter to the reserves total
 
 ```js
-function subtractRbtcFromSystem(uint256 btcAmount) public nonpayable onlyWhitelisted 
+function substractFromReserves(uint256 amount) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 | Amount that will be subtract to rbtcInSystem | 
+| amount | uint256 | Amount that will be subtract to reserves | 
 
-### addToRbtcInSystem
+### addToReserves
 
-btcAmount Add the btc amount passed by parameter to the total Bitcoin Amount
+Add the reserve amount passed by parameter to the reserves total
 
 ```js
-function addToRbtcInSystem(uint256 btcAmount) public nonpayable onlyWhitelisted 
+function addToReserves(uint256 amount) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcAmount | uint256 | Amount that will be added to rbtcInSystem | 
+| amount | uint256 | Amount that will be added to reserves | 
 
-### bproTotalSupply
+### riskProTotalSupply
 
-All BPros in circulation
+All RiskPros in circulation
 
 ```js
-function bproTotalSupply() public view
+function riskProTotalSupply() public view
 returns(uint256)
 ```
 
@@ -326,12 +326,12 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### docTotalSupply
+### stableTokenTotalSupply
 
-All docs in circulation
+All stableTokens in circulation
 
 ```js
-function docTotalSupply() public view
+function stableTokenTotalSupply() public view
 returns(uint256)
 ```
 
@@ -354,12 +354,13 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### collateralRbtcInSystem
+### collateralReserves
 
-Amount of Bitcoins in the system excluding BTCx values and interests holdings
+Amount of ReserveTokens in the system excluding
+RiskProx values and interests holdings
 
 ```js
-function collateralRbtcInSystem() public view
+function collateralReserves() public view
 returns(uint256)
 ```
 
@@ -379,44 +380,25 @@ returns(uint256)
 
 **Returns**
 
-coverage [using mocPrecision]
+coverage [using mocPrecision].
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### lockedBitcoin
+### lockedReserveTokens
 
-BUCKET lockedBitcoin
+BUCKET lockedReserveTokens
 
 ```js
-function lockedBitcoin(bytes32 bucket) public view
+function lockedReserveTokens(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-lockedBitcoin amount [using reservePrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| bucket | bytes32 | Name of the bucket used | 
-
-### getRbtcInBitPro
-
-Gets RBTC in BitPro within specified bucket
-
-```js
-function getRbtcInBitPro(bytes32 bucket) public view
-returns(uint256)
-```
-
-**Returns**
-
-Bitcoin amount of BitPro in Bucket [using reservePrecision]
+lockedReserveTokens amount [using reservePrecision].
 
 **Arguments**
 
@@ -424,18 +406,37 @@ Bitcoin amount of BitPro in Bucket [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### getRbtcRemainder
+### getResTokensInRiskPro
 
-Gets the RBTC in the contract that not corresponds to Doc collateral
+Gets ReserveTokens in RiskPro within specified bucket
 
 ```js
-function getRbtcRemainder() public view
+function getResTokensInRiskPro(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-RBTC remainder [using reservePrecision]
+ReserveToken amount of RiskPro in Bucket [using reservePrecision].
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| bucket | bytes32 | Name of the bucket used | 
+
+### getReservesRemainder
+
+Gets the ReserveTokens in the contract that not corresponds to StableToken collateral
+
+```js
+function getReservesRemainder() public view
+returns(uint256)
+```
+
+**Returns**
+
+ReserveTokens remainder [using reservePrecision].
 
 **Arguments**
 
@@ -453,7 +454,7 @@ returns(uint256)
 
 **Returns**
 
-coverage [using coveragePrecision]
+coverage [using mocPrecision]
 
 **Arguments**
 
@@ -463,10 +464,10 @@ coverage [using coveragePrecision]
 
 ### abundanceRatio
 
-Abundance ratio, receives tha amount of doc to use the value of doc0 and Doc total supply
+Abundance ratio, receives tha amount of stableToken to use the value of stableToken0 and StableToken total supply
 
 ```js
-function abundanceRatio(uint256 doc0) public view
+function abundanceRatio(uint256 stableToken0) public view
 returns(uint256)
 ```
 
@@ -478,11 +479,11 @@ abundance ratio [using mocPrecision]
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| doc0 | uint256 |  | 
+| stableToken0 | uint256 |  | 
 
 ### currentAbundanceRatio
 
-Relation between docs in bucket 0 and Doc total supply
+Relation between stableTokens in bucket 0 and StableToken total supply
 
 ```js
 function currentAbundanceRatio() public view
@@ -509,7 +510,7 @@ returns(uint256)
 
 **Returns**
 
-coverage [using mocPrecision]
+leverage [using mocPrecision]
 
 **Arguments**
 
@@ -517,54 +518,54 @@ coverage [using mocPrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### globalMaxDoc
+### globalMaxStableToken
 
-GLOBAL maxDoc
+GLOBAL maxStableToken
 
 ```js
-function globalMaxDoc() public view
+function globalMaxStableToken() public view
 returns(uint256)
 ```
 
 **Returns**
 
-abundance ratio [using mocPrecision]
+maxStableToken to issue [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### freeDoc
+### freeStableToken
 
-Returns the amount of DoCs in bucket 0, that can be redeemed outside of settlement
+Returns the amount of stableTokens in bucket 0, that can be redeemed outside of settlement
 
 ```js
-function freeDoc() public view
+function freeStableToken() public view
 returns(uint256)
 ```
 
 **Returns**
 
-amount of docs in bucket 0, that can be redeemed outside of settlement [using mocPrecision]
+amount of stableTokens in bucket 0, that can be redeemed outside of settlement [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### maxDoc
+### maxStableToken
 
-BUCKET maxDoc
+BUCKET maxStableToken
 
 ```js
-function maxDoc(bytes32 bucket) public view
+function maxStableToken(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-abundance ratio [using mocPrecision]
+maxStableToken to issue [using mocPrecision]
 
 **Arguments**
 
@@ -572,73 +573,54 @@ abundance ratio [using mocPrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 |  | 
 
-### globalMaxBPro
+### globalMaxRiskPro
 
-GLOBAL maxBPro
+GLOBAL maxRiskPro
 
 ```js
-function globalMaxBPro() public view
+function globalMaxRiskPro() public view
 returns(uint256)
 ```
 
 **Returns**
 
-maxBPro for redeem [using reservePrecision]
+maxRiskPro for redeem [using mocPrecision].
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### absoluteMaxDoc
+### absoluteMaxStableToken
 
-ABSOLUTE maxDoc
+ABSOLUTE maxStableToken
 
 ```js
-function absoluteMaxDoc() public view
+function absoluteMaxStableToken() public view
 returns(uint256)
 ```
 
 **Returns**
 
-maxDoc to issue [using mocPrecision]
+maxStableToken to issue [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### maxBPro
+### maxRiskPro
 
-BUCKET maxBPro to redeem / mint
+BUCKET maxRiskPro to redeem / mint
 
 ```js
-function maxBPro(bytes32 bucket) public view
+function maxRiskPro(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-maxBPro for redeem [using mocPrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| bucket | bytes32 | Name of the bucket used | 
-
-### maxBProx
-
-GLOBAL max bprox to mint
-
-```js
-function maxBProx(bytes32 bucket) public view
-returns(uint256)
-```
-
-**Returns**
-
-maxBProx [using reservePrecision]
+maxRiskPro for redeem [using mocPrecision].
 
 **Arguments**
 
@@ -646,18 +628,18 @@ maxBProx [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### maxBProxBtcValue
+### maxRiskProx
 
-GLOBAL max bprox to mint
+GLOBAL max riskProx to mint
 
 ```js
-function maxBProxBtcValue(bytes32 bucket) public view
+function maxRiskProx(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-maxBProx BTC value to mint [using reservePrecision]
+maxRiskProx [using mocPrecision]
 
 **Arguments**
 
@@ -665,90 +647,18 @@ maxBProx BTC value to mint [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### absoluteMaxBPro
+### maxRiskProxResTokenValue
 
-ABSOLUTE maxBPro
+GLOBAL max riskProx to mint
 
 ```js
-function absoluteMaxBPro() public view
+function maxRiskProxResTokenValue(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-maxDoc to issue [using mocPrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-### maxBProWithDiscount
-
-DISCOUNT maxBPro
-
-```js
-function maxBProWithDiscount() public view
-returns(uint256)
-```
-
-**Returns**
-
-maxBPro for mint with discount [using mocPrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-### globalLockedBitcoin
-
-GLOBAL lockedBitcoin
-
-```js
-function globalLockedBitcoin() public view
-returns(uint256)
-```
-
-**Returns**
-
-lockedBitcoin amount [using reservePrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-### bproTecPrice
-
-BTC price of BPro
-
-```js
-function bproTecPrice() public view
-returns(uint256)
-```
-
-**Returns**
-
-the BPro Tec Price [using reservePrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-### bucketBProTecPrice
-
-BUCKET BTC price of BPro
-
-```js
-function bucketBProTecPrice(bytes32 bucket) public view
-returns(uint256)
-```
-
-**Returns**
-
-the BPro Tec Price [using reservePrecision]
+maxRiskProx ReserveTokens value to mint [using reservePrecision]
 
 **Arguments**
 
@@ -756,18 +666,90 @@ the BPro Tec Price [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### bucketBProTecPriceHelper
+### absoluteMaxRiskPro
 
-BUCKET BTC price of BPro (helper)
+ABSOLUTE maxRiskPro
 
 ```js
-function bucketBProTecPriceHelper(bytes32 bucket) public view
+function absoluteMaxRiskPro() public view
 returns(uint256)
 ```
 
 **Returns**
 
-the BPro Tec Price [using reservePrecision]
+maxStableToken to issue [using mocPrecision].
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### maxRiskProWithDiscount
+
+DISCOUNT maxRiskPro
+
+```js
+function maxRiskProWithDiscount() public view
+returns(uint256)
+```
+
+**Returns**
+
+maxRiskPro for mint with discount [using mocPrecision]
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### globalLockedReserveTokens
+
+GLOBAL lockedReserveTokens
+
+```js
+function globalLockedReserveTokens() public view
+returns(uint256)
+```
+
+**Returns**
+
+lockedReserveTokens amount [using reservePrecision].
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### riskProTecPrice
+
+ReserveTokens price of RiskPro
+
+```js
+function riskProTecPrice() public view
+returns(uint256)
+```
+
+**Returns**
+
+the RiskPro Tec Price [using reservePrecision].
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### bucketRiskProTecPrice
+
+BUCKET ReserveTokens price of RiskPro
+
+```js
+function bucketRiskProTecPrice(bytes32 bucket) public view
+returns(uint256)
+```
+
+**Returns**
+
+the RiskPro Tec Price [using reservePrecision]
 
 **Arguments**
 
@@ -775,54 +757,18 @@ the BPro Tec Price [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### bproDiscountPrice
+### bucketRiskProTecPriceHelper
 
-BTC price of BPro with spot discount applied
+BUCKET ReserveTokens price of RiskPro (helper)
 
 ```js
-function bproDiscountPrice() public view
+function bucketRiskProTecPriceHelper(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-the BPro Tec Price [using reservePrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-### bproUsdPrice
-
-BPro USD PRICE
-
-```js
-function bproUsdPrice() public view
-returns(uint256)
-```
-
-**Returns**
-
-the BPro USD Price [using mocPrecision]
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-### maxBProxBProValue
-
-GLOBAL max bprox to mint
-
-```js
-function maxBProxBProValue(bytes32 bucket) public view
-returns(uint256)
-```
-
-**Returns**
-
-max BPro allowed to be spent to mint BProx [using reservePrecision]
+the RiskPro Tec Price [using reservePrecision]
 
 **Arguments**
 
@@ -830,18 +776,54 @@ max BPro allowed to be spent to mint BProx [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### bproxBProPrice
+### riskProDiscountPrice
 
-BUCKET BProx price in BPro
+ReserveTokens price of RiskPro with spot discount applied
 
 ```js
-function bproxBProPrice(bytes32 bucket) public view
+function riskProDiscountPrice() public view
 returns(uint256)
 ```
 
 **Returns**
 
-BProx BPro Price [using mocPrecision]
+the RiskPro Tec Price [using reservePrecision].
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### riskProUsdPrice
+
+RiskPro USD PRICE
+
+```js
+function riskProUsdPrice() public view
+returns(uint256)
+```
+
+**Returns**
+
+the RiskPro USD Price [using mocPrecision]
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### maxRiskProxRiskProValue
+
+GLOBAL max riskProx to mint
+
+```js
+function maxRiskProxRiskProValue(bytes32 bucket) public view
+returns(uint256)
+```
+
+**Returns**
+
+max RiskPro allowed to be spent to mint RiskProx [using reservePrecision]
 
 **Arguments**
 
@@ -849,18 +831,37 @@ BProx BPro Price [using mocPrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
 
-### bproSpotDiscountRate
+### riskProxRiskProPrice
 
-GLOBAL BTC Discount rate to apply to BProPrice.
+BUCKET RiskProx price in RiskPro
 
 ```js
-function bproSpotDiscountRate() public view
+function riskProxRiskProPrice(bytes32 bucket) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BPro discount rate [using DISCOUNT_PRECISION].
+RiskPro RiskPro Price [[using mocPrecision]Precision].
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| bucket | bytes32 | Name of the bucket used | 
+
+### riskProSpotDiscountRate
+
+GLOBAL ReserveTokens Discount rate to apply to RiskProPrice.
+
+```js
+function riskProSpotDiscountRate() public view
+returns(uint256)
+```
+
+**Returns**
+
+RiskPro discount rate [using DISCOUNT_PRECISION].
 
 **Arguments**
 
@@ -889,7 +890,7 @@ days to next settlement
 
 ### blocksToSettlement
 
-Calculates the number of blocks to settlement
+Number of blocks to settlement
 
 ```js
 function blocksToSettlement() public view
@@ -926,7 +927,7 @@ true if liquidation state is reached, false otherwise
 
 ### getLiquidationPrice
 
-Gets the price to use for doc redeem in a liquidation event
+Returns the price to use for stableToken redeem in a liquidation event
 
 ```js
 function getLiquidationPrice() public view
@@ -935,17 +936,17 @@ returns(uint256)
 
 **Returns**
 
-price to use for doc redeem in a liquidation event
+price to use for stableToken redeem in a liquidation event
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBucketNBTC
+### getBucketNReserve
 
 ```js
-function getBucketNBTC(bytes32 bucket) public view
+function getBucketNReserve(bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -955,10 +956,10 @@ returns(uint256)
 | ------------- |------------- | -----|
 | bucket | bytes32 |  | 
 
-### getBucketNBPro
+### getBucketNRiskPro
 
 ```js
-function getBucketNBPro(bytes32 bucket) public view
+function getBucketNRiskPro(bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -968,10 +969,10 @@ returns(uint256)
 | ------------- |------------- | -----|
 | bucket | bytes32 |  | 
 
-### getBucketNDoc
+### getBucketNStableToken
 
 ```js
-function getBucketNDoc(bytes32 bucket) public view
+function getBucketNStableToken(bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -1019,10 +1020,10 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBitcoinPrice
+### getReserveTokenPrice
 
 ```js
-function getBitcoinPrice() public view
+function getReserveTokenPrice() public view
 returns(uint256)
 ```
 
@@ -1031,10 +1032,10 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### calculateBitcoinMovingAverage
+### calculateReserveTokenMovingAverage
 
 ```js
-function calculateBitcoinMovingAverage() public nonpayable
+function calculateReserveTokenMovingAverage() public nonpayable
 ```
 
 **Arguments**
@@ -1108,7 +1109,7 @@ function setUtpdu(uint256 _utpdu) public nonpayable onlyAuthorizedChanger
 
 ### getPeg
 
-returns the relation between DOC and dollar. By default it is 1.
+returns the relation between StableToken and dollar. By default it is 1.
 
 ```js
 function getPeg() public view
@@ -1117,7 +1118,7 @@ returns(uint256)
 
 **Returns**
 
-peg relation between DOC and dollar
+peg relation between StableToken and dollar
 
 **Arguments**
 
@@ -1126,7 +1127,7 @@ peg relation between DOC and dollar
 
 ### setPeg
 
-sets the relation between DOC and dollar. By default it is 1.
+sets the relation between StableToken and dollar. By default it is 1.
 
 ```js
 function setPeg(uint256 _peg) public nonpayable onlyAuthorizedChanger 
@@ -1136,7 +1137,7 @@ function setPeg(uint256 _peg) public nonpayable onlyAuthorizedChanger
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _peg | uint256 | relation between DOC and dollar | 
+| _peg | uint256 | relation between StableToken and dollar | 
 
 ### getProtected
 
@@ -1215,32 +1216,32 @@ function nextState() public nonpayable
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### setMaxMintBPro
+### setMaxMintRiskPro
 
-Sets max mint BPro value
+Sets max mint RiskPro value
 
 ```js
-function setMaxMintBPro(uint256 _maxMintBPro) public nonpayable onlyAuthorizedChanger 
+function setMaxMintRiskPro(uint256 _maxMintRiskPro) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _maxMintBPro | uint256 | [using mocPrecision] | 
+| _maxMintRiskPro | uint256 | [using mocPrecision] | 
 
-### getMaxMintBPro
+### getMaxMintRiskPro
 
-return Max value posible to mint of BPro
+return Max value posible to mint of RiskPro
 
 ```js
-function getMaxMintBPro() public view
+function getMaxMintRiskPro() public view
 returns(uint256)
 ```
 
 **Returns**
 
-maxMintBPro
+maxMintRiskPro
 
 **Arguments**
 
@@ -1285,7 +1286,7 @@ Gets the MoCPrice
 
 ```js
 function getMoCPrice() public view
-returns(price uint256)
+returns(uint256)
 ```
 
 **Returns**
@@ -1392,7 +1393,7 @@ function setMoCVendorsInternal(address mocVendorsAddress) internal nonpayable
 ### setLiquidationPrice
 
 Calculates price at liquidation event as the relation between
-the doc total supply and the amount of RBTC available to distribute
+the stableToken total supply and the amount of ReserveTokens available to distribute
 
 ```js
 function setLiquidationPrice() internal nonpayable
@@ -1406,7 +1407,7 @@ function setLiquidationPrice() internal nonpayable
 ### initializeValues
 
 ```js
-function initializeValues(address _governor, address _btcPriceProvider, uint256 _liq, uint256 _utpdu, uint256 _maxDiscRate, uint256 _dayBlockSpan, uint256 _maxMintBPro, address _mocPriceProvider, bool _liquidationEnabled, uint256 _protected) internal nonpayable
+function initializeValues(address _governor, address _priceProvider, uint256 _liq, uint256 _utpdu, uint256 _maxDiscRate, uint256 _dayBlockSpan, uint256 _maxMintRiskPro, address _mocPriceProvider, bool _liquidationEnabled, uint256 _protected) internal nonpayable
 ```
 
 **Arguments**
@@ -1414,12 +1415,12 @@ function initializeValues(address _governor, address _btcPriceProvider, uint256 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | _governor | address |  | 
-| _btcPriceProvider | address |  | 
+| _priceProvider | address |  | 
 | _liq | uint256 |  | 
 | _utpdu | uint256 |  | 
 | _maxDiscRate | uint256 |  | 
 | _dayBlockSpan | uint256 |  | 
-| _maxMintBPro | uint256 |  | 
+| _maxMintRiskPro | uint256 |  | 
 | _mocPriceProvider | address |  | 
 | _liquidationEnabled | bool |  | 
 | _protected | uint256 |  | 

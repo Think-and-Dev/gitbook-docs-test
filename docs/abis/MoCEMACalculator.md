@@ -4,9 +4,9 @@ title: MoCEMACalculator
 original_id: MoCEMACalculator
 ---
 
-# MoCEMACalculator.sol
+# ReserveToken Price Provider. (MoCEMACalculator.sol)
 
-View Source: [contracts/MoCEMACalculator.sol](../contracts/MoCEMACalculator.sol)
+View Source: [contracts/MoCEMACalculator.sol](../../contracts/MoCEMACalculator.sol)
 
 **↗ Extends: [Governed](Governed.md)**
 **↘ Derived Contracts: [MoCState](MoCState.md)**
@@ -18,7 +18,7 @@ View Source: [contracts/MoCEMACalculator.sol](../contracts/MoCEMACalculator.sol)
 
 ```js
 //internal members
-uint256 internal bitcoinMovingAverage;
+uint256 internal exponentialMovingAverage;
 
 //public members
 uint256 public smoothingFactor;
@@ -40,7 +40,7 @@ event MovingAverageCalculation(uint256  price, uint256  movingAverage);
 
 ## Functions
 
-- [getBitcoinMovingAverage()](#getbitcoinmovingaverage)
+- [getExponentalMovingAverage()](#getexponentalmovingaverage)
 - [getSmoothingFactor()](#getsmoothingfactor)
 - [setSmoothingFactor(uint256 factor)](#setsmoothingfactor)
 - [getGovernorAddress()](#getgovernoraddress)
@@ -49,15 +49,15 @@ event MovingAverageCalculation(uint256  price, uint256  movingAverage);
 - [shouldCalculateEma()](#shouldcalculateema)
 - [getLastEmaCalculation()](#getlastemacalculation)
 - [initializeMovingAverage(uint256 initialEma, uint256 smoothFactor, uint256 emaBlockSpan)](#initializemovingaverage)
-- [setBitcoinMovingAverage(uint256 btcPrice)](#setbitcoinmovingaverage)
+- [setExponentalMovingAverage(uint256 reservePrice)](#setexponentalmovingaverage)
 - [coefficientComp()](#coefficientcomp)
 - [initializeGovernor(address _governor)](#initializegovernor)
 - [_doSetSmoothingFactor(uint256 factor)](#_dosetsmoothingfactor)
 
-### getBitcoinMovingAverage
+### getExponentalMovingAverage
 
 ```js
-function getBitcoinMovingAverage() public view
+function getExponentalMovingAverage() public view
 returns(uint256)
 ```
 
@@ -152,7 +152,7 @@ returns(uint256)
 
 ### initializeMovingAverage
 
-Provides Bitcoin's Price and Moving average.
+Provides ResToken's Price and Moving average.
 More information of EMA calculation https://en.wikipedia.org/wiki/Exponential_smoothing
 
 ```js
@@ -167,20 +167,20 @@ function initializeMovingAverage(uint256 initialEma, uint256 smoothFactor, uint2
 | smoothFactor | uint256 | Weight coefficient for EMA calculation. | 
 | emaBlockSpan | uint256 | Block count in a period for EMA calculation | 
 
-### setBitcoinMovingAverage
+### setExponentalMovingAverage
 
 Calculates a EMA of the price.
 More information of EMA calculation https://en.wikipedia.org/wiki/Exponential_smoothing
 
 ```js
-function setBitcoinMovingAverage(uint256 btcPrice) internal nonpayable
+function setExponentalMovingAverage(uint256 reservePrice) internal nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcPrice | uint256 | Current price. | 
+| reservePrice | uint256 | Current price. | 
 
 ### coefficientComp
 

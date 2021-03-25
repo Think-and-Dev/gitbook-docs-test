@@ -6,7 +6,7 @@ original_id: MoCVendors
 
 # MoCVendors.sol
 
-View Source: [contracts/MoCVendors.sol](../contracts/MoCVendors.sol)
+View Source: [contracts/MoCVendors.sol](../../contracts/MoCVendors.sol)
 
 **↗ Extends: [MoCVendorsEvents](MoCVendorsEvents.md), [MoCBase](MoCBase.md), [MoCLibConnection](MoCLibConnection.md), [Governed](Governed.md)**
 
@@ -22,7 +22,7 @@ struct VendorDetails {
  uint256 totalPaidInMoC,
  uint256 staking,
  uint256 paidMoC,
- uint256 paidRBTC
+ uint256 paidReserveToken
 }
 ```
 
@@ -38,6 +38,7 @@ contract MoCExchange internal mocExchange;
 //public members
 uint8 public constant VENDORS_LIST_ARRAY_MAX_LENGTH;
 uint256 public constant VENDOR_MAX_MARKUP;
+address public vendorGuardianAddress;
 mapping(address => struct MoCVendors.VendorDetails) public vendors;
 address[] public vendorsList;
 
@@ -55,51 +56,68 @@ event VendorUnregistered(address  account);
 event VendorStakeAdded(address  account, uint256  staking);
 event VendorStakeRemoved(address  account, uint256  staking);
 event TotalPaidInMoCReset(address  account);
+event VendorGuardianAddressChanged(address  vendorGuardianAddress);
 ```
 
 ## Modifiers
 
 - [onlyActiveVendor](#onlyactivevendor)
+- [onlyVendorGuardian](#onlyvendorguardian)
 
 ### onlyActiveVendor
 
-Checks if vendor is active
+Checks if vendor (msg.sender) is active
 
 ```js
-modifier onlyActiveVendor(address account) internal
+modifier onlyActiveVendor() internal
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| account | address | Vendor address | 
+
+### onlyVendorGuardian
+
+Checks if address is allowed to call function
+
+```js
+modifier onlyVendorGuardian() internal
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
 
 ## Functions
 
-- [initialize(address connectorAddress, address _governor)](#initialize)
+- [initialize(address connectorAddress, address _governor, address _vendorGuardianAddress)](#initialize)
 - [getVendorsCount()](#getvendorscount)
 - [registerVendor(address account, uint256 markup)](#registervendor)
 - [unregisterVendor(address account)](#unregistervendor)
 - [addStake(uint256 staking)](#addstake)
 - [removeStake(uint256 staking)](#removestake)
-- [updatePaidMarkup(address account, uint256 mocAmount, uint256 rbtcAmount, uint256 totalMoCAmount)](#updatepaidmarkup)
+- [updatePaidMarkup(address account, uint256 mocAmount, uint256 resTokenAmount, uint256 totalMoCAmount)](#updatepaidmarkup)
 - [getIsActive(address account)](#getisactive)
 - [getMarkup(address account)](#getmarkup)
 - [getTotalPaidInMoC(address account)](#gettotalpaidinmoc)
 - [getStaking(address account)](#getstaking)
 - [getPaidMoC(address account)](#getpaidmoc)
-- [getPaidRBTC(address account)](#getpaidrbtc)
+- [getPaidReserveToken(address account)](#getpaidreservetoken)
 - [resetTotalPaidInMoC()](#resettotalpaidinmoc)
+- [getVendorGuardianAddress()](#getvendorguardianaddress)
+- [setVendorGuardianAddress(address _vendorGuardianAddress)](#setvendorguardianaddress)
 - [initializeContracts()](#initializecontracts)
-- [initializeValues(address _governor)](#initializevalues)
+- [initializeValues(address _governor, address _vendorGuardianAddress)](#initializevalues)
+- [setVendorGuardianAddressInternal(address _vendorGuardianAddress)](#setvendorguardianaddressinternal)
 
 ### initialize
 
 Initializes the contract
 
 ```js
-function initialize(address connectorAddress, address _governor) public nonpayable initializer 
+function initialize(address connectorAddress, address _governor, address _vendorGuardianAddress) public nonpayable initializer 
 ```
 
 **Arguments**
@@ -108,6 +126,7 @@ function initialize(address connectorAddress, address _governor) public nonpayab
 | ------------- |------------- | -----|
 | connectorAddress | address | MoCConnector contract address | 
 | _governor | address | Governor contract address | 
+| _vendorGuardianAddress | address | Address which will be authorized to register and unregister vendors. | 
 
 ### getVendorsCount
 
@@ -132,7 +151,7 @@ Amount of active registered vendors
 Allows to register a vendor
 
 ```js
-function registerVendor(address account, uint256 markup) public nonpayable onlyAuthorizedChanger 
+function registerVendor(address account, uint256 markup) public nonpayable onlyVendorGuardian 
 returns(isActive bool)
 ```
 
@@ -152,7 +171,7 @@ true if vendor was registered successfully; otherwise false
 Allows to unregister a vendor
 
 ```js
-function unregisterVendor(address account) public nonpayable onlyAuthorizedChanger onlyActiveVendor 
+function unregisterVendor(address account) public nonpayable onlyVendorGuardian 
 returns(isActive bool)
 ```
 
@@ -192,14 +211,14 @@ function removeStake(uint256 staking) public nonpayable onlyActiveVendor
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| staking | uint256 | Staking the vendor wants to add | 
+| staking | uint256 | Staking the vendor wants to remove | 
 
 ### updatePaidMarkup
 
 Allows to update paid markup to vendor
 
 ```js
-function updatePaidMarkup(address account, uint256 mocAmount, uint256 rbtcAmount, uint256 totalMoCAmount) public nonpayable onlyWhitelisted 
+function updatePaidMarkup(address account, uint256 mocAmount, uint256 resTokenAmount, uint256 totalMoCAmount) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
@@ -208,7 +227,7 @@ function updatePaidMarkup(address account, uint256 mocAmount, uint256 rbtcAmount
 | ------------- |------------- | -----|
 | account | address | Vendor address | 
 | mocAmount | uint256 | paid markup in MoC | 
-| rbtcAmount | uint256 | paid markup in RBTC | 
+| resTokenAmount | uint256 | paid markup in ReserveToken | 
 | totalMoCAmount | uint256 | total paid in MoC | 
 
 ### getIsActive
@@ -306,18 +325,18 @@ Vendor paid in MoC
 | ------------- |------------- | -----|
 | account | address | Vendor address | 
 
-### getPaidRBTC
+### getPaidReserveToken
 
-Gets vendor paid in RBTC
+Gets vendor paid in ReserveToken
 
 ```js
-function getPaidRBTC(address account) public view
+function getPaidReserveToken(address account) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Vendor total paid in RBTC
+Vendor total paid in ReserveToken
 
 **Arguments**
 
@@ -338,6 +357,34 @@ function resetTotalPaidInMoC() public nonpayable onlyWhitelisted
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
+### getVendorGuardianAddress
+
+Returns the address is authorized to register and unregister vendors.
+
+```js
+function getVendorGuardianAddress() public view
+returns(address)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### setVendorGuardianAddress
+
+Sets the address which will be authorized to register and unregister vendors.
+
+```js
+function setVendorGuardianAddress(address _vendorGuardianAddress) public nonpayable onlyAuthorizedChanger 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _vendorGuardianAddress | address | Address which will be authorized to register and unregister vendors. | 
+
 ### initializeContracts
 
 ```js
@@ -352,7 +399,7 @@ function initializeContracts() internal nonpayable
 ### initializeValues
 
 ```js
-function initializeValues(address _governor) internal nonpayable
+function initializeValues(address _governor, address _vendorGuardianAddress) internal nonpayable
 ```
 
 **Arguments**
@@ -360,4 +407,19 @@ function initializeValues(address _governor) internal nonpayable
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | _governor | address |  | 
+| _vendorGuardianAddress | address |  | 
+
+### setVendorGuardianAddressInternal
+
+Sets the address which will be authorized to register and unregister vendors.
+
+```js
+function setVendorGuardianAddressInternal(address _vendorGuardianAddress) internal nonpayable
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _vendorGuardianAddress | address | Address which will be authorized to register and unregister vendors. | 
 

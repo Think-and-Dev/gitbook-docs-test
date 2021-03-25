@@ -7,9 +7,9 @@ original_id: Initializable
 # Initializable
  * (Initializable.sol)
 
-View Source: [zos-lib/contracts/Initializable.sol](../zos-lib/contracts/Initializable.sol)
+View Source: [zos-lib/contracts/Initializable.sol](../../zos-lib/contracts/Initializable.sol)
 
-**↘ Derived Contracts: [Governed](Governed.md), [MoCBase](MoCBase.md), [MoCConnector](MoCConnector.md), [MoCHelperLibHarness](MoCHelperLibHarness.md), [ReentrancyGuard](ReentrancyGuard.md)**
+**↘ Derived Contracts: [Blockable](Blockable.md), [Governed](Governed.md), [MoCBase](MoCBase.md), [MoCConnector](MoCConnector.md), [MoCHelperLibHarness](MoCHelperLibHarness.md), [ReentrancyGuard](ReentrancyGuard.md)**
 
 **Initializable** - version: 0.1.10
 

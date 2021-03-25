@@ -1,9 +1,9 @@
 # The MoC Contract
 
-The Money On Chain's Smart Contract suite is in control of the minting and redeeming of its tokens, including the BitPro, DOC and BTC2X tokens. This means that the generation of new tokens is controlled programmatically by said suite. To get some new tokens you should interact with the suite. The entry point is the MoC smart contract whose addresses are available on the following networks:
+The Money On Chain's Smart Contract suite is in control of the minting and redeeming of its tokens, including the RIFPro, RDOC and RIF2X tokens. This means that the generation of new tokens is controlled programmatically by said suite. To get some new tokens you should interact with the suite. The entry point is the MoC smart contract whose addresses are available on the following networks:
 
-- mainnet: [ 0xf773B590aF754D597770937Fa8ea7AbDf2668370 ](https://explorer.rsk.co/address/0xf773b590af754d597770937fa8ea7abdf2668370)
-- testnet: [ 0x2820f6d4D199B8D8838A4B26F9917754B86a0c1F ](https://explorer.testnet.rsk.co/address/0x2820f6d4d199b8d8838a4b26f9917754b86a0c1f)
+- mainnet: [0xCfF3fcaeC2352C672C38d77cb1a064B7D50ce7e1](https://explorer.rsk.co/address/0xCfF3fcaeC2352C672C38d77cb1a064B7D50ce7e1)
+- testnet: [0x7e2F245F7dc8e78576ECB13AEFc0a101E9BE1AD3](https://explorer.testnet.rsk.co/address/0x7e2F245F7dc8e78576ECB13AEFc0a101E9BE1AD3)
 
 In the world of second and third generation blockchains it is not possible to update the code of an already deployed smart contract. If we need to fix a bug or update the logic of a function, then we can use the proxy architecture pattern.
 

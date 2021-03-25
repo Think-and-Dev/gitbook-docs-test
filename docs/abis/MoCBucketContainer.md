@@ -6,18 +6,18 @@ original_id: MoCBucketContainer
 
 # MoCBucketContainer.sol
 
-View Source: [contracts/MoCBucketContainer.sol](../contracts/MoCBucketContainer.sol)
+View Source: [contracts/MoCBucketContainer.sol](../../contracts/MoCBucketContainer.sol)
 
 **↗ Extends: [MoCBase](MoCBase.md), [Governed](Governed.md)**
-**↘ Derived Contracts: [MoCBProxManager](MoCBProxManager.md)**
+**↘ Derived Contracts: [MoCRiskProxManager](MoCRiskProxManager.md)**
 
 **MoCBucketContainer** - version: 0.1.10
 
 ## Structs
-### BProxBalance
+### RiskProxBalance
 
 ```js
-struct BProxBalance {
+struct RiskProxBalance {
  uint256 value,
  uint256 index
 }
@@ -29,11 +29,11 @@ struct BProxBalance {
 struct MoCBucket {
  bytes32 name,
  bool isBase,
- uint256 nDoc,
- uint256 nBPro,
- uint256 nBTC,
+ uint256 nStable,
+ uint256 nRiskPro,
+ uint256 nReserve,
  uint256 cobj,
- mapping(address => struct MoCBucketContainer.BProxBalance) bproxBalances,
+ mapping(address => struct MoCBucketContainer.RiskProxBalance) riskProxBalances,
  address payable[] activeBalances,
  uint256 activeBalancesLength,
  uint256 inrateBag,
@@ -92,9 +92,9 @@ modifier bucketStateUpdate(bytes32 bucket) internal
 
 ## Functions
 
-- [getBucketNBTC(bytes32 bucket)](#getbucketnbtc)
-- [getBucketNBPro(bytes32 bucket)](#getbucketnbpro)
-- [getBucketNDoc(bytes32 bucket)](#getbucketndoc)
+- [getBucketNReserve(bytes32 bucket)](#getbucketnreserve)
+- [getBucketNRiskPro(bytes32 bucket)](#getbucketnriskpro)
+- [getBucketNStableToken(bytes32 bucket)](#getbucketnstabletoken)
 - [getBucketCobj(bytes32 bucket)](#getbucketcobj)
 - [getInrateBag(bytes32 bucket)](#getinratebag)
 - [setBucketCobj(bytes32 _bucket, uint256 _cobj)](#setbucketcobj)
@@ -102,22 +102,22 @@ modifier bucketStateUpdate(bytes32 bucket) internal
 - [isBucketEmpty(bytes32 bucket)](#isbucketempty)
 - [getActiveAddresses(bytes32 bucket)](#getactiveaddresses)
 - [getActiveAddressesCount(bytes32 bucket)](#getactiveaddressescount)
-- [addValuesToBucket(bytes32 bucketName, uint256 btc, uint256 doc, uint256 bprox)](#addvaluestobucket)
-- [substractValuesFromBucket(bytes32 bucketName, uint256 btc, uint256 doc, uint256 bprox)](#substractvaluesfrombucket)
+- [addValuesToBucket(bytes32 bucketName, uint256 reserveTokens, uint256 stableToken, uint256 riskProx)](#addvaluestobucket)
+- [substractValuesFromBucket(bytes32 bucketName, uint256 reserve, uint256 stableToken, uint256 riskProx)](#substractvaluesfrombucket)
 - [deliverInrate(bytes32 bucketName, uint256 amount)](#deliverinrate)
 - [recoverInrate(bytes32 bucketName, uint256 amount)](#recoverinrate)
-- [payInrate(bytes32 bucketName, uint256 btcAmount)](#payinrate)
-- [moveBtcAndDocs(bytes32 from, bytes32 to, uint256 btc, uint256 docs)](#movebtcanddocs)
+- [payInrate(bytes32 bucketName, uint256 reserveAmount)](#payinrate)
+- [moveResTokensAndStableTokens(bytes32 from, bytes32 to, uint256 reserve, uint256 stableTokens)](#moverestokensandstabletokens)
 - [liquidateBucket(bytes32 toLiquidate, bytes32 destination)](#liquidatebucket)
 - [emptyBucket(bytes32 origin, bytes32 destination)](#emptybucket)
 - [isAvailableBucket(bytes32 bucket)](#isavailablebucket)
 - [clearBucketBalances(bytes32 bucketName)](#clearbucketbalances)
 - [createBucket(bytes32 name, uint256 cobj, bool isBase)](#createbucket)
 
-### getBucketNBTC
+### getBucketNReserve
 
 ```js
-function getBucketNBTC(bytes32 bucket) public view
+function getBucketNReserve(bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -127,10 +127,10 @@ returns(uint256)
 | ------------- |------------- | -----|
 | bucket | bytes32 |  | 
 
-### getBucketNBPro
+### getBucketNRiskPro
 
 ```js
-function getBucketNBPro(bytes32 bucket) public view
+function getBucketNRiskPro(bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -140,10 +140,10 @@ returns(uint256)
 | ------------- |------------- | -----|
 | bucket | bytes32 |  | 
 
-### getBucketNDoc
+### getBucketNStableToken
 
 ```js
-function getBucketNDoc(bytes32 bucket) public view
+function getBucketNStableToken(bytes32 bucket) public view
 returns(uint256)
 ```
 
@@ -207,11 +207,11 @@ returns(bool)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bucket | bytes32 | Name of the bucket | 
+| bucket | bytes32 | Name of the bucket* | 
 
 ### isBucketEmpty
 
-returns true if the bucket have docs in it
+returns true if the bucket have stableTokens in it
 
 ```js
 function isBucketEmpty(bytes32 bucket) public view
@@ -222,11 +222,11 @@ returns(bool)
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bucket | bytes32 | Name of the bucket | 
+| bucket | bytes32 | Name of the bucket* | 
 
 ### getActiveAddresses
 
-Returns all the address that currently have bprox position for this bucket
+Returns all the address that currently have riskProx position for this bucket
 
 ```js
 function getActiveAddresses(bytes32 bucket) public view
@@ -241,7 +241,7 @@ returns(address payable[])
 
 ### getActiveAddressesCount
 
-Returns all the address that currently have bprox position for this bucket
+Returns all the address that currently have riskProx position for this bucket
 
 ```js
 function getActiveAddressesCount(bytes32 bucket) public view
@@ -259,7 +259,7 @@ returns(count uint256)
 Add values to all variables of the bucket
 
 ```js
-function addValuesToBucket(bytes32 bucketName, uint256 btc, uint256 doc, uint256 bprox) public nonpayable onlyWhitelisted 
+function addValuesToBucket(bytes32 bucketName, uint256 reserveTokens, uint256 stableToken, uint256 riskProx) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
@@ -267,16 +267,16 @@ function addValuesToBucket(bytes32 bucketName, uint256 btc, uint256 doc, uint256
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucketName | bytes32 | Name of the bucket | 
-| btc | uint256 | BTC amount [using reservePrecision] | 
-| doc | uint256 | Doc amount [using mocPrecision] | 
-| bprox | uint256 | BPro amount [using mocPrecision] | 
+| reserveTokens | uint256 | ReserveToken amount [using reservePrecision] | 
+| stableToken | uint256 | StableToken amount [using mocPrecision] | 
+| riskProx | uint256 | RiskProx amount [using mocPrecision] | 
 
 ### substractValuesFromBucket
 
 Substract values to all variables of the bucket
 
 ```js
-function substractValuesFromBucket(bytes32 bucketName, uint256 btc, uint256 doc, uint256 bprox) public nonpayable onlyWhitelisted 
+function substractValuesFromBucket(bytes32 bucketName, uint256 reserve, uint256 stableToken, uint256 riskProx) public nonpayable onlyWhitelisted 
 ```
 
 **Arguments**
@@ -284,13 +284,13 @@ function substractValuesFromBucket(bytes32 bucketName, uint256 btc, uint256 doc,
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucketName | bytes32 | Name of the bucket | 
-| btc | uint256 | BTC amount [using reservePrecision] | 
-| doc | uint256 | Doc amount [using mocPrecision] | 
-| bprox | uint256 | BPro amount [using mocPrecision] | 
+| reserve | uint256 | ReserveToken amount [using reservePrecision] | 
+| stableToken | uint256 | StableToken amount [using mocPrecision] | 
+| riskProx | uint256 | RiskProx amount [using mocPrecision] | 
 
 ### deliverInrate
 
-Moves BTC from inrateBag to main BTC bucket bag
+Moves ReserveTokens from inrateBag to main ReserveTokens bucket bag
 
 ```js
 function deliverInrate(bytes32 bucketName, uint256 amount) public nonpayable onlyWhitelisted onlyBaseBucket bucketStateUpdate 
@@ -325,10 +325,10 @@ Retrieved value
 
 ### payInrate
 
-Moves BTC from origin bucket to destination bucket inrateBag
+Moves ReserveTokens from origin bucket to destination bucket inrateBag
 
 ```js
-function payInrate(bytes32 bucketName, uint256 btcAmount) public nonpayable onlyWhitelisted onlyBaseBucket 
+function payInrate(bytes32 bucketName, uint256 reserveAmount) public nonpayable onlyWhitelisted onlyBaseBucket 
 ```
 
 **Arguments**
@@ -336,28 +336,28 @@ function payInrate(bytes32 bucketName, uint256 btcAmount) public nonpayable only
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucketName | bytes32 | name of the bucket to from which takes | 
-| btcAmount | uint256 | value to add to main bag [using reservePrecision] | 
+| reserveAmount | uint256 | value to add to main bag [using reservePrecision] | 
 
-### moveBtcAndDocs
+### moveResTokensAndStableTokens
 
-Move Btcs and Docs from one bucket to another
+Move ReserveTokens and StableTokens from one bucket to another
 
 ```js
-function moveBtcAndDocs(bytes32 from, bytes32 to, uint256 btc, uint256 docs) public nonpayable onlyWhitelisted bucketStateUpdate bucketStateUpdate 
+function moveResTokensAndStableTokens(bytes32 from, bytes32 to, uint256 reserve, uint256 stableTokens) public nonpayable onlyWhitelisted bucketStateUpdate bucketStateUpdate 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| from | bytes32 | Name of bucket from where the BTCs will be removed | 
-| to | bytes32 | Name of bucket from where the BTCs will be added | 
-| btc | uint256 | BTCs amount [using reservePrecision] | 
-| docs | uint256 | Docs amount [using mocPrecision] | 
+| from | bytes32 | Name of bucket from where the ReserveTokens will be removed | 
+| to | bytes32 | Name of bucket from where the ReserveTokens will be added | 
+| reserve | uint256 | ReserveTokens amount [using reservePrecision] | 
+| stableTokens | uint256 | StableTokens amount [using mocPrecision]* | 
 
 ### liquidateBucket
 
-Clears completely the origin bucket, removing all Docs, RBTCs and bproxs
+Clears completely the origin bucket, removing all StableTokens, ReserveTokens and riskProxs
 
 ```js
 function liquidateBucket(bytes32 toLiquidate, bytes32 destination) public nonpayable onlyWhitelisted 
@@ -368,11 +368,11 @@ function liquidateBucket(bytes32 toLiquidate, bytes32 destination) public nonpay
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | toLiquidate | bytes32 | Bucket to be cleared out | 
-| destination | bytes32 | Bucket that will receive the Docs and RBTCs | 
+| destination | bytes32 | Bucket that will receive the StableTokens and ReserveTokens | 
 
 ### emptyBucket
 
-Clears Docs and BTC from bucket origin and sends them to destination bucket
+Clears StableTokens and ReserveTokens from bucket origin and sends them to destination bucket
 
 ```js
 function emptyBucket(bytes32 origin, bytes32 destination) public nonpayable onlyWhitelisted 
@@ -383,7 +383,7 @@ function emptyBucket(bytes32 origin, bytes32 destination) public nonpayable only
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | origin | bytes32 | Bucket to clear out | 
-| destination | bytes32 | Destination bucket | 
+| destination | bytes32 | Destination bucket* | 
 
 ### isAvailableBucket
 
@@ -402,7 +402,7 @@ returns(bool)
 
 ### clearBucketBalances
 
-Put all bucket BProx balances in zero
+Put all bucket RiskProx balances in zero
 
 ```js
 function clearBucketBalances(bytes32 bucketName) public nonpayable onlyWhitelisted 

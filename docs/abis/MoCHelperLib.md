@@ -6,7 +6,7 @@ original_id: MoCHelperLib
 
 # MoCHelperLib.sol
 
-View Source: [contracts/MoCHelperLib.sol](../contracts/MoCHelperLib.sol)
+View Source: [contracts/MoCHelperLib.sol](../../contracts/MoCHelperLib.sol)
 
 **MoCHelperLib** - version: 0.1.10
 
@@ -37,32 +37,31 @@ uint256 internal constant UINT256_MAX;
 - [potential(struct MoCHelperLib.MocLibConfig config, uint256 a, uint256 b, uint256 c, uint256 value)](#potential)
 - [avgInt(struct MoCHelperLib.MocLibConfig config, uint256 a, uint256 b, uint256 c, uint256 value1, uint256 value2)](#avgint)
 - [integral(struct MoCHelperLib.MocLibConfig config, uint256 a, uint256 b, uint256 c, uint256 value)](#integral)
-- [abundanceRatio(struct MoCHelperLib.MocLibConfig config, uint256 doc0, uint256 doct)](#abundanceratio)
-- [bproSpotDiscountRate(struct MoCHelperLib.MocLibConfig libConfig, uint256 bproLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov)](#bprospotdiscountrate)
-- [maxBProWithDiscount(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 nDoc, uint256 utpdu, uint256 peg, uint256 btcPrice, uint256 bproUsdPrice, uint256 spotDiscount)](#maxbprowithdiscount)
-- [maxBProWithDiscountAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nbUsdValue, uint256 nDoc, uint256 utpdu, uint256 peg, uint256 bproDiscountPrice)](#maxbprowithdiscountaux)
-- [lockedBitcoin(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcPrice, uint256 nDoc, uint256 peg)](#lockedbitcoin)
-- [liquidationPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 rbtcAmount, uint256 nDoc)](#liquidationprice)
-- [bproTecPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 lb, uint256 nTP)](#bprotecprice)
-- [bproxBProPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 bproxTecPrice, uint256 bproPrice)](#bproxbproprice)
+- [abundanceRatio(struct MoCHelperLib.MocLibConfig config, uint256 stableToken0, uint256 stableTokent)](#abundanceratio)
+- [riskProSpotDiscountRate(struct MoCHelperLib.MocLibConfig libConfig, uint256 riskProLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov)](#riskprospotdiscountrate)
+- [maxRiskProWithDiscount(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 nStableToken, uint256 utpdu, uint256 peg, uint256 reservePrice, uint256 riskProUsdPrice, uint256 spotDiscount)](#maxriskprowithdiscount)
+- [maxRiskProWithDiscountAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nbUsdValue, uint256 nStableToken, uint256 utpdu, uint256 peg, uint256 riskProDiscountPrice)](#maxriskprowithdiscountaux)
+- [lockedReserveTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 reservePrice, uint256 nStableToken, uint256 peg)](#lockedreservetokens)
+- [liquidationPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokenAmount, uint256 nStableToken)](#liquidationprice)
+- [riskProTecPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 lb, uint256 nTP)](#riskprotecprice)
+- [riskProxRiskProPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 riskProxTecPrice, uint256 riskProPrice)](#riskproxriskproprice)
 - [applyDiscountRate(struct MoCHelperLib.MocLibConfig libConfig, uint256 price, uint256 discountRate)](#applydiscountrate)
 - [getInterestCost(struct MoCHelperLib.MocLibConfig libConfig, uint256 value, uint256 interestRate)](#getinterestcost)
-- [coverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 lB)](#coverage)
+- [coverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 lB)](#coverage)
 - [leverageFromCoverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 cov)](#leveragefromcoverage)
-- [leverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 lB)](#leverage)
-- [docsBtcValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 peg, uint256 btcPrice)](#docsbtcvalue)
-- [bproBtcValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 bproAmount, uint256 bproBtcPrice)](#bprobtcvalue)
-- [maxDoc(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 cobj, uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 bCons)](#maxdoc)
-- [maxDocAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 adjCobj, uint256 nDoc, uint256 peg, uint256 btcPrice)](#maxdocaux)
-- [maxBPro(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 cobj, uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 bCons, uint256 bproUsdPrice)](#maxbpro)
-- [totalBProInBtc(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 bproPrice)](#totalbproinbtc)
-- [maxDocsWithBtc(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcAmount, uint256 btcPrice)](#maxdocswithbtc)
-- [maxBProWithBtc(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcAmount, uint256 bproPrice)](#maxbprowithbtc)
-- [bucketTransferAmount(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcAmount, uint256 lev)](#buckettransferamount)
-- [maxBProxBtcValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 lev)](#maxbproxbtcvalue)
-- [maxMoCWithBtc(struct MoCHelperLib.MocLibConfig , uint256 btcAmount, uint256 btcPrice, uint256 mocPrice)](#maxmocwithbtc)
-- [mocBtcValue(struct MoCHelperLib.MocLibConfig , uint256 amount, uint256 btcPrice, uint256 mocPrice)](#mocbtcvalue)
-- [getPayableAddress(struct MoCHelperLib.MocLibConfig , address account)](#getpayableaddress)
+- [leverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 lB)](#leverage)
+- [stableTokensResTokensValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 peg, uint256 reservePrice)](#stabletokensrestokensvalue)
+- [riskProResTokensValuet(struct MoCHelperLib.MocLibConfig libConfig, uint256 riskProAmount, uint256 riskProResTokenPrice)](#riskprorestokensvaluet)
+- [maxStableToken(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 cobj, uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 bCons)](#maxstabletoken)
+- [maxStableTokenAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 adjCobj, uint256 nStableToken, uint256 peg, uint256 reservePrice)](#maxstabletokenaux)
+- [maxRiskPro(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 cobj, uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 bCons, uint256 riskProUsdPrice)](#maxriskpro)
+- [totalRiskProInResTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 riskProPrice)](#totalriskproinrestokens)
+- [maxStableTokensWithResTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokensAmount, uint256 reservePrice)](#maxstabletokenswithrestokens)
+- [maxRiskProWithResTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokensAmount, uint256 riskProPrice)](#maxriskprowithrestokens)
+- [bucketTransferAmount(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokensAmount, uint256 lev)](#buckettransferamount)
+- [maxRiskProxResTokenValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 lev)](#maxriskproxrestokenvalue)
+- [maxMoCWithReserveToken(struct MoCHelperLib.MocLibConfig , uint256 resTokensAmount, uint256 reservePrice, uint256 mocPrice)](#maxmocwithreservetoken)
+- [mocReserveTokenValue(struct MoCHelperLib.MocLibConfig , uint256 amount, uint256 reservePrice, uint256 mocPrice)](#mocreservetokenvalue)
 - [mulr(uint256 x, uint256 y, uint256 precision)](#mulr)
 - [pow(uint256 x, uint256 n, uint256 precision)](#pow)
 
@@ -105,13 +104,13 @@ average interest rate [using mocPrecision]
 | config | struct MoCHelperLib.MocLibConfig |  | 
 | tMax | uint256 | maxInterestRate [using mocPrecision] | 
 | power | uint256 | factor [using noPrecision] | 
-| tMin | uint256 | minInterestRate C0 doc amount [using mocPrecision] | 
+| tMin | uint256 | minInterestRate C0 stableToken amount [using mocPrecision] | 
 | abRat1 | uint256 | initial abundance ratio [using mocPrecision] | 
 | abRat2 | uint256 | final abundance ratio [using mocPrecision] | 
 
 ### spotInrate
 
-Calculates spot interest rate that BProx owners should pay to BPro owners: Rate = tMax * (abRatio ** power) + tMin
+Calculates spot interest rate that RiskProx owners should pay to RiskPro owners: Rate = tMax * (abRatio ** power) + tMin
 
 ```js
 function spotInrate(struct MoCHelperLib.MocLibConfig config, uint256 tMax, uint256 power, uint256 tMin, uint256 abRatio) public view
@@ -144,8 +143,8 @@ returns(uint256)
 | config | struct MoCHelperLib.MocLibConfig |  | 
 | a | uint256 | maxInterestRate [using mocPrecision] | 
 | b | uint256 | factor [using NoPrecision] | 
-| c | uint256 | minInterestRate C0 doc amount [using mocPrecision] | 
-| value | uint256 | global doc amount [using mocPrecision] | 
+| c | uint256 | minInterestRate C0 stableToken amount [using mocPrecision] | 
+| value | uint256 | global stableToken amount [using mocPrecision] | 
 
 ### avgInt
 
@@ -171,7 +170,7 @@ average interest rate [using mocPrecision]
 | config | struct MoCHelperLib.MocLibConfig |  | 
 | a | uint256 | maxInterestRate [using mocPrecision] | 
 | b | uint256 | factor [using NoPrecision] | 
-| c | uint256 | minInterestRate C0 doc amount [using mocPrecision] | 
+| c | uint256 | minInterestRate C0 stableToken amount [using mocPrecision] | 
 | value1 | uint256 | value to put in the function [using mocPrecision] | 
 | value2 | uint256 | value to put in the function [using mocPrecision] | 
 
@@ -195,15 +194,15 @@ integration result [using mocPrecision]
 | config | struct MoCHelperLib.MocLibConfig |  | 
 | a | uint256 | maxInterestRate [using mocPrecision] | 
 | b | uint256 | factor [using NoPrecision] | 
-| c | uint256 | minInterestRate C0 doc amount [using mocPrecision] | 
+| c | uint256 | minInterestRate C0 stableToken amount [using mocPrecision] | 
 | value | uint256 | value to put in the function [using mocPrecision] | 
 
 ### abundanceRatio
 
-Relation between docs in bucket 0 and Doc total supply
+Relation between stableTokens in bucket 0 and StableToken total supply
 
 ```js
-function abundanceRatio(struct MoCHelperLib.MocLibConfig config, uint256 doc0, uint256 doct) public view
+function abundanceRatio(struct MoCHelperLib.MocLibConfig config, uint256 stableToken0, uint256 stableTokent) public view
 returns(uint256)
 ```
 
@@ -216,15 +215,15 @@ abundance ratio [using mocPrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | config | struct MoCHelperLib.MocLibConfig |  | 
-| doc0 | uint256 | doc count in bucket 0 [using mocPrecision] | 
-| doct | uint256 | total doc supply [using mocPrecision] | 
+| stableToken0 | uint256 | stableToken count in bucket 0 [using mocPrecision] | 
+| stableTokent | uint256 | total stableToken supply [using mocPrecision] | 
 
-### bproSpotDiscountRate
+### riskProSpotDiscountRate
 
-Returns the Ratio to apply to BPro Price in discount situations: SpotDiscountRate = TPD * (utpdu - cob) / (uptdu -liq)
+Returns the Ratio to apply to RiskPro Price in discount situations: SpotDiscountRate = TPD * (utpdu - cob) / (uptdu -liq)
 
 ```js
-function bproSpotDiscountRate(struct MoCHelperLib.MocLibConfig libConfig, uint256 bproLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov) public view
+function riskProSpotDiscountRate(struct MoCHelperLib.MocLibConfig libConfig, uint256 riskProLiqDiscountRate, uint256 liq, uint256 utpdu, uint256 cov) public view
 returns(uint256)
 ```
 
@@ -237,90 +236,90 @@ Spot discount rate [using mocPrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| bproLiqDiscountRate | uint256 | Discount rate applied at Liquidation level coverage [using mocPrecision] | 
+| riskProLiqDiscountRate | uint256 | Discount rate applied at Liquidation level coverage [using mocPrecision] | 
 | liq | uint256 | Liquidation coverage threshold [using mocPrecision] | 
 | utpdu | uint256 | Discount coverage threshold [using mocPrecision] | 
 | cov | uint256 | Actual global Coverage threshold [using mocPrecision] | 
 
-### maxBProWithDiscount
+### maxRiskProWithDiscount
 
-Max amount of BPro to available with discount: MaxBProWithDiscount = (uTPDU * nDOC * PEG - (nBTC * B)) / (TPusd * TPD)
+Max amount of RiskPro to available with discount: MaxRiskProWithDiscount = (uTPDU * nStableToken * PEG - (nReserve * B)) / (TPusd * TPD)
 
 ```js
-function maxBProWithDiscount(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 nDoc, uint256 utpdu, uint256 peg, uint256 btcPrice, uint256 bproUsdPrice, uint256 spotDiscount) public view
+function maxRiskProWithDiscount(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 nStableToken, uint256 utpdu, uint256 peg, uint256 reservePrice, uint256 riskProUsdPrice, uint256 spotDiscount) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Total BPro amount [using mocPrecision]
+Total RiskPro amount [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 | Total BTC amount [using reservePrecision] | 
-| nDoc | uint256 | DOC amount [using mocPrecision] | 
+| nReserve | uint256 | Total ReserveTokens amount [using reservePrecision] | 
+| nStableToken | uint256 | StableToken amount [using mocPrecision] | 
 | utpdu | uint256 | Discount coverage threshold [using mocPrecision] | 
 | peg | uint256 | peg value | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
-| bproUsdPrice | uint256 | bproUsdPrice [using mocPrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
+| riskProUsdPrice | uint256 | riskProUsdPrice [using mocPrecision] | 
 | spotDiscount | uint256 | spot discount [using mocPrecision] | 
 
-### maxBProWithDiscountAux
+### maxRiskProWithDiscountAux
 
-Max amount of BPro to available with discount: MaxBProWithDiscount = (uTPDU * nDOC * PEG - (nBTC * B)) / (TPusd * TPD)
+Max amount of RiskPro to available with discount: MaxRiskProWithDiscount = (uTPDU * nStableToken * PEG - (nReserve * B)) / (TPusd * TPD)
 
 ```js
-function maxBProWithDiscountAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nbUsdValue, uint256 nDoc, uint256 utpdu, uint256 peg, uint256 bproDiscountPrice) internal view
+function maxRiskProWithDiscountAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nbUsdValue, uint256 nStableToken, uint256 utpdu, uint256 peg, uint256 riskProDiscountPrice) internal view
 returns(uint256)
 ```
 
 **Returns**
 
-Total BPro amount [using mocPrecision]
+Total RiskPro amount [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nbUsdValue | uint256 | Total amount of BTC in USD [using mocPrecision] | 
-| nDoc | uint256 | DOC amount [using mocPrecision] | 
+| nbUsdValue | uint256 | Total amount of ReserveTokens in USD [using mocPrecision] | 
+| nStableToken | uint256 | StableToken amount [using mocPrecision] | 
 | utpdu | uint256 | Discount coverage threshold [using mocPrecision] | 
 | peg | uint256 | peg value | 
-| bproDiscountPrice | uint256 | bproUsdPrice with discount applied [using mocPrecision] | 
+| riskProDiscountPrice | uint256 | riskProUsdPrice with discount applied [using mocPrecision] | 
 
-### lockedBitcoin
+### lockedReserveTokens
 
-Calculates Locked bitcoin
+Calculates Locked ReserveTokens
 
 ```js
-function lockedBitcoin(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcPrice, uint256 nDoc, uint256 peg) public view
+function lockedReserveTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 reservePrice, uint256 nStableToken, uint256 peg) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Locked bitcoin [using reservePrecision]
+Locked ReserveTokens [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
-| nDoc | uint256 | Docs amount [using mocPrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
+| nStableToken | uint256 | StableTokens amount [using mocPrecision] | 
 | peg | uint256 | peg value | 
 
 ### liquidationPrice
 
-Calculates price at liquidation event as a relation between the doc total supply
-and the amount of RBTC available to distribute
+Calculates price at liquidation event as a relation between the stableToken total supply
+and the amount of ReserveTokens available to distribute
 
 ```js
-function liquidationPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 rbtcAmount, uint256 nDoc) public view
+function liquidationPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokenAmount, uint256 nStableToken) public view
 returns(uint256)
 ```
 
@@ -333,55 +332,55 @@ Price at liquidation event [using mocPrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| rbtcAmount | uint256 | RBTC to distribute [using reservePrecision] | 
-| nDoc | uint256 | Docs amount [using mocPrecision] | 
+| resTokenAmount | uint256 | ReserveTokens to distribute [using reservePrecision] | 
+| nStableToken | uint256 | StableTokens amount [using mocPrecision] | 
 
-### bproTecPrice
+### riskProTecPrice
 
-Calculates BPro BTC price: TPbtc = (nB-LB) / nTP
+Calculates RiskPro ReserveTokens: (nReserve-LB) / nTP
 
 ```js
-function bproTecPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 lb, uint256 nTP) public view
+function riskProTecPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 lb, uint256 nTP) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BPro BTC price [using reservePrecision]
+RiskPro ReserveTokens price [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 | Total BTC amount [using reservePrecision] | 
-| lb | uint256 | Locked bitcoins amount [using reservePrecision] | 
-| nTP | uint256 | BPro amount [using mocPrecision] | 
+| nReserve | uint256 | Total ReserveTokens amount [using reservePrecision] | 
+| lb | uint256 | Locked ReserveTokens amount [using reservePrecision] | 
+| nTP | uint256 | RiskPro amount [using mocPrecision] | 
 
-### bproxBProPrice
+### riskProxRiskProPrice
 
-Calculates BPro BTC price: BProxInBPro = bproxTecPrice / bproPrice
+Calculates RiskPro ReserveToken price: RiskProxInRiskPro = riskProxTecPrice / riskProPrice
 
 ```js
-function bproxBProPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 bproxTecPrice, uint256 bproPrice) public view
+function riskProxRiskProPrice(struct MoCHelperLib.MocLibConfig libConfig, uint256 riskProxTecPrice, uint256 riskProPrice) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BProx price in BPro [using mocPrecision]
+RiskProx price in RiskPro [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| bproxTecPrice | uint256 | BProx BTC price [using reservePrecision] | 
-| bproPrice | uint256 | Trog BTC price [using reservePrecision] | 
+| riskProxTecPrice | uint256 | RiskProx ReserveTokens price [using reservePrecision] | 
+| riskProPrice | uint256 | Trog ReserveTokens price [using reservePrecision] | 
 
 ### applyDiscountRate
 
-Returns a new value with the discountRate applied: TPbtc = (price)* (1 - discountRate)
+Returns a new value with the discountRate applied: (price)* (1 - discountRate)
 
 ```js
 function applyDiscountRate(struct MoCHelperLib.MocLibConfig libConfig, uint256 price, uint256 discountRate) public view
@@ -402,7 +401,7 @@ Price with discount applied [using SomePrecision]
 
 ### getInterestCost
 
-Returns the amount of interest to pay: TPbtc = price * interestRate
+Returns the amount of interest to pay: = price * interestRate
 
 ```js
 function getInterestCost(struct MoCHelperLib.MocLibConfig libConfig, uint256 value, uint256 interestRate) public view
@@ -423,10 +422,10 @@ Interest cost based on the value and interestRate [using SomePrecision]
 
 ### coverage
 
-Calculates Coverage: Coverage = nB / LB
+Calculates Coverage: nReserve / LB
 
 ```js
-function coverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 lB) public view
+function coverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 lB) public view
 returns(uint256)
 ```
 
@@ -439,8 +438,8 @@ Coverage [using mocPrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 | Total BTC amount [using reservePrecision] | 
-| lB | uint256 | Locked bitcoins amount [using reservePrecision] | 
+| nReserve | uint256 | Total ReserveTokens amount [using reservePrecision] | 
+| lB | uint256 | Locked ReserveTokens amount [using reservePrecision] | 
 
 ### leverageFromCoverage
 
@@ -464,10 +463,10 @@ Leverage [using mocPrecision]
 
 ### leverage
 
-Calculates Leverage: Leverage = nB / (nB - lB)
+Calculates Leverage: Leverage = nReserve / (nReserve - lB)
 
 ```js
-function leverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 lB) public view
+function leverage(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 lB) public view
 returns(uint256)
 ```
 
@@ -480,15 +479,15 @@ Leverage [using mocPrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 | Total BTC amount [using reservePrecision] | 
-| lB | uint256 | Locked bitcoins amount [using reservePrecision] | 
+| nReserve | uint256 | Total ReserveTokens amount [using reservePrecision] | 
+| lB | uint256 | Locked ReserveTokens amount [using reservePrecision] | 
 
-### docsBtcValue
+### stableTokensResTokensValue
 
-Price in BTC of the amount of Docs
+Price in ReserveTokens of the amount of StableTokens
 
 ```js
-function docsBtcValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 peg, uint256 btcPrice) public view
+function stableTokensResTokensValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 peg, uint256 reservePrice) public view
 returns(uint256)
 ```
 
@@ -501,16 +500,16 @@ Total value [using reservePrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| amount | uint256 | Total BTC amount [using reservePrecision] | 
+| amount | uint256 | Total ReserveTokens amount [using reservePrecision] | 
 | peg | uint256 |  | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
 
-### bproBtcValue
+### riskProResTokensValuet
 
-Price in RBTC of the amount of BPros
+Price in ReserveTokens of the amount of RiskPros
 
 ```js
-function bproBtcValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 bproAmount, uint256 bproBtcPrice) public view
+function riskProResTokensValuet(struct MoCHelperLib.MocLibConfig libConfig, uint256 riskProAmount, uint256 riskProResTokenPrice) public view
 returns(uint256)
 ```
 
@@ -523,38 +522,38 @@ Total value [using reservePrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| bproAmount | uint256 | amount of BPro [using mocPrecision] | 
-| bproBtcPrice | uint256 | BPro price in RBTC [using reservePrecision] | 
+| riskProAmount | uint256 | amount of RiskPro [using mocPrecision] | 
+| riskProResTokenPrice | uint256 | RiskPro price in ReserveTokens [using reservePrecision] | 
 
-### maxDoc
+### maxStableToken
 
-Max amount of Docs to issue: MaxDoc = ((nB*B)-(Cobj*B/Bcons*nDoc*PEG))/(PEG*(Cobj*B/BCons-1))
+Max amount of Docs to issue: MaxStableToken = ((nReserve*B)-(Cobj*B/Bcons*nStableToken*PEG))/(PEG*(Cobj*B/BCons-1))
 
 ```js
-function maxDoc(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 cobj, uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 bCons) public view
+function maxStableToken(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 cobj, uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 bCons) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Total Docs amount [using mocPrecision]
+Total StableTokens amount [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 | Total BTC amount [using reservePrecision] | 
+| nReserve | uint256 | Total ReserveTokens amount [using reservePrecision] | 
 | cobj | uint256 | Target Coverage [using mocPrecision] | 
-| nDoc | uint256 | DOC amount [using mocPrecision] | 
+| nStableToken | uint256 | StableToken amount [using mocPrecision] | 
 | peg | uint256 | peg value | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
-| bCons | uint256 | BTC conservative price [using mocPrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
+| bCons | uint256 | ReserveTokens conservative price [using mocPrecision] | 
 
-### maxDocAux
+### maxStableTokenAux
 
 ```js
-function maxDocAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 adjCobj, uint256 nDoc, uint256 peg, uint256 btcPrice) internal view
+function maxStableTokenAux(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 adjCobj, uint256 nStableToken, uint256 peg, uint256 reservePrice) internal view
 returns(uint256)
 ```
 
@@ -563,152 +562,152 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 |  | 
+| nReserve | uint256 |  | 
 | adjCobj | uint256 |  | 
-| nDoc | uint256 |  | 
+| nStableToken | uint256 |  | 
 | peg | uint256 |  | 
-| btcPrice | uint256 |  | 
+| reservePrice | uint256 |  | 
 
-### maxBPro
+### maxRiskPro
 
-Max amount of BPro to redeem: MaxBPro = ((nB*B)-(Cobj*nDoc*PEG))/TPusd
+Max amount of RiskPro to redeem: MaxRiskPro = ((nReserve*B)-(Cobj*nStableToken*PEG))/TPusd
 
 ```js
-function maxBPro(struct MoCHelperLib.MocLibConfig libConfig, uint256 nB, uint256 cobj, uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 bCons, uint256 bproUsdPrice) public view
+function maxRiskPro(struct MoCHelperLib.MocLibConfig libConfig, uint256 nReserve, uint256 cobj, uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 bCons, uint256 riskProUsdPrice) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Total BPro amount [using mocPrecision]
+Total RiskPro amount [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nB | uint256 | Total BTC amount [using reservePrecision] | 
+| nReserve | uint256 | Total ReserveTokens amount [using reservePrecision] | 
 | cobj | uint256 | Target Coverage [using mocPrecision] | 
-| nDoc | uint256 | Target Coverage [using mocPrecision] | 
+| nStableToken | uint256 | Target Coverage [using mocPrecision] | 
 | peg | uint256 | peg value | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
-| bCons | uint256 | BTC conservative price [using mocPrecision] | 
-| bproUsdPrice | uint256 | bproUsdPrice [using mocPrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
+| bCons | uint256 | ReserveTokens conservative price [using mocPrecision] | 
+| riskProUsdPrice | uint256 | riskProUsdPrice [using mocPrecision] | 
 
-### totalBProInBtc
+### totalRiskProInResTokens
 
-Calculates the total BTC price of the amount of BPros
+Calculates the total ReserveTokens price of the amount of RiskPros
 
 ```js
-function totalBProInBtc(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 bproPrice) public view
+function totalRiskProInResTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 amount, uint256 riskProPrice) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BPro total value in BTC [using reservePrecision]
+RiskPro total value in ReserveTokens [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| amount | uint256 | Amount of BPro [using mocPrecision] | 
-| bproPrice | uint256 | BPro BTC Price [using reservePrecision] | 
+| amount | uint256 | Amount of RiskPro [using mocPrecision] | 
+| riskProPrice | uint256 | RiskPro ReserveTokens Price [using reservePrecision] | 
 
-### maxDocsWithBtc
+### maxStableTokensWithResTokens
 
-Calculates the equivalent in Docs of the btcAmount
+Calculates the equivalent in StableTokens of the resTokensAmount
 
 ```js
-function maxDocsWithBtc(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcAmount, uint256 btcPrice) public view
+function maxStableTokensWithResTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokensAmount, uint256 reservePrice) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Equivalent Doc amount [using mocPrecision]
+Equivalent StableToken amount [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| btcAmount | uint256 | BTC  amount [using reservePrecision] | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
+| resTokensAmount | uint256 | ReserveTokens  amount [using reservePrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
 
-### maxBProWithBtc
+### maxRiskProWithResTokens
 
-Calculates the equivalent in BPro of the btcAmount
+Calculates the equivalent in RiskPro of the resTokensAmount
 
 ```js
-function maxBProWithBtc(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcAmount, uint256 bproPrice) public view
+function maxRiskProWithResTokens(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokensAmount, uint256 riskProPrice) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Equivalent Bpro amount [using mocPrecision]
+Equivalent RiskPro amount [using mocPrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| btcAmount | uint256 | BTC amount [using reservePrecision] | 
-| bproPrice | uint256 | BPro BTC price [using reservePrecision] | 
+| resTokensAmount | uint256 | ReserveTokens amount [using reservePrecision] | 
+| riskProPrice | uint256 | RiskPro ReserveTokens price [using reservePrecision] | 
 
 ### bucketTransferAmount
 
-Calculates the Btc amount to move from C0 bucket to: toMove = btcAmount * (lev - 1)
-an L bucket when a BProx minting occurs
+Calculates the ResToken amount to move from C0 bucket to
+an L bucket when a RiskProx minting occurs: toMove = resTokensAmount * (lev - 1)
 
 ```js
-function bucketTransferAmount(struct MoCHelperLib.MocLibConfig libConfig, uint256 btcAmount, uint256 lev) public view
+function bucketTransferAmount(struct MoCHelperLib.MocLibConfig libConfig, uint256 resTokensAmount, uint256 lev) public view
 returns(uint256)
 ```
 
 **Returns**
 
-btc to move [using reservePrecision]
+resTokens to move [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| btcAmount | uint256 | Total BTC amount [using reservePrecision] | 
+| resTokensAmount | uint256 | Total ReserveTokens amount [using reservePrecision] | 
 | lev | uint256 | L bucket leverage [using mocPrecision] | 
 
-### maxBProxBtcValue
+### maxRiskProxResTokenValue
 
-Max amount of BTC allowed to be used to mint bprox: Maxbprox = nDOC/ (PEG*B*(lev-1))
+Max amount of ReserveTokens allowed to be used to mint riskProx: MaxriskProx = nStableToken/ (PEG*B*(lev-1))
 
 ```js
-function maxBProxBtcValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 nDoc, uint256 peg, uint256 btcPrice, uint256 lev) public view
+function maxRiskProxResTokenValue(struct MoCHelperLib.MocLibConfig libConfig, uint256 nStableToken, uint256 peg, uint256 reservePrice, uint256 lev) public view
 returns(uint256)
 ```
 
 **Returns**
 
-Max bprox BTC value [using reservePrecision]
+Max riskProx ReserveTokens value [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | libConfig | struct MoCHelperLib.MocLibConfig |  | 
-| nDoc | uint256 | number of DOC [using mocPrecision] | 
+| nStableToken | uint256 | number of StableToken [using mocPrecision] | 
 | peg | uint256 | peg value | 
-| btcPrice | uint256 | BTC price [using mocPrecision] | 
+| reservePrice | uint256 | ReserveTokens price [using mocPrecision] | 
 | lev | uint256 | leverage [using mocPrecision] | 
 
-### maxMoCWithBtc
+### maxMoCWithReserveToken
 
-Calculates the equivalent in MoC of the btcAmount
+Calculates the equivalent in MoC of the reserve token
 
 ```js
-function maxMoCWithBtc(struct MoCHelperLib.MocLibConfig , uint256 btcAmount, uint256 btcPrice, uint256 mocPrice) public pure
+function maxMoCWithReserveToken(struct MoCHelperLib.MocLibConfig , uint256 resTokensAmount, uint256 reservePrice, uint256 mocPrice) public pure
 returns(uint256)
 ```
 
@@ -720,52 +719,32 @@ Equivalent MoC amount
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-|  | struct MoCHelperLib.MocLibConfig | btcAmount BTC  amount | 
-| btcAmount | uint256 | BTC  amount | 
-| btcPrice | uint256 | BTC price | 
+|  | struct MoCHelperLib.MocLibConfig | resTokensAmount Total ReserveTokens amount | 
+| resTokensAmount | uint256 | Total ReserveTokens amount | 
+| reservePrice | uint256 | ReserveTokens price | 
 | mocPrice | uint256 | MoC price | 
 
-### mocBtcValue
+### mocReserveTokenValue
 
-Calculates the equivalent in BTC of the MoC amount
+Calculates the equivalent in reserve token of the MoC amount
 
 ```js
-function mocBtcValue(struct MoCHelperLib.MocLibConfig , uint256 amount, uint256 btcPrice, uint256 mocPrice) public pure
+function mocReserveTokenValue(struct MoCHelperLib.MocLibConfig , uint256 amount, uint256 reservePrice, uint256 mocPrice) public pure
 returns(uint256)
 ```
 
 **Returns**
 
-Equivalent MoC amount
+Equivalent ReserveToken amount
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-|  | struct MoCHelperLib.MocLibConfig | amount BTC  amount | 
-| amount | uint256 | BTC  amount | 
-| btcPrice | uint256 | BTC price | 
+|  | struct MoCHelperLib.MocLibConfig | amount MoC amount | 
+| amount | uint256 | MoC amount | 
+| reservePrice | uint256 | ReserveTokens price | 
 | mocPrice | uint256 | MoC price | 
-
-### getPayableAddress
-
-Transform an address to payable address
-
-```js
-function getPayableAddress(struct MoCHelperLib.MocLibConfig , address account) public pure
-returns(address payable)
-```
-
-**Returns**
-
-Payable address for account
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-|  | struct MoCHelperLib.MocLibConfig | account Address to transform to payable | 
-| account | address | Address to transform to payable | 
 
 ### mulr
 

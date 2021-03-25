@@ -6,10 +6,10 @@ original_id: OwnerBurnableToken
 
 # Owner Burnable Token (OwnerBurnableToken.sol)
 
-View Source: [contracts/token/OwnerBurnableToken.sol](../contracts/token/OwnerBurnableToken.sol)
+View Source: [contracts/token/OwnerBurnableToken.sol](../../contracts/token/OwnerBurnableToken.sol)
 
 **↗ Extends: [Ownable](Ownable.md), [ERC20Mintable](ERC20Mintable.md)**
-**↘ Derived Contracts: [BProToken](BProToken.md), [DocToken](DocToken.md), [MoCToken](MoCToken.md)**
+**↘ Derived Contracts: [MoCToken](MoCToken.md), [RiskProToken](RiskProToken.md), [StableToken](StableToken.md)**
 
 **OwnerBurnableToken** - version: 0.1.10
 

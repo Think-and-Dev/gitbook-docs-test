@@ -1,31 +1,32 @@
-# Minting BitPros
+# Minting RIFPros
 
-In this tutorial the method (or function) that is of interest to us is `function mintBProVendors(uint256 btcToMint, address vendorAccount) public payable`. As you can see this function is payable, this means that it is prepared to receive RBTCs.
+In this tutorial the method (or function) that is of interest to us is `function mintRiskProVendors(uint256 resTokensToMint) public`.
 
-NOTE: there is a retrocompatibility function called `function mintBPro(uint256 btcToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+NOTE: there is a retrocompatibility function called `mintRiskPro(uint256 resTokensToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+
+You must approve the amount of RIF token that you are willing to use on the Money on Chain platform before minting RIFPro. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
 ## Parameters of the operation
 
-### The btcToMint parameter
+### The resTokensToMint parameter
 
-It is the amount the contract will use to actually mint BitPros, i.e. it will not be used to pay commission, all of this funds will be transformed purely on BitPros.
-This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places is defined in **MoCLibConnection** contract.
-Maybe, depending on the state of the contract, a value lesser than btcToMint will be used to mint the BitPros. In that case, all the extra RBTCs will be sent to you.
+It is the amount the contract will use to actually mint RIFPros, i.e. it will not be used to pay commission, all of this funds will be transformed purely on RIFPros.
+This parameter is a RIF amount and uses a precision of the type **reservePrecision** that contains 18 decimal places is defined in **MoCLibConnection** contract.
+
+Maybe, depending on the state of the contract, a value lesser than resTokensToMint will be used to mint the RIFPros. In that case, all the extra RIFs will be sent to you.
+
+You have to take into consideration that it will be split in four.
+
+- The first part will be used to mint some RIFPro, the size of this part depends directly on the resTokensToMint, and, as explained in the previous section, it may be smaller than resTokensToMint.
+- The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
+- The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
+- The fourth part is always returned, so if you have doubts of how much you should send, keep in mind that if you send too much RIFs we will return everything that it is not used for commissions or minting.
+
+All the needed calculations for the second and third parts are explained in more detail [here](fees-calculation.md).
 
 ### The vendorAccount parameter
 
 It is the address of the vendor who will receive a [markup](vendors.md#markup) from the current transaction.
-
-### The value sent
-
-The amount sent in RBTCs to the contract can be considered as a parameter of the transaction, which is why it will be explained in this section. You have to take into consideration that it will be split in four.
-
-- The first part will be used to mint some BitPro, the size of this part depends directly on the btcToMint, and, as explained in the previous section, it may be smaller than btcToMint.
-- The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
-- The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
-- The fourth part is always returned, so if you have doubts of how much you should send, keep in mind that if you send too much RBTCs we will return everything that it is not used for commissions or minting.
-
-All the needed calculations for the second and third parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 

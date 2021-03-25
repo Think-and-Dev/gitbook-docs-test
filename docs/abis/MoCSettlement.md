@@ -6,7 +6,7 @@ original_id: MoCSettlement
 
 # MoCSettlement.sol
 
-View Source: [contracts/MoCSettlement.sol](../contracts/MoCSettlement.sol)
+View Source: [contracts/MoCSettlement.sol](../../contracts/MoCSettlement.sol)
 
 **↗ Extends: [MoCSettlementEvents](MoCSettlementEvents.md), [MoCBase](MoCBase.md), [PartialExecution](PartialExecution.md), [Governed](Governed.md)**
 **↘ Derived Contracts: [MoCSettlementMock](MoCSettlementMock.md)**
@@ -36,11 +36,11 @@ struct UserRedeemRequest {
 
 ```js
 struct SettlementInfo {
- uint256 btcPrice,
- uint256 btcxPrice,
- uint256 docRedeemCount,
+ uint256 reservePrice,
+ uint256 riskProxPrice,
+ uint256 stableTokenRedeemCount,
  uint256 deleveragingCount,
- uint256 bproxAmount,
+ uint256 riskProxAmount,
  uint256 partialCommissionAmount,
  uint256 finalCommissionAmount,
  uint256 leverage,
@@ -54,23 +54,23 @@ struct SettlementInfo {
 
 ```js
 //public members
-bytes32 public constant DOC_REDEMPTION_TASK;
+bytes32 public constant StableToken_REDEMPTION_TASK;
 bytes32 public constant DELEVERAGING_TASK;
 bytes32 public constant SETTLEMENT_TASK;
 
 //internal members
 contract MoCState internal mocState;
 contract MoCExchange internal mocExchange;
-contract DocToken internal docToken;
-contract MoCBProxManager internal bproxManager;
+contract StableToken internal stableToken;
+contract MoCRiskProxManager internal riskProxManager;
 uint256 internal lastProcessedBlock;
 uint256 internal blockSpan;
 struct MoCSettlement.SettlementInfo internal settlementInfo;
 
 //private members
 struct MoCSettlement.RedeemRequest[] private redeemQueue;
-uint256 private redeemQueueLength;
 mapping(address => struct MoCSettlement.UserRedeemRequest) private redeemMapping;
+uint256 private redeemQueueLength;
 uint256[50] private upgradeGap;
 
 ```
@@ -129,7 +129,7 @@ modifier isTime() internal
 - [isSettlementRunning()](#issettlementrunning)
 - [isSettlementReady()](#issettlementready)
 - [nextSettlementBlock()](#nextsettlementblock)
-- [docAmountToRedeem(address _who)](#docamounttoredeem)
+- [stableTokenAmountToRedeem(address _who)](#stabletokenamounttoredeem)
 - [addRedeemRequest(uint256 amount, address payable redeemer)](#addredeemrequest)
 - [clear()](#clear)
 - [alterRedeemRequestAmount(bool isAddition, uint256 delta, address redeemer)](#alterredeemrequestamount)
@@ -137,13 +137,13 @@ modifier isTime() internal
 - [initializeContracts()](#initializecontracts)
 - [initializeValues(address _governor, uint256 _blockSpan)](#initializevalues)
 - [deleveragingStepCount()](#deleveragingstepcount)
-- [docRedemptionStepCount()](#docredemptionstepcount)
+- [stableTokenRedemptionStepCount()](#stabletokenredemptionstepcount)
 - [initializeSettlement()](#initializesettlement)
 - [finishSettlement()](#finishsettlement)
 - [finishDeleveraging()](#finishdeleveraging)
-- [finishDocRedemption()](#finishdocredemption)
+- [finishStableTokenRedemption()](#finishstabletokenredemption)
 - [deleveragingStep(uint256 )](#deleveragingstep)
-- [docRedemptionStep(uint256 index)](#docredemptionstep)
+- [stableTokenRedemptionStep(uint256 index)](#stabletokenredemptionstep)
 - [initializeTasks()](#initializetasks)
 
 ### initialize
@@ -240,7 +240,7 @@ returns(uint256)
 
 ### redeemQueueSize
 
-Returns the current redeem request queue's length
+returns current redeem queue size
 
 ```js
 function redeemQueueSize() public view
@@ -308,18 +308,18 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### docAmountToRedeem
+### stableTokenAmountToRedeem
 
-returns the total amount of Docs in the redeem queue for _who
+returns the total amount of StableTokens in the redeem queue for _who
 
 ```js
-function docAmountToRedeem(address _who) public view
+function stableTokenAmountToRedeem(address _who) public view
 returns(uint256)
 ```
 
 **Returns**
 
-total amount of Docs in the redeem queue for _who [using mocPrecision]
+total amount of StableTokens in the redeem queue for _who [using mocPrecision]
 
 **Arguments**
 
@@ -421,7 +421,7 @@ function initializeValues(address _governor, uint256 _blockSpan) internal nonpay
 ### deleveragingStepCount
 
 Returns the amount of steps for the Deleveraging task
-which is the amount of active BProx addresses
+which is the amount of active RiskProx addresses
 
 ```js
 function deleveragingStepCount() internal view
@@ -433,13 +433,13 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### docRedemptionStepCount
+### stableTokenRedemptionStepCount
 
-Returns the amount of steps for the Doc Redemption task
+Returns the amount of steps for the StableToken Redemption task
 which is the amount of redeem requests in the queue
 
 ```js
-function docRedemptionStepCount() internal view
+function stableTokenRedemptionStepCount() internal view
 returns(uint256)
 ```
 
@@ -487,12 +487,12 @@ function finishDeleveraging() internal nonpayable
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### finishDocRedemption
+### finishStableTokenRedemption
 
-Execute final step of DocRedemption task
+Execute final step of StableTokenRedemption task
 
 ```js
-function finishDocRedemption() internal nonpayable
+function finishStableTokenRedemption() internal nonpayable
 ```
 
 **Arguments**
@@ -515,12 +515,12 @@ function deleveragingStep(uint256 ) internal nonpayable
 | ------------- |------------- | -----|
 |  | uint256 |  | 
 
-### docRedemptionStep
+### stableTokenRedemptionStep
 
-Individual DocRedemption step to be executed in partial execution
+Individual StableTokenRedemption step to be executed in partial execution
 
 ```js
-function docRedemptionStep(uint256 index) internal nonpayable
+function stableTokenRedemptionStep(uint256 index) internal nonpayable
 ```
 
 **Arguments**

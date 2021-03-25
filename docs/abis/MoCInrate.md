@@ -6,7 +6,7 @@ original_id: MoCInrate
 
 # MoCInrate.sol
 
-View Source: [contracts/MoCInrate.sol](../contracts/MoCInrate.sol)
+View Source: [contracts/MoCInrate.sol](../../contracts/MoCInrate.sol)
 
 **↗ Extends: [MoCInrateEvents](MoCInrateEvents.md), [MoCInrateStructs](MoCInrateStructs.md), [MoCBase](MoCBase.md), [MoCLibConnection](MoCLibConnection.md), [Governed](Governed.md)**
 
@@ -28,34 +28,34 @@ struct InrateParams {
 
 ```js
 //internal members
-struct MoCInrateStructs.InrateParams internal btcxParams;
+struct MoCInrateStructs.InrateParams internal riskProxParams;
 contract MoCState internal mocState;
 contract MoCConverter internal mocConverter;
-contract MoCBProxManager internal bproxManager;
+contract MoCRiskProxManager internal riskProxManager;
 
 //public members
 uint256 public lastDailyPayBlock;
-uint256 public bitProRate;
-address payable public bitProInterestAddress;
-uint256 public lastBitProInterestBlock;
-uint256 public bitProInterestBlockSpan;
+uint256 public riskProRate;
+address payable public riskProInterestAddress;
+uint256 public lastRiskProInterestBlock;
+uint256 public riskProInterestBlockSpan;
 address payable public commissionsAddress;
 uint256 public DEPRECATED_commissionRate;
-uint256 public docTmin;
-uint256 public docPower;
-uint256 public docTmax;
-uint8 public constant MINT_BPRO_FEES_RBTC;
-uint8 public constant REDEEM_BPRO_FEES_RBTC;
-uint8 public constant MINT_DOC_FEES_RBTC;
-uint8 public constant REDEEM_DOC_FEES_RBTC;
-uint8 public constant MINT_BTCX_FEES_RBTC;
-uint8 public constant REDEEM_BTCX_FEES_RBTC;
-uint8 public constant MINT_BPRO_FEES_MOC;
-uint8 public constant REDEEM_BPRO_FEES_MOC;
-uint8 public constant MINT_DOC_FEES_MOC;
-uint8 public constant REDEEM_DOC_FEES_MOC;
-uint8 public constant MINT_BTCX_FEES_MOC;
-uint8 public constant REDEEM_BTCX_FEES_MOC;
+uint256 public stableTmin;
+uint256 public stablePower;
+uint256 public stableTmax;
+uint8 public constant MINT_RISKPRO_FEES_RESERVE;
+uint8 public constant REDEEM_RISKPRO_FEES_RESERVE;
+uint8 public constant MINT_STABLETOKEN_FEES_RESERVE;
+uint8 public constant REDEEM_STABLETOKEN_FEES_RESERVE;
+uint8 public constant MINT_RISKPROX_FEES_RESERVE;
+uint8 public constant REDEEM_RISKPROX_FEES_RESERVE;
+uint8 public constant MINT_RISKPRO_FEES_MOC;
+uint8 public constant REDEEM_RISKPRO_FEES_MOC;
+uint8 public constant MINT_STABLETOKEN_FEES_MOC;
+uint8 public constant REDEEM_STABLETOKEN_FEES_MOC;
+uint8 public constant MINT_RISKPROX_FEES_MOC;
+uint8 public constant REDEEM_RISKPROX_FEES_MOC;
 mapping(uint8 => uint256) public commissionRatesByTxType;
 
 //private members
@@ -73,7 +73,7 @@ event RiskProHoldersInterestPay(uint256  amount, uint256  nReserveBucketC0Before
 ## Modifiers
 
 - [onlyOnceADay](#onlyonceaday)
-- [onlyWhenBitProInterestsIsEnabled](#onlywhenbitprointerestsisenabled)
+- [onlyWhenRiskProInterestsIsEnabled](#onlywhenriskprointerestsisenabled)
 
 ### onlyOnceADay
 
@@ -86,10 +86,10 @@ modifier onlyOnceADay() internal
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### onlyWhenBitProInterestsIsEnabled
+### onlyWhenRiskProInterestsIsEnabled
 
 ```js
-modifier onlyWhenBitProInterestsIsEnabled() internal
+modifier onlyWhenRiskProInterestsIsEnabled() internal
 ```
 
 **Arguments**
@@ -99,90 +99,90 @@ modifier onlyWhenBitProInterestsIsEnabled() internal
 
 ## Functions
 
-- [setDoCTmin(uint256 _docTmin)](#setdoctmin)
-- [setDoCTmax(uint256 _docTmax)](#setdoctmax)
-- [setDoCPower(uint256 _docPower)](#setdocpower)
-- [getDoCTmin()](#getdoctmin)
-- [getDoCTmax()](#getdoctmax)
-- [getDoCPower()](#getdocpower)
-- [docInrateAvg(uint256 docRedeem)](#docinrateavg)
-- [initialize(address connectorAddress, address _governor, uint256 btcxTmin, uint256 btcxPower, uint256 btcxTmax, uint256 _bitProRate, uint256 blockSpanBitPro, address payable bitProInterestTargetAddress, address payable commissionsAddressTarget, uint256 _docTmin, uint256 _docPower, uint256 _docTmax)](#initialize)
-- [getBtcxTmin()](#getbtcxtmin)
-- [getBtcxTmax()](#getbtcxtmax)
-- [getBtcxPower()](#getbtcxpower)
-- [getBitProInterestBlockSpan()](#getbitprointerestblockspan)
-- [setBtcxTmin(uint256 _btxcTmin)](#setbtcxtmin)
-- [setBtcxTmax(uint256 _btxcTax)](#setbtcxtmax)
-- [setBtcxPower(uint256 _btxcPower)](#setbtcxpower)
-- [getBitProRate()](#getbitprorate)
-- [setBitProRate(uint256 newBitProRate)](#setbitprorate)
-- [setBitProInterestBlockSpan(uint256 newBitProBlockSpan)](#setbitprointerestblockspan)
-- [getBitProInterestAddress()](#getbitprointerestaddress)
-- [setBitProInterestAddress(address payable newBitProInterestAddress)](#setbitprointerestaddress)
+- [setStableTmin(uint256 _stableTmin)](#setstabletmin)
+- [setStableTmax(uint256 _stableTmax)](#setstabletmax)
+- [setStablePower(uint256 _stablePower)](#setstablepower)
+- [getStableTmin()](#getstabletmin)
+- [getStableTmax()](#getstabletmax)
+- [getStablePower()](#getstablepower)
+- [stableTokenInrateAvg(uint256 stableTokenRedeem)](#stabletokeninrateavg)
+- [initialize(address connectorAddress, address _governor, uint256 riskProxTmin, uint256 riskProxPower, uint256 riskProxTmax, uint256 _riskProRate, uint256 blockSpanRiskPro, address payable riskProInterestTargetAddress, address payable commissionsAddressTarget, uint256 _stableTmin, uint256 _stablePower, uint256 _stableTmax)](#initialize)
+- [getRiskProxTmin()](#getriskproxtmin)
+- [getRiskProxTmax()](#getriskproxtmax)
+- [getRiskProxPower()](#getriskproxpower)
+- [getRiskProInterestBlockSpan()](#getriskprointerestblockspan)
+- [setRiskProxTmin(uint256 _btxcTmin)](#setriskproxtmin)
+- [setRiskProxTmax(uint256 _btxcTax)](#setriskproxtmax)
+- [setRiskProxPower(uint256 _btxcPower)](#setriskproxpower)
+- [getRiskProRate()](#getriskprorate)
+- [setRiskProRate(uint256 newRiskProRate)](#setriskprorate)
+- [setRiskProInterestBlockSpan(uint256 newRiskProBlockSpan)](#setriskprointerestblockspan)
+- [getRiskProInterestAddress()](#getriskprointerestaddress)
+- [setRiskProInterestAddress(address payable newRiskProInterestAddress)](#setriskprointerestaddress)
 - [setCommissionsAddress(address payable newCommissionsAddress)](#setcommissionsaddress)
 - [spotInrate()](#spotinrate)
-- [btcxInrateAvg(bytes32 bucket, uint256 btcAmount, bool onMinting)](#btcxinrateavg)
+- [riskProxInrateAvg(bytes32 bucket, uint256 resTokensAmount, bool onMinting)](#riskproxinrateavg)
 - [dailyInrate()](#dailyinrate)
-- [calcMintInterestValues(bytes32 bucket, uint256 rbtcAmount)](#calcmintinterestvalues)
-- [calcDocRedInterestValues(uint256 docAmount, uint256 rbtcAmount)](#calcdocredinterestvalues)
-- [calcFinalRedeemInterestValue(bytes32 bucket, uint256 rbtcToRedeem)](#calcfinalredeeminterestvalue)
-- [calcCommissionValue(uint256 rbtcAmount, uint8 txType)](#calccommissionvalue)
+- [calcMintInterestValues(bytes32 bucket, uint256 reserveTokenAmount)](#calcmintinterestvalues)
+- [calcStableTokenRedInterestValues(uint256 stableTokenAmount, uint256 reserveTokenAmount)](#calcstabletokenredinterestvalues)
+- [calcFinalRedeemInterestValue(bytes32 bucket, uint256 reserveTokenToRedeem)](#calcfinalredeeminterestvalue)
+- [calcCommissionValue(uint256 reserveTokenAmount, uint8 txType)](#calccommissionvalue)
 - [calculateVendorMarkup(address vendorAccount, uint256 amount)](#calculatevendormarkup)
-- [calcRedeemInterestValue(bytes32 bucket, uint256 rbtcToRedeem)](#calcredeeminterestvalue)
+- [calcRedeemInterestValue(bytes32 bucket, uint256 reserveTokenToRedeem)](#calcredeeminterestvalue)
 - [dailyInratePayment()](#dailyinratepayment)
 - [isDailyEnabled()](#isdailyenabled)
-- [isBitProInterestEnabled()](#isbitprointerestenabled)
-- [calculateBitProHoldersInterest()](#calculatebitproholdersinterest)
-- [payBitProHoldersInterestPayment()](#paybitproholdersinterestpayment)
+- [isRiskProInterestEnabled()](#isriskprointerestenabled)
+- [calculateRiskProHoldersInterest()](#calculateriskproholdersinterest)
+- [payRiskProHoldersInterestPayment()](#payriskproholdersinterestpayment)
 - [setCommissionRateByTxType(uint8 txType, uint256 value)](#setcommissionratebytxtype)
 - [inrateToSettlement(uint256 inrate, bool countAllDays)](#inratetosettlement)
 - [calcProportionalInterestValue(bytes32 bucket, uint256 redeemInterest)](#calcproportionalinterestvalue)
 - [calcFullRedeemInterestValue(bytes32 bucket)](#calcfullredeeminterestvalue)
-- [simulateDocMovement(bytes32 bucket, uint256 btcAmount, bool onMinting)](#simulatedocmovement)
+- [simulateStableTokenMovement(bytes32 bucket, uint256 resTokensAmount, bool onMinting)](#simulatestabletokenmovement)
 - [inrateDayCount(bool countAllDays)](#inratedaycount)
 - [initializeContracts()](#initializecontracts)
-- [initializeValues(address _governor, uint256 btcxMin, uint256 btcxPower, uint256 btcxMax, uint256 _bitProRate, address payable commissionsAddressTarget, uint256 blockSpanBitPro, address payable bitProInterestsTarget, uint256 _docTmin, uint256 _docPower, uint256 _docTmax)](#initializevalues)
+- [initializeValues(address _governor, uint256 riskProxMin, uint256 riskProxPower, uint256 riskProxMax, uint256 _riskProRate, address payable commissionsAddressTarget, uint256 blockSpanRiskPro, address payable riskProInterestsTarget, uint256 _stableTmin, uint256 _stablePower, uint256 _stableTmax)](#initializevalues)
 
-### setDoCTmin
+### setStableTmin
 
 ```js
-function setDoCTmin(uint256 _docTmin) public nonpayable onlyAuthorizedChanger 
+function setStableTmin(uint256 _stableTmin) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _docTmin | uint256 |  | 
+| _stableTmin | uint256 |  | 
 
-### setDoCTmax
+### setStableTmax
 
 ```js
-function setDoCTmax(uint256 _docTmax) public nonpayable onlyAuthorizedChanger 
+function setStableTmax(uint256 _stableTmax) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _docTmax | uint256 |  | 
+| _stableTmax | uint256 |  | 
 
-### setDoCPower
+### setStablePower
 
 ```js
-function setDoCPower(uint256 _docPower) public nonpayable onlyAuthorizedChanger 
+function setStablePower(uint256 _stablePower) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _docPower | uint256 |  | 
+| _stablePower | uint256 |  | 
 
-### getDoCTmin
+### getStableTmin
 
 ```js
-function getDoCTmin() public view
+function getStableTmin() public view
 returns(uint256)
 ```
 
@@ -191,10 +191,10 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getDoCTmax
+### getStableTmax
 
 ```js
-function getDoCTmax() public view
+function getStableTmax() public view
 returns(uint256)
 ```
 
@@ -203,10 +203,10 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getDoCPower
+### getStablePower
 
 ```js
-function getDoCPower() public view
+function getStablePower() public view
 returns(uint256)
 ```
 
@@ -215,12 +215,12 @@ returns(uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### docInrateAvg
+### stableTokenInrateAvg
 
-Calculates an average interest rate between after and before free doc Redemption
+Calculates an average interest rate between after and before free stableToken Redemption
 
 ```js
-function docInrateAvg(uint256 docRedeem) public view
+function stableTokenInrateAvg(uint256 stableTokenRedeem) public view
 returns(uint256)
 ```
 
@@ -232,14 +232,14 @@ Interest rate value [using mocPrecision]
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docRedeem | uint256 | Docs to redeem [using mocPrecision] | 
+| stableTokenRedeem | uint256 | StableTokens to redeem [using mocPrecision] | 
 
 ### initialize
 
 Initializes the contract
 
 ```js
-function initialize(address connectorAddress, address _governor, uint256 btcxTmin, uint256 btcxPower, uint256 btcxTmax, uint256 _bitProRate, uint256 blockSpanBitPro, address payable bitProInterestTargetAddress, address payable commissionsAddressTarget, uint256 _docTmin, uint256 _docPower, uint256 _docTmax) public nonpayable initializer 
+function initialize(address connectorAddress, address _governor, uint256 riskProxTmin, uint256 riskProxPower, uint256 riskProxTmax, uint256 _riskProRate, uint256 blockSpanRiskPro, address payable riskProInterestTargetAddress, address payable commissionsAddressTarget, uint256 _stableTmin, uint256 _stablePower, uint256 _stableTmax) public nonpayable initializer 
 ```
 
 **Arguments**
@@ -248,208 +248,208 @@ function initialize(address connectorAddress, address _governor, uint256 btcxTmi
 | ------------- |------------- | -----|
 | connectorAddress | address | MoCConnector contract address | 
 | _governor | address | Governor contract address | 
-| btcxTmin | uint256 | Minimum interest rate [using mocPrecision] | 
-| btcxPower | uint256 | Power is a parameter for interest rate calculation [using noPrecision] | 
-| btcxTmax | uint256 | Maximun interest rate [using mocPrecision] | 
-| _bitProRate | uint256 | BitPro holder interest rate [using mocPrecision] | 
-| blockSpanBitPro | uint256 | BitPro blockspan to configure payments periods[using mocPrecision] | 
-| bitProInterestTargetAddress | address payable | Target address to transfer the weekly BitPro holders interest | 
+| riskProxTmin | uint256 | Minimum interest rate [using mocPrecision] | 
+| riskProxPower | uint256 | Power is a parameter for interest rate calculation [using noPrecision] | 
+| riskProxTmax | uint256 | Maximun interest rate [using mocPrecision] | 
+| _riskProRate | uint256 | BitPro holder interest rate [using mocPrecision] | 
+| blockSpanRiskPro | uint256 | BitPro blockspan to configure payments periods[using mocPrecision] | 
+| riskProInterestTargetAddress | address payable | Target address to transfer the weekly BitPro holders interest | 
 | commissionsAddressTarget | address payable | Target addres to transfer commissions of mint/redeem | 
-| _docTmin | uint256 | Upgrade to support red doc inrate parameter | 
-| _docPower | uint256 | Upgrade to support red doc inrate parameter | 
-| _docTmax | uint256 | Upgrade to support red doc inrate parameter | 
+| _stableTmin | uint256 | Upgrade to support red stable inrate parameter | 
+| _stablePower | uint256 | Upgrade to support red stable inrate parameter | 
+| _stableTmax | uint256 | Upgrade to support red stable inrate parameter | 
 
-### getBtcxTmin
+### getRiskProxTmin
 
-gets tMin param of BTCX tokens
+gets tMin param of RiskProx tokens
 
 ```js
-function getBtcxTmin() public view
+function getRiskProxTmin() public view
 returns(uint256)
 ```
 
 **Returns**
 
-returns tMin of BTCX
+returns tMin of RiskProx
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBtcxTmax
+### getRiskProxTmax
 
-gets tMax param of BTCX tokens
+gets tMax param of RiskProx tokens
 
 ```js
-function getBtcxTmax() public view
+function getRiskProxTmax() public view
 returns(uint256)
 ```
 
 **Returns**
 
-returns tMax of BTCX
+returns tMax of RiskProx
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBtcxPower
+### getRiskProxPower
 
-gets power param of BTCX tokens
+gets power param of RiskProx tokens
 
 ```js
-function getBtcxPower() public view
+function getRiskProxPower() public view
 returns(uint256)
 ```
 
 **Returns**
 
-returns power of BTCX
+returns power of RiskProx
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBitProInterestBlockSpan
+### getRiskProInterestBlockSpan
 
-Gets the blockspan of BPRO that represents the frecuency of BitPro holders intereset payment
+Gets the blockspan of RiskPro that represents the frecuency of RiskPro holders intereset payment
 
 ```js
-function getBitProInterestBlockSpan() public view
+function getRiskProInterestBlockSpan() public view
 returns(uint256)
 ```
 
 **Returns**
 
-returns power of bitProInterestBlockSpan
+returns power of riskProInterestBlockSpan
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### setBtcxTmin
+### setRiskProxTmin
 
-sets tMin param of BTCX tokens
+sets tMin param of RiskProx tokens
 
 ```js
-function setBtcxTmin(uint256 _btxcTmin) public nonpayable onlyAuthorizedChanger 
+function setRiskProxTmin(uint256 _btxcTmin) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _btxcTmin | uint256 | tMin of BTCX | 
+| _btxcTmin | uint256 | tMin of RiskProx | 
 
-### setBtcxTmax
+### setRiskProxTmax
 
-sets tMax param of BTCX tokens
+sets tMax param of RiskProx tokens
 
 ```js
-function setBtcxTmax(uint256 _btxcTax) public nonpayable onlyAuthorizedChanger 
+function setRiskProxTmax(uint256 _btxcTax) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _btxcTax | uint256 | tMax of BTCX | 
+| _btxcTax | uint256 | tMax of RiskProx | 
 
-### setBtcxPower
+### setRiskProxPower
 
-sets power param of BTCX tokens
+sets power param of RiskProx tokens
 
 ```js
-function setBtcxPower(uint256 _btxcPower) public nonpayable onlyAuthorizedChanger 
+function setRiskProxPower(uint256 _btxcPower) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| _btxcPower | uint256 | power of BTCX | 
+| _btxcPower | uint256 | power of RiskProx | 
 
-### getBitProRate
+### getRiskProRate
 
-Gets the rate for BitPro Holders
+Gets the rate for RiskPro Holders
 
 ```js
-function getBitProRate() public view
+function getRiskProRate() public view
 returns(uint256)
 ```
 
 **Returns**
 
-BitPro Rate
+RiskPro Rate
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### setBitProRate
+### setRiskProRate
 
-Sets BitPro Holders rate
+Sets RiskPro Holders rate
 
 ```js
-function setBitProRate(uint256 newBitProRate) public nonpayable onlyAuthorizedChanger 
+function setRiskProRate(uint256 newRiskProRate) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| newBitProRate | uint256 | New BitPro rate | 
+| newRiskProRate | uint256 | New RiskPro rate | 
 
-### setBitProInterestBlockSpan
+### setRiskProInterestBlockSpan
 
-Sets the blockspan BitPro Intereset rate payment is enable to be executed
+Sets the blockspan RiskPro Intereset rate payment is enable to be executed
 
 ```js
-function setBitProInterestBlockSpan(uint256 newBitProBlockSpan) public nonpayable onlyAuthorizedChanger 
+function setRiskProInterestBlockSpan(uint256 newRiskProBlockSpan) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| newBitProBlockSpan | uint256 | New BitPro Block span | 
+| newRiskProBlockSpan | uint256 | New RiskPro Block span | 
 
-### getBitProInterestAddress
+### getRiskProInterestAddress
 
-Gets the target address to transfer BitPro Holders rate
+Gets the target address to transfer RiskPro Holders rate
 
 ```js
-function getBitProInterestAddress() public view
+function getRiskProInterestAddress() public view
 returns(address payable)
 ```
 
 **Returns**
 
-Target address to transfer BitPro Holders interest
+Target address to transfer RiskPro Holders interest
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### setBitProInterestAddress
+### setRiskProInterestAddress
 
-Sets the target address to transfer BitPro Holders rate
+Sets the target address to transfer RiskPro Holders rate
 
 ```js
-function setBitProInterestAddress(address payable newBitProInterestAddress) public nonpayable onlyAuthorizedChanger 
+function setRiskProInterestAddress(address payable newRiskProInterestAddress) public nonpayable onlyAuthorizedChanger 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| newBitProInterestAddress | address payable | New BitPro rate | 
+| newRiskProInterestAddress | address payable | New RiskPro rate | 
 
 ### setCommissionsAddress
 
@@ -467,7 +467,7 @@ function setCommissionsAddress(address payable newCommissionsAddress) public non
 
 ### spotInrate
 
-Calculates interest rate for BProx Minting, redeem and Free Doc Redeem
+Calculates interest rate for RiskProx Minting, redeem and Free StableToken Redeem
 
 ```js
 function spotInrate() public view
@@ -483,12 +483,12 @@ Interest rate value [using RatePrecsion]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### btcxInrateAvg
+### riskProxInrateAvg
 
 Calculates an average interest rate between after and before mint/redeem
 
 ```js
-function btcxInrateAvg(bytes32 bucket, uint256 btcAmount, bool onMinting) public view
+function riskProxInrateAvg(bytes32 bucket, uint256 resTokensAmount, bool onMinting) public view
 returns(uint256)
 ```
 
@@ -501,12 +501,12 @@ Interest rate value [using mocPrecision]
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket involved in the operation | 
-| btcAmount | uint256 | Value of the operation from which calculates the inrate [using reservePrecision] | 
+| resTokensAmount | uint256 | Value of the operation from which calculates the inrate [using reservePrecision] | 
 | onMinting | bool | Value that represents if the calculation is based on mint or on redeem | 
 
 ### dailyInrate
 
-returns the amount of BTC to pay in concept of interest to bucket C0
+returns the amount of ReserveTokens to pay in concept of interest to bucket C0
 
 ```js
 function dailyInrate() public view
@@ -520,73 +520,73 @@ returns(uint256)
 
 ### calcMintInterestValues
 
-Extract the inrate from the passed RBTC value for Bprox minting operation
+Extract the inrate from the passed ReserveTokens value for RiskProx minting operation
 
 ```js
-function calcMintInterestValues(bytes32 bucket, uint256 rbtcAmount) public view
+function calcMintInterestValues(bytes32 bucket, uint256 reserveTokenAmount) public view
 returns(uint256)
 ```
 
 **Returns**
 
-RBTC to pay in concept of interests [using reservePrecision]
+ReserveTokens to pay in concept of interests [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Bucket to use to calculate interés | 
-| rbtcAmount | uint256 | Total value from which extract the interest rate [using reservePrecision] | 
+| reserveTokenAmount | uint256 | Total value from which extract the interest rate [using reservePrecision] | 
 
-### calcDocRedInterestValues
+### calcStableTokenRedInterestValues
 
-Extract the inrate from the passed RBTC value for the Doc Redeem operation
+Extract the inrate from the passed ReserveTokens value for the StableToken Redeem operation
 
 ```js
-function calcDocRedInterestValues(uint256 docAmount, uint256 rbtcAmount) public view
+function calcStableTokenRedInterestValues(uint256 stableTokenAmount, uint256 reserveTokenAmount) public view
 returns(uint256)
 ```
 
 **Returns**
 
-RBTC to pay in concept of interests [using reservePrecision]
+finalInterest
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docAmount | uint256 | Doc amount of the redemption [using mocPrecision] | 
-| rbtcAmount | uint256 | Total value from which extract the interest rate [using reservePrecision] | 
+| stableTokenAmount | uint256 | StableToken amount of the redemption [using mocPrecision] | 
+| reserveTokenAmount | uint256 | Total value from which extract the interest rate [using reservePrecision] | 
 
 ### calcFinalRedeemInterestValue
 
 This function calculates the interest to return to the user
-in a BPRox redemption. It uses a mechanism to counteract the effect
-of free docs redemption. It will be replaced with FreeDoC redemption
+in a RiskProx redemption. It uses a mechanism to counteract the effect
+of free stableTokens redemption. It will be replaced with FreeStableToken redemption
 interests in the future
 
 ```js
-function calcFinalRedeemInterestValue(bytes32 bucket, uint256 rbtcToRedeem) public view
+function calcFinalRedeemInterestValue(bytes32 bucket, uint256 reserveTokenToRedeem) public view
 returns(uint256)
 ```
 
 **Returns**
 
-RBTC to recover in concept of interests [using reservePrecision]
+Reserves to recover in concept of interests [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Bucket to use to calculate interest | 
-| rbtcToRedeem | uint256 | Total value from which calculate interest [using reservePrecision] | 
+| reserveTokenToRedeem | uint256 | Total value from which calculate interest [using reservePrecision] | 
 
 ### calcCommissionValue
 
-calculates the Commission rate from the passed RBTC amount and the transaction type for mint/redeem operations
+calculates the Commission rate from the passed ReserveTokens amount for mint/redeem operations
 
 ```js
-function calcCommissionValue(uint256 rbtcAmount, uint8 txType) public view
+function calcCommissionValue(uint256 reserveTokenAmount, uint8 txType) public view
 returns(uint256)
 ```
 
@@ -598,7 +598,7 @@ finalCommissionAmount [using reservePrecision]
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| rbtcAmount | uint256 | Total value from which apply the Commission rate [using reservePrecision] | 
+| reserveTokenAmount | uint256 | Total value from which apply the Commission rate [using reservePrecision] | 
 | txType | uint8 | Transaction type according to constant values defined in this contract | 
 
 ### calculateVendorMarkup
@@ -623,23 +623,23 @@ finalCommissionAmount [using reservePrecision]
 
 ### calcRedeemInterestValue
 
-Calculates RBTC value to return to the user in concept of interests
+Calculates ReserveTokens value to return to the user in concept of interests
 
 ```js
-function calcRedeemInterestValue(bytes32 bucket, uint256 rbtcToRedeem) public view
+function calcRedeemInterestValue(bytes32 bucket, uint256 reserveTokenToRedeem) public view
 returns(uint256)
 ```
 
 **Returns**
 
-RBTC to recover in concept of interests [using reservePrecision]
+Reserves to recover in concept of interests [using reservePrecision]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Bucket to use to calculate interest | 
-| rbtcToRedeem | uint256 | Total value from which calculate interest [using reservePrecision] | 
+| reserveTokenToRedeem | uint256 | Total value from which calculate interest [using reservePrecision] | 
 
 ### dailyInratePayment
 
@@ -667,10 +667,10 @@ returns(bool)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### isBitProInterestEnabled
+### isRiskProInterestEnabled
 
 ```js
-function isBitProInterestEnabled() public view
+function isRiskProInterestEnabled() public view
 returns(bool)
 ```
 
@@ -679,36 +679,36 @@ returns(bool)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### calculateBitProHoldersInterest
+### calculateRiskProHoldersInterest
 
-Calculates BitPro Holders interest rates
+Calculates RiskPro Holders interest rates
 
 ```js
-function calculateBitProHoldersInterest() public view
+function calculateRiskProHoldersInterest() public view
 returns(uint256, uint256)
 ```
 
 **Returns**
 
-toPay interest in RBTC [using RBTCPrecsion]
+toPay interest in ReserveTokens [using reservePrecsion]
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### payBitProHoldersInterestPayment
+### payRiskProHoldersInterestPayment
 
-Pays the BitPro Holders interest rates
+Pays the RiskPro Holders interest rates
 
 ```js
-function payBitProHoldersInterestPayment() public nonpayable onlyWhitelisted onlyWhenBitProInterestsIsEnabled 
+function payRiskProHoldersInterestPayment() public nonpayable onlyWhitelisted onlyWhenRiskProInterestsIsEnabled 
 returns(uint256)
 ```
 
 **Returns**
 
-interest payed in RBTC [using RBTCPrecsion]
+interest payed in ReserveTokens [using reservePrecsion]
 
 **Arguments**
 
@@ -741,7 +741,7 @@ returns(uint256)
 
 **Returns**
 
-Interest rate value [using RatePrecsion]
+Interest rate value [using mocPrecision]
 
 **Arguments**
 
@@ -753,7 +753,7 @@ Interest rate value [using RatePrecsion]
 ### calcProportionalInterestValue
 
 This function calculates the interest to return to a user redeeming
-BTCx as a proportion of the amount in the interestBag.
+RiskProx as a proportion of the amount in the interestBag.
 
 ```js
 function calcProportionalInterestValue(bytes32 bucket, uint256 redeemInterest) internal view
@@ -773,7 +773,7 @@ InterestsInBag * (RedeemInterests / FullRedeemInterest) [using reservePrecision]
 
 ### calcFullRedeemInterestValue
 
-This function calculates the interest to return if a user redeem all Btcx in existance
+This function calculates the interest to return if a user redeem all RiskProx in existance
 
 ```js
 function calcFullRedeemInterestValue(bytes32 bucket) internal view
@@ -790,25 +790,25 @@ Interests [using reservePrecision]
 | ------------- |------------- | -----|
 | bucket | bytes32 | Bucket to use to calculate interest | 
 
-### simulateDocMovement
+### simulateStableTokenMovement
 
-Calculates the final amount of Bucket 0 DoCs on BProx mint/redeem
+Calculates the final amount of Bucket 0 StableTokens on RiskProx mint/redeem
 
 ```js
-function simulateDocMovement(bytes32 bucket, uint256 btcAmount, bool onMinting) internal view
+function simulateStableTokenMovement(bytes32 bucket, uint256 resTokensAmount, bool onMinting) internal view
 returns(uint256)
 ```
 
 **Returns**
 
-Final bucket 0 Doc amount
+Final bucket 0 StableToken amount
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket involved in the operation | 
-| btcAmount | uint256 | Value of the operation from which calculates the inrate [using reservePrecision] | 
+| resTokensAmount | uint256 | Value of the operation from which calculates the inrate [using reservePrecision] | 
 | onMinting | bool |  | 
 
 ### inrateDayCount
@@ -848,7 +848,7 @@ function initializeContracts() internal nonpayable
 Initialize the parameters of the contract
 
 ```js
-function initializeValues(address _governor, uint256 btcxMin, uint256 btcxPower, uint256 btcxMax, uint256 _bitProRate, address payable commissionsAddressTarget, uint256 blockSpanBitPro, address payable bitProInterestsTarget, uint256 _docTmin, uint256 _docPower, uint256 _docTmax) internal nonpayable
+function initializeValues(address _governor, uint256 riskProxMin, uint256 riskProxPower, uint256 riskProxMax, uint256 _riskProRate, address payable commissionsAddressTarget, uint256 blockSpanRiskPro, address payable riskProInterestsTarget, uint256 _stableTmin, uint256 _stablePower, uint256 _stableTmax) internal nonpayable
 ```
 
 **Arguments**
@@ -856,14 +856,14 @@ function initializeValues(address _governor, uint256 btcxMin, uint256 btcxPower,
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | _governor | address | the address of the IGovernor contract | 
-| btcxMin | uint256 | Minimum interest rate [using mocPrecision] | 
-| btcxPower | uint256 | Power is a parameter for interest rate calculation [using noPrecision] | 
-| btcxMax | uint256 | Maximun interest rate [using mocPrecision] | 
-| _bitProRate | uint256 | BitPro holder interest rate [using mocPrecision] | 
+| riskProxMin | uint256 | Minimum interest rate [using mocPrecision] | 
+| riskProxPower | uint256 | Power is a parameter for interest rate calculation [using noPrecision] | 
+| riskProxMax | uint256 | Maximun interest rate [using mocPrecision] | 
+| _riskProRate | uint256 | RiskPro holder interest rate [using mocPrecision] | 
 | commissionsAddressTarget | address payable |  | 
-| blockSpanBitPro | uint256 | BitPro blockspan to configure payments periods[using mocPrecision] | 
-| bitProInterestsTarget | address payable | Target address to transfer the weekly BitPro holders interest | 
-| _docTmin | uint256 |  | 
-| _docPower | uint256 |  | 
-| _docTmax | uint256 |  | 
+| blockSpanRiskPro | uint256 | RiskPro blockspan to configure payments periods[using mocPrecision] | 
+| riskProInterestsTarget | address payable | Target address to transfer the weekly RiskPro holders interest | 
+| _stableTmin | uint256 |  | 
+| _stablePower | uint256 |  | 
+| _stableTmax | uint256 |  | 
 

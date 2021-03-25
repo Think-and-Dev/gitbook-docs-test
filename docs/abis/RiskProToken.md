@@ -1,16 +1,16 @@
 ---
-id: version-0.1.10-BProToken
-title: BProToken
-original_id: BProToken
+id: version-0.1.10-RiskProToken
+title: RiskProToken
+original_id: RiskProToken
 ---
 
-# BProToken.sol
+# RiskProToken.sol
 
-View Source: [contracts/token/BProToken.sol](../contracts/token/BProToken.sol)
+View Source: [contracts/token/RiskProToken.sol](../../contracts/token/RiskProToken.sol)
 
 **↗ Extends: [ERC20Detailed](ERC20Detailed.md), [ERC20Pausable](ERC20Pausable.md), [OwnerBurnableToken](OwnerBurnableToken.md)**
 
-**BProToken** - version: 0.1.10
+**RiskProToken** - version: 0.1.10
 
 ## Contract Members
 **Constants & Variables**

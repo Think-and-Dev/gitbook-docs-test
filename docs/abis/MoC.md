@@ -6,9 +6,9 @@ original_id: MoC
 
 # MoC.sol
 
-View Source: [contracts/MoC.sol](../contracts/MoC.sol)
+View Source: [contracts/MoC.sol](../../contracts/MoC.sol)
 
-**↗ Extends: [MoCEvents](MoCEvents.md), [MoCLibConnection](MoCLibConnection.md), [MoCBase](MoCBase.md), [Stoppable](Stoppable.md)**
+**↗ Extends: [MoCEvents](MoCEvents.md), [MoCReserve](MoCReserve.md), [MoCLibConnection](MoCLibConnection.md), [MoCBase](MoCBase.md), [Stoppable](Stoppable.md)**
 
 **MoC** - version: 0.1.10
 
@@ -17,9 +17,9 @@ View Source: [contracts/MoC.sol](../contracts/MoC.sol)
 
 ```js
 //internal members
-contract DocToken internal docToken;
-contract BProToken internal bproToken;
-contract MoCBProxManager internal bproxManager;
+contract StableToken internal stableToken;
+contract RiskProToken internal riskProToken;
+contract MoCRiskProxManager internal riskProxManager;
 contract MoCState internal mocState;
 contract MoCConverter internal mocConverter;
 contract MoCSettlement internal settlement;
@@ -161,61 +161,49 @@ modifier transitionState() internal
 
 ## Functions
 
-- [()](#)
 - [initialize(address connectorAddress, address governorAddress, address stopperAddress, bool startStoppable)](#initialize)
-- [bproxBalanceOf(bytes32 bucket, address account)](#bproxbalanceof)
+- [riskProxBalanceOf(bytes32 bucket, address account)](#riskproxbalanceof)
 - [getRedeemRequestAt(uint256 index)](#getredeemrequestat)
 - [redeemQueueSize()](#redeemqueuesize)
-- [docAmountToRedeem(address redeemer)](#docamounttoredeem)
-- [redeemDocRequest(uint256 docAmount)](#redeemdocrequest)
+- [stableTokenAmountToRedeem(address redeemer)](#stabletokenamounttoredeem)
+- [redeemStableTokenRequest(uint256 stableTokenAmount)](#redeemstabletokenrequest)
 - [alterRedeemRequestAmount(bool isAddition, uint256 delta)](#alterredeemrequestamount)
-- [mintBPro(uint256 btcToMint)](#mintbpro)
-- [mintBProVendors(uint256 btcToMint, address vendorAccount)](#mintbprovendors)
-- [redeemBPro(uint256 bproAmount)](#redeembpro)
-- [redeemBProVendors(uint256 bproAmount, address vendorAccount)](#redeembprovendors)
-- [mintDoc(uint256 btcToMint)](#mintdoc)
-- [mintDocVendors(uint256 btcToMint, address vendorAccount)](#mintdocvendors)
-- [redeemBProx(bytes32 bucket, uint256 bproxAmount)](#redeembprox)
-- [redeemBProxVendors(bytes32 bucket, uint256 bproxAmount, address vendorAccount)](#redeembproxvendors)
-- [mintBProx(bytes32 bucket, uint256 btcToMint)](#mintbprox)
-- [mintBProxVendors(bytes32 bucket, uint256 btcToMint, address vendorAccount)](#mintbproxvendors)
-- [redeemFreeDoc(uint256 docAmount)](#redeemfreedoc)
-- [redeemFreeDocVendors(uint256 docAmount, address vendorAccount)](#redeemfreedocvendors)
-- [redeemAllDoc()](#redeemalldoc)
+- [addReserves(uint256 tokenAmount)](#addreserves)
+- [mintRiskPro(uint256 resTokensToMint)](#mintriskpro)
+- [mintRiskProVendors(uint256 resTokensToMint, address vendorAccount)](#mintriskprovendors)
+- [redeemRiskPro(uint256 riskProAmount)](#redeemriskpro)
+- [redeemRiskProVendors(uint256 riskProAmount, address vendorAccount)](#redeemriskprovendors)
+- [mintStableToken(uint256 resTokensToMint)](#mintstabletoken)
+- [mintStableTokenVendors(uint256 resTokensToMint, address vendorAccount)](#mintstabletokenvendors)
+- [redeemRiskProx(bytes32 bucket, uint256 riskProxAmount)](#redeemriskprox)
+- [redeemRiskProxVendors(bytes32 bucket, uint256 riskProxAmount, address vendorAccount)](#redeemriskproxvendors)
+- [mintRiskProx(bytes32 bucket, uint256 resTokensToMint)](#mintriskprox)
+- [mintRiskProxVendors(bytes32 bucket, uint256 resTokensToMint, address vendorAccount)](#mintriskproxvendors)
+- [redeemFreeStableToken(uint256 stableTokenAmount)](#redeemfreestabletoken)
+- [redeemFreeStableTokenVendors(uint256 stableTokenAmount, address vendorAccount)](#redeemfreestabletokenvendors)
+- [redeemAllStableToken()](#redeemallstabletoken)
 - [dailyInratePayment()](#dailyinratepayment)
-- [payBitProHoldersInterestPayment()](#paybitproholdersinterestpayment)
-- [calculateBitProHoldersInterest()](#calculatebitproholdersinterest)
-- [getBitProInterestAddress()](#getbitprointerestaddress)
-- [getBitProRate()](#getbitprorate)
-- [getBitProInterestBlockSpan()](#getbitprointerestblockspan)
+- [payRiskProHoldersInterestPayment()](#payriskproholdersinterestpayment)
+- [calculateRiskProHoldersInterest()](#calculateriskproholdersinterest)
+- [getRiskProInterestAddress()](#getriskprointerestaddress)
+- [getRiskProRate()](#getriskprorate)
+- [getRiskProInterestBlockSpan()](#getriskprointerestblockspan)
 - [isDailyEnabled()](#isdailyenabled)
-- [isBitProInterestEnabled()](#isbitprointerestenabled)
+- [isRiskProInterestEnabled()](#isriskprointerestenabled)
 - [isSettlementEnabled()](#issettlementenabled)
 - [isBucketLiquidationReached(bytes32 bucket)](#isbucketliquidationreached)
 - [evalBucketLiquidation(bytes32 bucket)](#evalbucketliquidation)
 - [evalLiquidation()](#evalliquidation)
 - [runSettlement(uint256 steps)](#runsettlement)
-- [sendToAddress(address payable receiver, uint256 btcAmount)](#sendtoaddress)
+- [sendToAddress(address receiver, uint256 tokenAmount)](#sendtoaddress)
 - [liquidate()](#liquidate)
-- [transferCommissions(address payable sender, uint256 value, uint256 totalBtcSpent, uint256 btcCommission, uint256 mocCommission, address vendorAccount, uint256 btcMarkup, uint256 mocMarkup)](#transfercommissions)
+- [transferCommissions(address sender, uint256 totalResTokensSpent, uint256 reserveTokenCommission, uint256 mocCommission, address vendorAccount, uint256 reserveTokenMarkup, uint256 mocMarkup)](#transfercommissions)
 - [transferMocCommission(address sender, uint256 mocCommission, address vendorAccount, uint256 mocMarkup, uint256 totalMoCFee)](#transfermoccommission)
-- [redeemWithMoCFees(address sender, uint256 btcCommission, uint256 mocCommission, address vendorAccount, uint256 btcMarkup, uint256 mocMarkup)](#redeemwithmocfees)
-- [transferBtcCommission(address payable vendorAccount, uint256 btcCommission, uint256 btcMarkup)](#transferbtccommission)
-- [doTransfer(address payable receiver, uint256 btcAmount)](#dotransfer)
-- [doSend(address payable receiver, uint256 btcAmount)](#dosend)
-
-### 
-
-Fallback function
-
-```js
-function () external payable whenNotPaused transitionState 
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
+- [redeemWithMoCFees(address sender, uint256 reserveTokenCommission, uint256 mocCommission, address vendorAccount, uint256 reserveTokenMarkup, uint256 mocMarkup)](#redeemwithmocfees)
+- [transferReserveTokenCommission(address vendorAccount, uint256 reserveTokenCommission, uint256 reserveTokenMarkup)](#transferreservetokencommission)
+- [withdrawFromReserve(address receiver, uint256 tokenAmount)](#withdrawfromreserve)
+- [safeWithdrawFromReserve(address receiver, uint256 tokenAmount)](#safewithdrawfromreserve)
+- [safeDepositInReserve(address receiver, uint256 tokenAmount)](#safedepositinreserve)
 
 ### initialize
 
@@ -234,18 +222,18 @@ function initialize(address connectorAddress, address governorAddress, address s
 | stopperAddress | address | Stopper contract address | 
 | startStoppable | bool | Indicates if the contract starts being unstoppable or not | 
 
-### bproxBalanceOf
+### riskProxBalanceOf
 
-Gets the BProx balance of an address
+Gets the RiskProx balance of an address
 
 ```js
-function bproxBalanceOf(bytes32 bucket, address account) public view
+function riskProxBalanceOf(bytes32 bucket, address account) public view
 returns(uint256)
 ```
 
 **Returns**
 
-BProx balance of the address
+RiskProx balance of the address
 
 **Arguments**
 
@@ -291,12 +279,12 @@ redeem queue size
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### docAmountToRedeem
+### stableTokenAmountToRedeem
 
-Returns the total amount of Docs in the redeem queue for redeemer
+Returns the total amount of StableTokens in the redeem queue for redeemer
 
 ```js
-function docAmountToRedeem(address redeemer) public view
+function stableTokenAmountToRedeem(address redeemer) public view
 returns(uint256)
 ```
 
@@ -310,19 +298,19 @@ total amount of Docs in the redeem queue for redeemer
 | ------------- |------------- | -----|
 | redeemer | address | address for which ^ is computed | 
 
-### redeemDocRequest
+### redeemStableTokenRequest
 
-Creates or updates the amount of a Doc redeem Request from the msg.sender
+Creates or updates the amount of a StableToken redeem Request from the msg.sender
 
 ```js
-function redeemDocRequest(uint256 docAmount) public nonpayable whenNotPaused whenSettlementReady 
+function redeemStableTokenRequest(uint256 stableTokenAmount) public nonpayable whenNotPaused whenSettlementReady 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docAmount | uint256 | Amount of Docs to redeem on settlement [using mocPrecision] | 
+| stableTokenAmount | uint256 | Amount of StableTokens to redeem on settlement [using mocPrecision] | 
 
 ### alterRedeemRequestAmount
 
@@ -339,99 +327,114 @@ function alterRedeemRequestAmount(bool isAddition, uint256 delta) public nonpaya
 | isAddition | bool | true if adding amount to redeem, false to substract. | 
 | delta | uint256 | the amount to add/substract to current position | 
 
-### mintBPro
+### addReserves
 
-Mints BPRO and pays the comissions of the operation (retrocompatible function).
+Adding tokens to the token reserve and C0 Bucket without minting any token.
+Could revert.
 
 ```js
-function mintBPro(uint256 btcToMint) public payable
+function addReserves(uint256 tokenAmount) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcToMint | uint256 | Amount in BTC to mint | 
+| tokenAmount | uint256 | Amount to deposit. | 
 
-### mintBProVendors
+### mintRiskPro
 
-Mints BPRO and pays the comissions of the operation.
+Mints RiskPro and pays the comissions of the operation (retrocompatible function).
 
 ```js
-function mintBProVendors(uint256 btcToMint, address vendorAccount) public payable whenNotPaused transitionState notInProtectionMode 
+function mintRiskPro(uint256 resTokensToMint) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcToMint | uint256 | Amount in BTC to mint | 
+| resTokensToMint | uint256 | Amount in ReserveToken to mint | 
+
+### mintRiskProVendors
+
+Mints RiskPro and pays the comissions of the operation.
+
+```js
+function mintRiskProVendors(uint256 resTokensToMint, address vendorAccount) public nonpayable whenNotPaused transitionState notInProtectionMode 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| resTokensToMint | uint256 | Amount Reserve Tokens to spend in minting | 
 | vendorAccount | address | Vendor address | 
 
-### redeemBPro
+### redeemRiskPro
 
-Redeems Bpro Tokens and pays the comissions of the operation (retrocompatible function).
+Redeems RiskPro Tokens and pays the comissions of the operation (retrocompatible function).
 
 ```js
-function redeemBPro(uint256 bproAmount) public nonpayable
+function redeemRiskPro(uint256 riskProAmount) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bproAmount | uint256 | Amount in Bpro | 
+| riskProAmount | uint256 | Amout in RiskPro | 
 
-### redeemBProVendors
+### redeemRiskProVendors
 
-Redeems Bpro Tokens and pays the comissions of the operation
+Redeems RiskPro Tokens and pays the comissions of the operation in ReserveTokens
 
 ```js
-function redeemBProVendors(uint256 bproAmount, address vendorAccount) public nonpayable whenNotPaused transitionState atLeastState 
+function redeemRiskProVendors(uint256 riskProAmount, address vendorAccount) public nonpayable whenNotPaused transitionState atLeastState 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| bproAmount | uint256 | Amount in Bpro | 
+| riskProAmount | uint256 | Amout in RiskPro | 
 | vendorAccount | address | Vendor address | 
 
-### mintDoc
+### mintStableToken
 
-Mint Doc tokens and pays the commisions of the operation (retrocompatible function).
+StableToken Doc tokens and pays the commisions of the operation (retrocompatible function).
 
 ```js
-function mintDoc(uint256 btcToMint) public payable
+function mintStableToken(uint256 resTokensToMint) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcToMint | uint256 | Amount in RBTC to mint | 
+| resTokensToMint | uint256 | Amount in ReserveToken to mint | 
 
-### mintDocVendors
+### mintStableTokenVendors
 
-Mint Doc tokens and pays the commisions of the operation
+Mint StableToken tokens and pays the commisions of the operation
 
 ```js
-function mintDocVendors(uint256 btcToMint, address vendorAccount) public payable whenNotPaused transitionState atLeastState 
+function mintStableTokenVendors(uint256 resTokensToMint, address vendorAccount) public nonpayable whenNotPaused transitionState atLeastState 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| btcToMint | uint256 | Amount in RBTC to mint | 
+| resTokensToMint | uint256 | Amount in ReserveTokens to mint | 
 | vendorAccount | address | Vendor address | 
 
-### redeemBProx
+### redeemRiskProx
 
-Redeems Bprox Tokens and pays the comissions of the operation in RBTC (retrocompatible function).
+Redeems RiskProx Tokens and pays the comissions of the operation in ReserveToken (retrocompatible function).
 
 ```js
-function redeemBProx(bytes32 bucket, uint256 bproxAmount) public nonpayable
+function redeemRiskProx(bytes32 bucket, uint256 riskProxAmount) public nonpayable
 ```
 
 **Arguments**
@@ -439,14 +442,14 @@ function redeemBProx(bytes32 bucket, uint256 bproxAmount) public nonpayable
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Bucket to reedem, for example X2 | 
-| bproxAmount | uint256 | Amount in Bprox | 
+| riskProxAmount | uint256 | Amount in RiskProx | 
 
-### redeemBProxVendors
+### redeemRiskProxVendors
 
-Redeems Bprox Tokens and pays the comissions of the operation in RBTC
+Redeems RiskProx Tokens and pays the comissions of the operation in ReserveTokens
 
 ```js
-function redeemBProxVendors(bytes32 bucket, uint256 bproxAmount, address vendorAccount) public nonpayable whenNotPaused whenSettlementReady availableBucket notBaseBucket transitionState bucketStateTransition 
+function redeemRiskProxVendors(bytes32 bucket, uint256 riskProxAmount, address vendorAccount) public nonpayable whenNotPaused whenSettlementReady availableBucket notBaseBucket transitionState bucketStateTransition 
 ```
 
 **Arguments**
@@ -454,15 +457,15 @@ function redeemBProxVendors(bytes32 bucket, uint256 bproxAmount, address vendorA
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Bucket to reedem, for example X2 | 
-| bproxAmount | uint256 | Amount in Bprox | 
+| riskProxAmount | uint256 | Amount in RiskProx | 
 | vendorAccount | address | Vendor address | 
 
-### mintBProx
+### mintRiskProx
 
-BUCKET bprox minting (retrocompatible function).
+BUCKET riskProx riskProx (retrocompatible function).
 
 ```js
-function mintBProx(bytes32 bucket, uint256 btcToMint) public payable
+function mintRiskProx(bytes32 bucket, uint256 resTokensToMint) public nonpayable
 ```
 
 **Arguments**
@@ -470,14 +473,14 @@ function mintBProx(bytes32 bucket, uint256 btcToMint) public payable
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
-| btcToMint | uint256 | amount to mint on RBTC | 
+| resTokensToMint | uint256 | amount to mint on ReserveToken | 
 
-### mintBProxVendors
+### mintRiskProxVendors
 
-BUCKET bprox minting
+BUCKET riskProx minting
 
 ```js
-function mintBProxVendors(bytes32 bucket, uint256 btcToMint, address vendorAccount) public payable whenNotPaused whenSettlementReady availableBucket notBaseBucket transitionState bucketStateTransition 
+function mintRiskProxVendors(bytes32 bucket, uint256 resTokensToMint, address vendorAccount) public nonpayable whenNotPaused whenSettlementReady availableBucket notBaseBucket transitionState bucketStateTransition 
 ```
 
 **Arguments**
@@ -485,45 +488,45 @@ function mintBProxVendors(bytes32 bucket, uint256 btcToMint, address vendorAccou
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | bucket | bytes32 | Name of the bucket used | 
-| btcToMint | uint256 | amount to mint on RBTC | 
+| resTokensToMint | uint256 | amount to mint on ReserveToken | 
 | vendorAccount | address | Vendor address | 
 
-### redeemFreeDoc
+### redeemFreeStableToken
 
-Redeems the requested amount for the msg.sender, or the max amount of free docs possible (retrocompatible function).
+Redeems the requested amount for the msg.sender, or the max amount of free stableTokens possible (retrocompatible function).
 
 ```js
-function redeemFreeDoc(uint256 docAmount) public nonpayable
+function redeemFreeStableToken(uint256 stableTokenAmount) public nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docAmount | uint256 | Amount of Docs to redeem. | 
+| stableTokenAmount | uint256 | Amount of StableTokens to redeem. | 
 
-### redeemFreeDocVendors
+### redeemFreeStableTokenVendors
 
-Redeems the requested amount for the msg.sender, or the max amount of free docs possible.
+Redeems the requested amount for the msg.sender, or the max amount of free stableTokens possible.
 
 ```js
-function redeemFreeDocVendors(uint256 docAmount, address vendorAccount) public nonpayable whenNotPaused transitionState notInProtectionMode 
+function redeemFreeStableTokenVendors(uint256 stableTokenAmount, address vendorAccount) public nonpayable whenNotPaused transitionState notInProtectionMode 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| docAmount | uint256 | Amount of Docs to redeem. | 
+| stableTokenAmount | uint256 | Amount of StableTokens to redeem. | 
 | vendorAccount | address | Vendor address | 
 
-### redeemAllDoc
+### redeemAllStableToken
 
-Allow redeem on liquidation state, user DoCs get burned and he receives
-the equivalent BTCs if can be covered, or the maximum available
+Allow redeem on liquidation state, user StableTokens get burned and he receives
+the equivalent ReserveTokens if can be covered, or the maximum available*
 
 ```js
-function redeemAllDoc() public nonpayable atState 
+function redeemAllStableToken() public nonpayable atState 
 ```
 
 **Arguments**
@@ -544,13 +547,13 @@ function dailyInratePayment() public nonpayable whenNotPaused
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### payBitProHoldersInterestPayment
+### payRiskProHoldersInterestPayment
 
-Pays the BitPro interest and transfers it to the address mocInrate.bitProInterestAddress
-BitPro interests = Nb (bucket 0) * bitProRate.
+Pays the RiskPro interest and transfers it to the address mocInrate.riskProInterestAddress
+RiskPro interests = Nb (bucket 0) * riskProRate.
 
 ```js
-function payBitProHoldersInterestPayment() public nonpayable whenNotPaused 
+function payRiskProHoldersInterestPayment() public nonpayable whenNotPaused 
 ```
 
 **Arguments**
@@ -558,13 +561,13 @@ function payBitProHoldersInterestPayment() public nonpayable whenNotPaused
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### calculateBitProHoldersInterest
+### calculateRiskProHoldersInterest
 
-Calculates BitPro holders holder interest by taking the total amount of RBTCs available on Bucket 0.
-BitPro interests = Nb (bucket 0) * bitProRate.
+Calculates RiskPro holders holder interest by taking the total amount of RBCs available on Bucket 0.
+RiskPro interests = Nb (bucket 0) * riskProRate.
 
 ```js
-function calculateBitProHoldersInterest() public view
+function calculateRiskProHoldersInterest() public view
 returns(uint256, uint256)
 ```
 
@@ -573,48 +576,48 @@ returns(uint256, uint256)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBitProInterestAddress
+### getRiskProInterestAddress
 
-Gets the target address to transfer BitPro Holders rate
+Gets the target address to transfer RiskPro Holders rate
 
 ```js
-function getBitProInterestAddress() public view
-returns(address payable)
+function getRiskProInterestAddress() public view
+returns(address)
 ```
 
 **Returns**
 
-Target address to transfer BitPro Holders interest
+Target address to transfer RiskPro Holders interest
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBitProRate
+### getRiskProRate
 
-Gets the rate for BitPro Holders
+Gets the rate for RiskPro Holders
 
 ```js
-function getBitProRate() public view
+function getRiskProRate() public view
 returns(uint256)
 ```
 
 **Returns**
 
-BitPro Rate
+RiskPro Rate
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### getBitProInterestBlockSpan
+### getRiskProInterestBlockSpan
 
-Gets the blockspan of BPRO that represents the frecuency of BitPro holders interest payment
+Gets the blockspan of RiskPro that represents the frecuency of RiskPro holders interest payment
 
 ```js
-function getBitProInterestBlockSpan() public view
+function getRiskProInterestBlockSpan() public view
 returns(uint256)
 ```
 
@@ -639,10 +642,10 @@ returns(bool)
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 
-### isBitProInterestEnabled
+### isRiskProInterestEnabled
 
 ```js
-function isBitProInterestEnabled() public view
+function isRiskProInterestEnabled() public view
 returns(bool)
 ```
 
@@ -729,23 +732,23 @@ function runSettlement(uint256 steps) public nonpayable whenNotPaused transition
 
 ### sendToAddress
 
-Send RBTC to a user and update RbtcInSystem in MoCState
+Public function to extract and send tokens from the reserve. Will return false if transfer reverts or fails.
 
 ```js
-function sendToAddress(address payable receiver, uint256 btcAmount) public nonpayable onlyWhitelisted 
+function sendToAddress(address receiver, uint256 tokenAmount) public nonpayable onlyWhitelisted 
 returns(bool)
 ```
 
 **Returns**
 
-result of the transaction
+False if RRC20 transfer fails or revert and true if succeeds*
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| receiver | address payable | address of receiver | 
-| btcAmount | uint256 | amount to transfer | 
+| receiver | address | Account to which the tokens will be send | 
+| tokenAmount | uint256 | Amount of tokens to send | 
 
 ### liquidate
 
@@ -763,20 +766,19 @@ function liquidate() internal nonpayable
 Transfer mint operation fees (commissions + vendor markup)
 
 ```js
-function transferCommissions(address payable sender, uint256 value, uint256 totalBtcSpent, uint256 btcCommission, uint256 mocCommission, address vendorAccount, uint256 btcMarkup, uint256 mocMarkup) internal nonpayable
+function transferCommissions(address sender, uint256 totalResTokensSpent, uint256 reserveTokenCommission, uint256 mocCommission, address vendorAccount, uint256 reserveTokenMarkup, uint256 mocMarkup) internal nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| sender | address payable | address of msg.sender | 
-| value | uint256 | amount of msg.value | 
-| totalBtcSpent | uint256 | amount in RBTC spent | 
-| btcCommission | uint256 | commission amount in RBTC | 
+| sender | address | address of msg.sender | 
+| totalResTokensSpent | uint256 | amount in ReserveToken spent | 
+| reserveTokenCommission | uint256 | commission amount in ReserveToken | 
 | mocCommission | uint256 | commission amount in MoC | 
 | vendorAccount | address | address of vendor | 
-| btcMarkup | uint256 | vendor markup in RBTC | 
+| reserveTokenMarkup | uint256 | vendor markup in ReserveToken | 
 | mocMarkup | uint256 | vendor markup in MoC | 
 
 ### transferMocCommission
@@ -802,7 +804,7 @@ function transferMocCommission(address sender, uint256 mocCommission, address ve
 Transfer redeem operation fees (commissions + vendor markup)
 
 ```js
-function redeemWithMoCFees(address sender, uint256 btcCommission, uint256 mocCommission, address vendorAccount, uint256 btcMarkup, uint256 mocMarkup) internal nonpayable
+function redeemWithMoCFees(address sender, uint256 reserveTokenCommission, uint256 mocCommission, address vendorAccount, uint256 reserveTokenMarkup, uint256 mocMarkup) internal nonpayable
 ```
 
 **Arguments**
@@ -810,60 +812,75 @@ function redeemWithMoCFees(address sender, uint256 btcCommission, uint256 mocCom
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
 | sender | address | address of msg.sender | 
-| btcCommission | uint256 | commission amount in RBTC | 
+| reserveTokenCommission | uint256 | commission amount in ReserveToken | 
 | mocCommission | uint256 | commission amount in MoC | 
 | vendorAccount | address | address of vendor | 
-| btcMarkup | uint256 | vendor markup in RBTC | 
+| reserveTokenMarkup | uint256 | vendor markup in ReserveToken | 
 | mocMarkup | uint256 | vendor markup in MoC | 
 
-### transferBtcCommission
+### transferReserveTokenCommission
 
-Transfer operation fees in RBTC (commissions + vendor markup)
+Transfer operation fees in ReserveToken (commissions + vendor markup)
 
 ```js
-function transferBtcCommission(address payable vendorAccount, uint256 btcCommission, uint256 btcMarkup) internal nonpayable
+function transferReserveTokenCommission(address vendorAccount, uint256 reserveTokenCommission, uint256 reserveTokenMarkup) internal nonpayable
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| vendorAccount | address payable | address of vendor | 
-| btcCommission | uint256 | commission amount in RBTC | 
-| btcMarkup | uint256 | vendor markup in RBTC | 
+| vendorAccount | address | address of vendor | 
+| reserveTokenCommission | uint256 | commission amount in ReserveToken | 
+| reserveTokenMarkup | uint256 | vendor markup in ReserveToken | 
 
-### doTransfer
+### withdrawFromReserve
 
-Transfer using transfer function and updates global RBTC register in MoCState
-
-```js
-function doTransfer(address payable receiver, uint256 btcAmount) private nonpayable
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| receiver | address payable | address of receiver | 
-| btcAmount | uint256 | amount in RBTC | 
-
-### doSend
-
-Transfer using send function and updates global RBTC register in MoCState
+Extracts tokens from the reserve and update mocState
 
 ```js
-function doSend(address payable receiver, uint256 btcAmount) private nonpayable
+function withdrawFromReserve(address receiver, uint256 tokenAmount) internal nonpayable
 returns(bool)
 ```
 
 **Returns**
 
-Execution result
+False if RRC20 transfer fails or revert and true if succeeds
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| receiver | address payable | address of receiver | 
-| btcAmount | uint256 | amount in RBTC | 
+| receiver | address | Account to which the tokens will be send | 
+| tokenAmount | uint256 | Amount to extract from reserve | 
+
+### safeWithdrawFromReserve
+
+Extracts tokens from the reserve and update mocState but reverts if token transfer fails
+
+```js
+function safeWithdrawFromReserve(address receiver, uint256 tokenAmount) internal nonpayable
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| receiver | address | Account to which the tokens will be send | 
+| tokenAmount | uint256 | Amount to extract from reserve | 
+
+### safeDepositInReserve
+
+Extracts tokens from the reserve and update mocState
+
+```js
+function safeDepositInReserve(address receiver, uint256 tokenAmount) private nonpayable
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| receiver | address | Account from which the tokens will be taken | 
+| tokenAmount | uint256 | Amount to deposit | 
 
