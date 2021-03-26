@@ -6,14 +6,14 @@ Money on Chain contracts are executed on the RSK blockchain whose public nodes a
 
 - URL: https://public-node.testnet.rsk.co
 - chainID: 31
-- Cryptocurrency symbol: RBTC
+- Cryptocurrency symbol: RIF
 - Explorer: https://explorer.testnet.rsk.co/
 
 ## Public node: RSK Mainnet
 
 - URL: https://public-node.rsk.co
 - chainID: 30
-- Cryptocurrency symbol: RBTC
+- Cryptocurrency symbol: RIF
 - Explorer: https://explorer.rsk.co/
 
 ## Truffle config: truffle.js

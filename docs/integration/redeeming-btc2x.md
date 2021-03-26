@@ -1,18 +1,19 @@
-# Redeeming BTC2X
+# Redeeming RIF2X
 
-The Money On Chain's Smart Contract suite is in control of redeeming its tokens, including the BTC2X token. This means that the return of BTC2X is controlled programmatically by said suite. ​A user can "sell" their BTC2X back to the contract and have RBTC deposited are sent back to the user, alongside the refunded interests (waiting in inrateBag) for the remaining time until the settlement (not yet charged).
+The Money On Chain's Smart Contract suite is in control of redeeming its tokens, including the RIF2X token. This means that the return of RIF2X is controlled programmatically by said suite. ​A user can "sell" their RIF2X back to the contract and have RIF deposited are sent back to the user, alongside the refunded interests (waiting in inrateBag) for the remaining time until the settlement (not yet charged).
 
-In this tutorial the method (or function) that is of interest to us is `function redeemBProxVendors(bytes32 bucket, uint256 bproxAmount, address vendorAccount) public`
+In this tutorial the method (or function) that is of interest to us is `function redeemRiskProxVendors(bytes32 bucket, uint256 riskProxAmount, address vendorAccount) public`.
 
-NOTE: there is a retrocompatibility function called `function redeemBProx(bytes32 bucket, uint256 bproxAmount)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+NOTE: there is a retrocompatibility function called `function redeemRiskProx(bytes32 bucket, uint256 riskProxAmount)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+
 
 ## Parameters of the operation
 
 ### The bucket parameter
 
-A bucket is a bag that stores the balances of the leveraged token holders. Currently, only the BTC2X bucket called _X2_ exists. The X2 must be passed as an hex value.
+A bucket is a bag that stores the balances of the leveraged token holders. Currently, only the RIF2X bucket called _X2_ exists. The X2 must be passed as an hex value.
 
-There is also a bucket named _C0_ but it should not be used to mint and redeem BTC2X.
+There is also a bucket named _C0_ but it should not be used to mint and redeem RIF2X.
 
 In the following example you can see how to do it with javascript and the web3 library. For more detailed information about web3 you can read the [From outside the blockchain](from-outside-the-blockchain.md) section.
 
@@ -20,9 +21,9 @@ In the following example you can see how to do it with javascript and the web3 l
 const BUCKET_X2 = web3.utils.asciiToHex('X2', 32);
 ```
 
-### The bproxAmount parameter
+### The riskProxAmount parameter
 
-It is the amount that the contract will use to redeem BTC2X and will be used to calculate commissions. All of these funds will be transformed exclusively into RBTC.
+It is the amount that the contract will use to redeem RIF2X and will be used to calculate commissions. All of these funds will be transformed exclusively into RIF.
 This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and is defined in **MoCLibConnection** contract.
 
 ### The vendorAccount parameter
@@ -32,14 +33,14 @@ It is the address of the vendor who will receive a [markup](vendors.md#markup) f
 
 The redeeming process is divided into 5 parts:
 
-The first part transforms the amount **bproxAmount** into an RBTC amount, but 2 things can happen:
+The first part transforms the amount **riskProxAmount** into an RIF amount, but 2 things can happen:
 
-- The amount entered in bproAmount must not exceed the user's balance in BPROs. If this occurs then the user’s balance will be used to calculate the value in RBTC.
+- The amount entered in riskProAmount must not exceed the user's balance in RIFPros. If this occurs then the user’s balance will be used to calculate the value in RIF.
 
 ```js
-userBalance = bproxBalanceOf(bucket, user);
-bproxToRedeem = Math.min(bproxAmount, userBalance);
-rbtcToRedeem = bproxToBtc(bproxToRedeem, bucket);
+userBalance = riskProxBalanceOf(bucket, user);
+riskProxToRedeem = Math.min(riskProxAmount, userBalance);
+rifToRedeem = riskProxToResToken(riskProxToRedeem, bucket);
 ```
 
 The second part computes interests to be paid to the user.
@@ -48,13 +49,13 @@ The third part will be used to pay the commission, this part is a percentage of 
 
 The fourth part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
 
-The fifth part returns the amount in RBTC adding the computed interest and discounting the previously calculated commissions (if paid in RBTC).
+The fifth part returns the amount in RIF adding the computed interest and discounting the previously calculated commissions (if paid in RIF).
 
 All the needed calculations for the third and fourth parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 
-These two values are a parameter of the transaction, this is not used in the contract and is generally managed by your wallet (you should read about them if you are developing and do not know exactly what they are), but you should take them into account when trying to redeem some BTC2X.
+These two values are a parameter of the transaction, this is not used in the contract and is generally managed by your wallet (you should read about them if you are developing and do not know exactly what they are), but you should take them into account when trying to redeem some RIF2X.
 
 ## Possible failures
 
@@ -62,12 +63,13 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The MoC contract is liquidated:
 
-In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more BTC2X will be available for redeeming.
-To know if the contract is liquidated you can ask the **MocState** for the **state**, this will return a 0 if liquidated(it is actually an enum).
+In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more RIF2X will be available for redeeming.
+To know if the contract is liquidated you can ask the **MocState** for the **state**, this will return a 0 if liquidated (it is actually an enum).
 
 ### The MoC contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppable contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol). In that state, the contract doesn't allow minting any type of token.
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. You can get more information about stoppable contracts [here](https://github.com/money-on-chain/Areopagus-Governance/blob/develop/contracts/Stopper/Stoppable.sol)
+In that state, the contract doesn't allow minting any type of token.
 
 To know if this is the case you can ask to **MoC** if it's **paused()**.
 
@@ -77,15 +79,15 @@ The function can only be invoked when the Settlement has finished executing. If 
 
 ### Bucket is not available:
 
-Currently, only the BTC2X bucket called 'X2' exists. If it is called with another bucket, the transaction reverts with the error message: _Bucket is not available_.
+Currently, only the RIF2X bucket called 'X2' exists. If it is called with another bucket, the transaction reverts with the error message: _Bucket is not available_.
 
 ### Bucket is not a base bucket:
 
-Currently, only the BTC2X bucket called 'X2' exists. If you call the function with _C0_ bucket, the transaction reverts with the error message: _Bucket should not be a base type bucket_.
+Currently, only the RIF2X bucket called 'X2' exists. If you call the function with _C0_ bucket, the transaction reverts with the error message: _Bucket should not be a base type bucket_.
 
 ### Not enough gas:
 
-If the gas limit sent is not enough to run all the code needed to execute the transaction, the transaction will revert(again, returning all your funds except the fee paid to the network). This may return an "out of gas" error or simply a "revert" error because of the usage of the proxy pattern.
+If the gas limit sent is not enough to run all the code needed to execute the transaction, the transaction will revert (again, returning all your funds except the fee paid to the network). This may return an "out of gas" error or simply a "revert" error because of the usage of the proxy pattern.
 
 ## How-to
 
@@ -101,10 +103,10 @@ Assuming you already have your project up and running (if you don't, please foll
 ​
 
 ```
-npm install --save -E git+https://git@github.com/money-on-chain/main-RBTC-contract.git
+npm install --save -E git+https://git@github.com/money-on-chain/RDOC-Contract.git
 ```
 
-Having done that lets you use our contract as a dependency to your contract. For this let's suppose you are doing some kind of contract that when executing a certain task charges a fixed commission. Now let's suppose that the commission is sent in RBTCs because it is easier for the user but actually you want some BitPros. The good news is that you can do this instantly just by minting them. The code necessary to do this is actually pretty simple.
+Having done that lets you use our contract as a dependency to your contract. For this let's suppose you are doing some kind of contract that when executing a certain task charges a fixed commission. Now let's suppose that the commission is sent in RIFs because it is easier for the user but actually you want some RIFPros. The good news is that you can do this instantly just by minting them. The code necessary to do this is actually pretty simple.
 ​
 You just have to import the contract
 ​
@@ -121,13 +123,13 @@ constructor (MoC _mocContract, address vendorAccount, rest of your params...) {
 }
 ```
 
-​and, finally, redeem some BTC2X for RBTCs
+​and, finally, redeem some RIF2X for RIF
 ​
 
 ```js
-uint256 bproxAmountToRedeem = 2;
+uint256 riskProxAmountToRedeem = 2;
 bytes32 constant public BUCKET_X2 = "X2";
-moc.redeemBProx.(BUCKET_X2, bproxAmountToRedeem, vendorAccount);
+moc.redeemBProxVendors(BUCKET_X2, riskProxAmountToRedeem, vendorAccount);
 ```
 ​
 You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before
@@ -142,27 +144,30 @@ pragma solidity 0.5.8;
 import "money-on-chain/contracts/MoC.sol";
 // Here you will import your own dependencies
 ​
-contract YourRedeemingBtc2xContract {
+contract YourRedeemingRiskProxContract {
     // Address of the MoC contract
     MoC public moc;
+    // Address of the RIF token
+    IERC20 public rif;
     // Define a constant to call bucket X2
 ​    bytes32 constant public BUCKET_X2 = "X2";
     // Address that will receive the markup
     address public vendorAccount;
     // rest of your variables
 
-    constructor (MoC _moc, address _vendorAccount) public {
+    constructor (MoC _moc, IERC20 _rif, address _vendorAccount) public {
         moc = _moc;
+        rif = _rif;
         vendorAccount = _vendorAccount;
         // You could have more variables to initialize here
     }
 ​
-    function doTask(uint256 _bproxAmount) public {
-        uint256 prevRbtcBalance = moc.bproxBalanceOf(BUCKET_X2, msg.sender);
-        // Mint some new BTC2X
-        moc.redeemBProx.(BUCKET_X2, _bproxAmount, vendorAccount);
-        uint256 newRbtcBalance = moc.bproxBalanceOf(BUCKET_X2, msg.sender);
-        // Rest of the function to actually perform the task
+    function doTask(uint256 _riskProxAmount) public {
+        uint256 previousBalance = moc.riskProxBalanceOf(BUCKET_X2, msg.sender);
+        uint256 previousRifBalance = rif.balanceOf(msg.sender);
+        moc.redeemRiskProxVendors(BUCKET_X2, _riskProxAmount, vendorAccount);
+        uint256 newBalance = moc.riskProxBalanceOf(BUCKET_X2, msg.sender);
+        uint256 newRifBalance = rif.balanceOf(msg.sender);
     }
     // rest of your contract
 }

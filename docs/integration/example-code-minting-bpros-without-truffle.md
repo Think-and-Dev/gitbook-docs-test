@@ -1,4 +1,4 @@
-# Example code minting BPros without Truffle
+# Example code minting RIFPros without Truffle
 
 In the following example we will learn how to:
 
@@ -31,7 +31,7 @@ Now we create a new script called **mintBpro.js** with the following code:
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const BigNumber = require('bignumber.js');
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MocAbi = require('./contracts/moc/MoC.json');
 const MoCInrateAbi = require('./contracts/moc/MoCInrate.json');
 const MoCExchangeAbi = require('./contracts/moc/MoCExchange.json');
@@ -89,38 +89,38 @@ const execute = async () => {
     throw Error('Can not find MoCState contract.');
   }
 
-  const mintBpro = async (btcAmount, vendorAccount) => {
+  const mintRiskPro = async (rifAmount, vendorAccount) => {
     web3.eth.getAccounts().then(console.log);
     const from = '0x088f4B1313D161D83B4D8A5EB90905C263ce0DbD';
-    const weiAmount = web3.utils.toWei(btcAmount, 'ether');
-    let btcCommission;
+    const weiAmount = web3.utils.toWei(rifAmount, 'ether');
+    let reserveTokenCommission;
     let mocCommission;
-    let btcMarkup;
+    let reserveTokenMarkup;
     let mocMarkup;
     // Set transaction types
-    const txTypeFeesRBTC = await mocInrate.methods.MINT_BPRO_FEES_RBTC();
-    const txTypeFeesMOC = await mocInrate.methods.MINT_BPRO_FEES_MOC();
+    const txTypeFeesReserveToken = await mocInrate.methods.MINT_RISKPRO_FEES_RESERVE();
+    const txTypeFeesMOC = await mocInrate.methods.MINT_RISKPRO_FEES_MOC();
     // Compute fees
     const params = {
       account: from,
       amount: toContractBN(weiAmount).toString(),
       txTypeFeesMOC: txTypeFeesMOC.toString(),
-      txTypeFeesRBTC: txTypeFeesRBTC.toString(),
+      txTypeFeesReserveToken: txTypeFeesReserveToken.toString(),
       vendorAccount
     };
 
     ({
-      btcCommission,
+      reserveTokenCommission,
       mocCommission,
-      btcMarkup,
+      reserveTokenMarkup,
       mocMarkup
     } = await mocExchange.methods.calculateCommissionsWithPrices(params, { from }));
-    // Computes totalBtcAmount to call mintBpro. If commission is paid in RBTC, add it to value
-    const totalBtcAmount = toContract(btcCommission.plus(btcMarkup).plus(weiAmount));
-    console.log(`Calling Bpro minting with account: ${from} and amount: ${weiAmount}.`);
+    // Computes totalReserveTokenAmount to call mintRiskProVendors
+    const totalReserveTokenAmount = toContract(reserveTokenCommission.plus(reserveTokenMarkup).plus(weiAmount));
+    console.log(`Calling RiskPro minting with account: ${from} and amount: ${weiAmount}.`);
     const tx = moc.methods
-      .mintBProVendors(weiAmount, vendorAccount)
-      .send({ from, value: totalBtcAmount, gasPrice }, function(error, transactionHash) {
+      .mintRiskProVendors(weiAmount, vendorAccount)
+      .send({ from, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
       });
@@ -132,14 +132,13 @@ const execute = async () => {
     console.log('End Example');
   }
 
-  // Gets max BPRO available to mint
-  const maxBproAvailable = await mocState.methods.maxMintBProAvalaible().call();
-  console.log('Max Available BPRO: '.concat(maxBproAvailable.toString()));
-  const btcAmount = '0.00005';
-  const vendorAccount = '<vendor-address>'
+  const riskProPriceInReserveToken = await mocState.methods.riskProTecPrice().call();
+  console.log('=== RIFPRO in RIF: '.concat(riskProPriceInReserveToken.toString()));
+  const btcAmount = '0.00001';
+  const vendorAccount = '<vendor-address>';
 
   // Call mint
-  await mintBpro(btcAmount, vendorAccount, logEnd);
+  await mintRiskPro(btcAmount, vendorAccount, logEnd);
 };
 
 execute()

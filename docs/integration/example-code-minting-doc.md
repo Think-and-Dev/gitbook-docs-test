@@ -1,9 +1,9 @@
-# Example code minting DOC
+# Example code minting RDOC
 
 In the following example we will learn how to:
 
-- Get the maximum amount of DOC available to mint.
-- Mint DOCs.
+- Get the maximum amount of RDOC available to mint.
+- Mint RDOC.
 
 You can find code examples into _/examples_ dir.
 
@@ -11,8 +11,8 @@ We will use **truffle** and **testnet** network
 First we create a new node project.
 
 ```
-mkdir example-mint-doc
-cd example-mint-doc
+mkdir example-mint-rdoc
+cd example-mint-rdoc
 npm init
 ```
 
@@ -26,7 +26,7 @@ npm install --save web3
 ```js
 const BigNumber = require('bignumber.js');
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MocAbi = require('../../build/contracts/MoC.json');
 const MoCInrateAbi = require('../../build/contracts/MoCInrate.json');
 const MoCExchangeAbi = require('../../build/contracts/MoCExchange.json');
@@ -100,43 +100,43 @@ const execute = async () => {
   }
 
 
-  // Loading mocState contract. It is necessary to compute max BPRO available to mint
+  // Loading mocState contract. It is necessary to compute max RDOC available to mint
   const mocState = await getContract(MoCStateAbi.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
   }
 
-  const mintDoc = async (btcAmount, vendorAccount) => {
+  const mintRDoc = async (rifAmount, vendorAccount) => {
     const [from] = await web3.eth.getAccounts();
     const weiAmount = web3.utils.toWei(btcAmount, 'ether');
-    let btcCommission;
+    let reserveTokenCommission;
     let mocCommission;
-    let btcMarkup;
+    let reserveTokenMarkup;
     let mocMarkup;
     // Set transaction types
-    const txTypeFeesRBTC = await mocInrate.methods.MINT_DOC_FEES_RBTC();
-    const txTypeFeesMOC = await mocInrate.methods.MINT_DOC_FEES_MOC();
+    const txTypeFeesReserveToken = await mocInrate.methods.MINT_STABLETOKEN_FEES_RESERVE();
+    const txTypeFeesMOC = await mocInrate.methods.MINT_STABLETOKEN_FEES_MOC();
     // Compute fees
     const params = {
       account: from,
       amount: toContractBN(weiAmount).toString(),
       txTypeFeesMOC: txTypeFeesMOC.toString(),
-      txTypeFeesRBTC: txTypeFeesRBTC.toString(),
+      txTypeFeesReserveToken: txTypeFeesReserveToken.toString(),
       vendorAccount
     };
 
     ({
-      btcCommission,
+      reserveTokenCommission,
       mocCommission,
-      btcMarkup,
+      reserveTokenMarkup,
       mocMarkup
     } = await mocExchange.methods.calculateCommissionsWithPrices(params, { from }));
-    // Computes totalBtcAmount to call mintDocVendors
-    const totalBtcAmount = toContract(btcCommission.plus(btcMarkup).plus(weiAmount));
-    console.log(`Calling Doc minting, account: ${from}, amount: ${weiAmount}.`);
+    // Computes totalReserveTokenAmount to call mintStableTokenVendors
+    const totalReserveTokenAmount = toContract(reserveTokenCommission.plus(reserveTokenMarkup).plus(weiAmount));
+    console.log(`Calling RDoc minting, account: ${from}, amount: ${weiAmount}.`);
     moc.methods
-      .mintDocVendors(weiAmount, vendorAccount)
-      .send({ from, value: totalBtcAmount, gasPrice }, function(error, transactionHash) {
+      .mintStableTokenVendors(weiAmount, vendorAccount)
+      .send({ from, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
       })
@@ -149,16 +149,16 @@ const execute = async () => {
       .on('error', console.error);
   };
 
-  // Gets max BPRO available to mint
-  const getAbsoluteMaxDoc = await mocState.methods.absoluteMaxDoc().call();
-  const btcAmount = '0.00001';
-  const vendorAccount = '<vendor-address>'
+  // Gets max RDOC available to mint
+  const getAbsoluteMaxRDoc = await mocState.methods.absoluteMaxStableToken().call();
+  const rifAmount = '0.00001';
+  const vendorAccount = '<vendor-address>';
 
-  console.log('=== Max doc amount available to mint: ', getAbsoluteMaxDoc.toString());
-  console.log('=== BTCs that are gonna be minted:  ', btcAmount);
+  console.log('=== Max doc amount available to mint: ', getAbsoluteMaxRDoc.toString());
+  console.log('=== RIFs that are gonna be minted:  ', rifAmount);
 
   // Call mint
-  await mintDoc(btcAmount, vendorAccount);
+  await mintRDoc(rifAmount, vendorAccount);
 };
 
 execute()

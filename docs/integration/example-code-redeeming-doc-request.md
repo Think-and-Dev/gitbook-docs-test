@@ -1,6 +1,6 @@
-# Example code redeeming DOC Request
+# Example code redeeming RDOC Request
 
-In the following example we will show how to invoke redeemDocRequest using Money on Chain contract. This method can recieve any amount of DOC to redeem, but this will be processed on the next settlement. Check the [DOC redeemption section](redeeming-docs.md) for more details.
+In the following example we will show how to invoke redeemDocRequest using Money on Chain contract. This method can recieve any amount of RDOC to redeem, but this will be processed on the next settlement. Check the [RDOC redeemption section](redeeming-docs.md) for more details.
 
 We will use **truffle** and **testnet** network.
 You can find code examples into _/examples_ dir.
@@ -8,8 +8,8 @@ You can find code examples into _/examples_ dir.
 First we create a new node project.
 
 ```
-mkdir example-redeem-doc-request
-cd example-redeem-doc-request
+mkdir example-redeem-rdoc-request
+cd example-redeem-rdoc-request
 npm init
 ```
 
@@ -23,7 +23,7 @@ npm install --save web3
 
 ```js
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MoC = require('../../build/contracts/MoC.json');
 const truffleConfig = require('../../truffle');
 /**

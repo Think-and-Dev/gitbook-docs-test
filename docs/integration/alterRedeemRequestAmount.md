@@ -1,8 +1,8 @@
-# Redeeming DOCs on Settlement: alterRedeemRequestAmount
+# Redeeming RDOCs on Settlement: alterRedeemRequestAmount
 
 `alterRedeemRequestAmount(bool isAddition, uint256 delta) public`
 
-There is only at most one redeem request per user during a settlement. A new redeem request is created if the user invokes it for the first time or updates its value if it already exists.
+There is only at most one redeem request per user during a settlement. A new reedeem request is created if the user invokes it for the first time or updates its value if it already exists.
 
 ## Parameters of the operation
 
@@ -12,13 +12,13 @@ There is only at most one redeem request per user during a settlement. A new red
 
 ### The delta parameter
 
-It is the amount that the contract will be used to update a DOCs redeem request amount.
-This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and can be greater than user's balance at request time, allowing to, for example, redeem all future user's DOCs.
+It is the amount that the contract will be used to update a RDOCs redeem request amount.
+This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and can be greater than user's balance at request time, allowing to, for example, redeem all future user's RDOCs.
 If isAddition is false and the **delta** param is greater than the total amount of the redeem request, then the total amount of the request will be set to 0.
 
 ### Gas limit and gas price
 
-These two values are a parameter of the transaction, this is not used in the contract and is generally managed by your wallet (you should read about them if you are developing and do not know exactly what they are), but you should take them into account when trying to redeem some DOCs.
+These two values are a parameter of the transaction, this is not used in the contract and is generally managed by your wallet (you should read about them if you are developing and do not know exactly what they are), but you should take them into account when trying to redeem some RDOCs.
 
 ## Possible failures
 
@@ -34,7 +34,7 @@ The function can only be invoked when the Settlement is finished executing. If c
 
 ### Not enough gas:
 
-If the gas limit sent is not enough to run all the code needed to execute the transaction, the transaction will revert(again, returning all your funds except the fee paid to the network). This may return an "out of gas" error or simply a "revert" error because of the usage of the proxy pattern.
+If the gas limit sent is not enough to run all the code needed to execute the transaction, the transaction will revert (again, returning all your funds except the fee paid to the network). This may return an "out of gas" error or simply a "revert" error because of the usage of the proxy pattern.
 
 ### Not active redeemer:
 

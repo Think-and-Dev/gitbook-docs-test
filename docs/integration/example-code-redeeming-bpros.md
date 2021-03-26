@@ -1,18 +1,18 @@
-# Example code redeeming BPros
+# Example code redeeming RIFPros
 
 In the following example we will learn how to:
 
-- Get the maximum amount of BPRO available to redeem.
-- Get BPRO balance of an account.
-- Redeem BPROs.
+- Get the maximum amount of RIFPros available to redeem.
+- Get RIFPros balance of an account.
+- Redeem RIFPros.
 
 We will use **truffle** and **testnet** network.
 
 First we create a new node project.
 
 ```
-mkdir example-redeem-bpro
-cd example-redeem-bpro
+mkdir example-redeem-riskpro
+cd example-redeem-riskpro
 npm init
 ```
 
@@ -25,10 +25,10 @@ npm install --save web3
 **Example**
 ```js
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MocAbi = require('../../build/contracts/MoC.json');
 const MoCStateAbi = require('../../build/contracts/MoCState.json');
-const BProTokenAbi = require('../../build/contracts/BProToken.json');
+const RiskProTokenAbi = require('../../build/contracts/RiskProToken.json');
 const truffleConfig = require('../../truffle');
 
 /**
@@ -61,7 +61,7 @@ const gasPrice = getGasPrice('rskTestnet');
 const mocContractAddress = '<contract-address>';
 const mocInrateAddress = '<contract-address>';
 const mocStateAddress = '<contract-address>';
-const bproTokenAddress = '<contract-address>';
+const riskProTokenAddress = '<contract-address>';
 
 const execute = async () => {
   web3.eth.defaultGas = 2000000;
@@ -79,26 +79,26 @@ const execute = async () => {
     throw Error('Can not find MoC contract.');
   }
 
-  // Loading mocState contract. It is necessary to compute absolute max BPRO
+  // Loading mocState contract. It is necessary to compute absolute max RIFPros
   const mocState = await getContract(MoCStateAbi.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
   }
 
-  // Loading BProToken contract. It is necessary to compute user balance
-  const bproToken = await getContract(BProTokenAbi.abi, bproTokenAddress);
-  if (!bproToken) {
-    throw Error('Can not find BProToken contract.');
+  // Loading RiskProToken contract. It is necessary to compute user balance
+  const riskProToken = await getContract(RiskProTokenAbi.abi, riskProTokenAddress);
+  if (!riskProToken) {
+    throw Error('Can not find RiskProToken contract.');
   }
 
   const [from] = await web3.eth.getAccounts();
 
-  const redeemBpro = async (bproAmount, vendorAccount) => {
-    const weiAmount = web3.utils.toWei(bproAmount, 'ether');
+  const redeemRiskPro = async (riskProAmount, vendorAccount) => {
+    const weiAmount = web3.utils.toWei(riskProAmount, 'ether');
 
-    console.log(`Calling redeem Bpro with account: ${from} and amount: ${weiAmount}.`);
+    console.log(`Calling redeem RIFPro with account: ${from} and amount: ${weiAmount}.`);
     moc.methods
-      .redeemBProVendors(weiAmount, vendorAccount)
+      .redeemRiskProVendors(weiAmount, vendorAccount)
       .send({ from, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
@@ -112,17 +112,17 @@ const execute = async () => {
       .on('error', console.error);
   };
 
-  const getAbsoluteMaxBpro = await mocState.methods.absoluteMaxBPro().call();
-  const userAmount = await bproToken.methods.balanceOf(from).call();
+  const getAbsoluteMaxRiskPro = await mocState.methods.absoluteMaxRiskPro().call();
+  const userAmount = await riskProToken.methods.balanceOf(from).call();
 
-  console.log('=== Max amount of BPro to redeem: ', getAbsoluteMaxBpro.toString());
-  console.log('=== User BPro Balance: ', userAmount.toString());
+  console.log('=== Max amount of RIFPro to redeem: ', getAbsoluteMaxRiskPro.toString());
+  console.log('=== User RIFPro Balance: ', userAmount.toString());
 
-  const bproAmount = '0.00001';
-  const vendorAccount = '<vendor-address>'
+  const riskProAmount = '0.00001';
+  const vendorAccount = '<vendor-address>';
 
   // Call redeem
-  await redeemBpro(bproAmount, vendorAccount);
+  await redeemRiskPro(riskProAmount, vendorAccount);
 };
 
 execute()

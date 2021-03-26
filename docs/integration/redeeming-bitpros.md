@@ -1,52 +1,56 @@
 # Redeeming BitPros
 
-The Money On Chain's Smart Contract suite is in control of the redeeming of its tokens, including the BitPro token. This means that the return of BitPros is controlled programmatically by said suite. ​A user can "sell" their BitPro back to the contract and recover the corresponding amount of RBTC.
+The Money On Chain's Smart Contract suite is in control of the redeeming of its tokens, including the RIFPro token. This means that the return of RIFPros is controlled programmatically by said suite. ​A user can "sell" their RIFPro back to the contract and recover the corresponding amount of RIF.
 
-This means that to redeem BitPros you must interact with the suite. The entry point are the same as explained in [Minting BitPros](minting-bitpros.md).
+This means that to redeem RIFPros you must interact with the suite. The entry point are the same as explained in [Minting RIFPros](minting-bitpros.md).
 
-In this tutorial the method (or function) that is of interest to us is `function redeemBProVendors(uint256 bproAmount, address vendorAccount) public`
+In this tutorial the method (or function) that is of interest to us is `function redeemRiskProVendors(uint256 riskProAmount, address vendorAccount) public`
 
-NOTE: there is a retrocompatibility function called `function redeemBPro(uint256 btcToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+NOTE: there is a retrocompatibility function called `function redeemRiskPro(uint256 riskProAmount)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
 ## Parameters of the operation
 
-### The bproAmount parameter
+### The riskProAmount parameter
 
-It is the amount that the contract will use to redeem BitPros and to calculate commissions. All of these funds will be transformed exclusively into RBTC.
+It is the amount that the contract will use to redeem RIFPros and to calculate commissions. All of these funds will be transformed exclusively into RIF.
 
 This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and is defined in **MoCLibConnection** contract.
 
-
-Money on Chain is a dynamic system that allows you to redeem a maximum amount of BitPros and can be obtained by calling the `absoluteMaxBPro()` view of the **MocState** contract.
+Money on Chain is a dynamic system that allows you to redeem a maximum amount of RIFPros and can be obtained by calling the `absoluteMaxRiskPro()` view of the **MocState** contract.
 
 The redeeming process is divided into 4 parts:
 
-The first part transforms the amount **bproAmount** into an RBTC amount, but 2 things can happen:
+The first part transforms the amount **riskProAmount** into an RIF amount, but 3 things can happen:
 
-- The amount entered in bproAmount must not exceed the user's balance in BPROs. If this occurs then the user’s balance will be used to calculate the value in RBTC.
-
-```
-userBalance = bproToken.balanceOf(user);
-userAmount  = Math.min(bproAmount, userBalance);
-```
-
-- The userAmount must not exceed the absolute maximum amount of allowed BitPros. If this occurs then absoluteMaxBPro will be used to transform it to RBTC.
+- The amount entered in riskProAmount must not exceed the user's balance in RIFPros. If this occurs then the user’s balance will be used to calculate the value in RIF.
 
 ```
-bproFinalAmount = Math.min(userAmount, absoluteMaxBPro);
+userBalance = riskProToken.balanceOf(user);
+userAmount  = Math.min(riskProAmount, userBalance);
+```
+
+- The userAmount must not exceed the absolute maximum amount of RIFPros. If this occurs then absoluteMaxRiskPro will be used to transform it to RIF.
+
+```
+riskProFinalAmount = Math.min(userAmount, absoluteMaxRiskPro);
 ```
 
 The second part will be used to pay the commission, this part is a percentage of the previous part. The commission fees are explained in [this](commission-fees-values.md) section.
 
 The third part corresponds to the vendor markup, which refers to the fee a vendor will receive from this transaction and is a percentage of the first part. The vendor markup is explained in [this](vendors.md#markup) section.
 
-The fourth part returns the amount in RBTC discounting the previously calculated fees.
+The third part returns the amount in RIF discounting the previously calculated commissions.
+
+```
+totalRif = riskProToResToken(riskProFinalAmount);
+rifReceived = totalRif - totalRif * commissionRate
+```
 
 All the needed calculations for the second and third parts are explained in more detail [here](fees-calculation.md).
 
 ### Gas limit and gas price
 
-These two values are a parameter of the transaction, this is not used in the contract and is generally managed by your wallet (you should read about them if you are developing and do not know exactly what they are), but you should take them into account when trying to redeem some BitPros.
+These two values are a parameter of the transaction, this is not used in the contract and is generally managed by your wallet (you should read about them if you are developing and do not know exactly what they are), but you should take them into account when trying to redeem some RIFPros.
 
 ## Possible failures
 
@@ -54,7 +58,7 @@ This operation may fail if one of the following scenarios occurs:
 
 ### The contract is liquidated:
 
-In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more BitPros will be available for redeeming. The condition is the same as that explained in [The MoC contract is liquidated](minting-bitpros.md#the-moc-contract-is-liquidated).
+In the extraneous case where a coverage that barely covers the stable tokens funds is reached, the contract will liquidate all of its assets. If this state occurs, no more RIFPros will be available for redeeming. The condition is the same as that explained in[The MoC contract is liquidated](minting-rifpros.md#the-moc-contract-is-liquidated).
 
 ### The contract is paused:
 
@@ -62,7 +66,7 @@ If the system suffers some type of attack, the contract can be paused so that op
 
 ### Not enough gas:
 
-If the gas limit sent is not enough to run all the code needed to execute the transaction, the transaction will revert(again, returning all your funds except the fee paid to the network). This may return an "out of gas" error or simply a "revert" error because of the usage of the proxy pattern.
+If the gas limit sent is not enough to run all the code needed to execute the transaction, the transaction will revert (again, returning all your funds except the fee paid to the network). This may return an "out of gas" error or simply a "revert" error because of the usage of the proxy pattern.
 
 ## How-to
 
@@ -78,7 +82,7 @@ Assuming you already have your project up and running (if you don't, please foll
 ​
 
 ```
-npm install --save -E git+https://git@github.com/money-on-chain/main-RBTC-contract.git
+npm install --save -E git+https://git@github.com/money-on-chain/RDOC-Contract.git
 ```
 
 ​To run a local blockchain you can use
@@ -93,7 +97,7 @@ To deploy the contracts you can use
 npm run deploy-reset-development
 ```
 
-Having done that lets you use our contract as a dependency to your contract. For this let's suppose you are doing some kind of contract that when executing a certain task charges a fixed commission. Now let's suppose that the commission is sent in RBTCs because it is easier for the user but actually you want some BitPros. The good news is that you can do this instantly just by minting them. The code necessary to do this is actually pretty simple.
+Having done that lets you use our contract as a dependency to your contract. For this let's suppose you are doing some kind of contract that when executing a certain task charges a fixed commission. Now let's suppose that the commission is sent in RIFs because it is easier for the user but actually you want some RIFPros. The good news is that you can do this instantly just by minting them. The code necessary to do this is actually pretty simple.
 ​
 You just have to import the contract
 ​
@@ -111,11 +115,11 @@ constructor (MoC _mocContract, address vendorAccount, rest of your params...) {
 And redeem some BPros:
 
 ```js
-uint256 bproAmount = 9000000;
-moc.redeemBPro(bproAmount, vendorAccount);
+uint256 riskProAmount = 9000000;
+moc.redeemRiskProVendors(riskProAmount, vendorAccount);
 ```
 
-You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the bpro token.
+You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the RIFPro token.
 ​
 This will leave you with a contract similar to the following
 ​​
@@ -124,35 +128,40 @@ This will leave you with a contract similar to the following
 pragma solidity 0.5.8;
 ​
 import "money-on-chain/contracts/MoC.sol";
-import "money-on-chain/contracts/token/BProToken.sol";
+import "money-on-chain/contracts/token/RiskProToken.sol";
 // Here you will import your own dependencies
 
-contract YourRedeemingBproContract {
+contract YourRedeemingRiskProContract {
     // Address of the MoC contract
     MoC public moc;
-    // Address of the bitpro token
-    BProToken public bpro;
+    // Address of the RIFPro token
+    RiskProToken public riskPro;
+    // Address of the RIF token
+    IERC20 public rif;
     // Address that will receive all the commissions
     address public receiverAddress;
     // Address that will receive the markup
     address public vendorAccount;
     // rest of your variables
 ​
-    constructor (MoC _moc, address _receiverAddress, address _vendorAccount) public {
+    constructor (MoC _moc, RiskProToken _riskPro, IERC20 _rif, address _vendorAccount) public {
         moc = _moc;
-        receiverAddress = _receiverAddress;
+        riskPro = _riskPro;
+        rif = _rif;
         vendorAccount = _vendorAccount;
         // You could have more variables to initialize here
     }
 ​
-    function doTask(uint256 _bproAmount) public {
-        uint256 previousBalance = bpro.balanceOf(receiverAddress);
-        moc.redeemBPro(_bproAmount, vendorAccount);
-        uint256 newBalance = bpro.balanceOf(receiverAddress);
+    function doTask(uint256 _riskProAmount) public {
+        uint256 previousBalance = riskPro.balanceOf(msg.sender);
+        uint256 previousRifBalance = rif.balanceOf(msg.sender);
+        moc.redeemRiskProVendors(_riskProAmount, vendorAccount);
+        uint256 newBalance = riskPro.balanceOf(msg.sender);
+        uint256 newRifBalance = rif.balanceOf(msg.sender);
     }
     // rest of your contract
 }​
 ```
 
-And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and BPro when deploying YourRedeemingBproContract and you are done.
+And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and BPro when deploying YourRedeemingRiskProContract and you are done.
 ​​

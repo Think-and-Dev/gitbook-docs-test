@@ -1,18 +1,18 @@
-# Example code redeeming BPros without Truffle
+# Example code redeeming RIFPros without Truffle
 
 In the following example we will learn how to:
 
-- Get the maximum amount of BPRO available to redeem.
-- Get BPRO balance of an account.
-- Redeem BPROs.
+- Get the maximum amount of RIFPros available to redeem.
+- Get RIFPros balance of an account.
+- Redeem RIFPros.
 
 We will use the **testnet** network.
 
 First we create a new node project.
 
 ```
-mkdir example-redeem-bpro
-cd example-redeem-bpro
+mkdir example-redeem-riskpro
+cd example-redeem-riskpro
 npm init
 ```
 
@@ -26,11 +26,11 @@ npm install --save truffle-hdwallet-provider
 ```js
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MocAbi = require('../../build/contracts/MoC.json');
 const MoCInrateAbi = require('../../build/contracts/MoCInrate.json');
 const MoCStateAbi = require('../../build/contracts/MoCState.json');
-const BProTokenAbi = require('../../build/contracts/BProToken.json');
+const RiskProTokenAbi = require('../../build/contracts/RiskProToken.json');
 
 //Config params to TestNet
 const endpoint = 'https://public-node.testnet.rsk.co';
@@ -43,7 +43,7 @@ const web3 = new Web3(provider);
 const mocContractAddress = '<contract-address>';
 const mocInrateAddress = '<contract-address>';
 const mocStateAddress = '<contract-address>';
-const bproTokenAddress = '<contract-address>';
+const riskProTokenAddress = '<contract-address>';
 const gasPrice = 60000000;
 
 const execute = async () => {
@@ -68,23 +68,23 @@ const execute = async () => {
     throw Error('Can not find MoC Inrate contract.');
   }
 
-  // Loading mocState contract. It is necessary to compute absolute max BPRO
+  // Loading mocState contract. It is necessary to compute absolute max RIFPRO
   const mocState = await getContract(MoCStateAbi.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
   }
 
-  // Loading BProToken contract. It is necessary to compute user balance
-  const bproToken = await getContract(BProTokenAbi.abi, bproTokenAddress);
+  // Loading RiskProToken contract. It is necessary to compute user balance
+  const riskProToken = await getContract(RiskProTokenAbi.abi, riskProTokenAddress);
 
   const [from] = await web3.eth.getAccounts();
 
-  const redeemBpro = async (bproAmount, vendorAccount) => {
-    const weiAmount = web3.utils.toWei(bproAmount, 'ether');
+  const redeemRiskPro = async (riskProAmount, vendorAccount) => {
+    const weiAmount = web3.utils.toWei(riskPAmount, 'ether');
 
-    console.log(`Calling redeem Bpro with account: ${from} and amount: ${weiAmount}.`);
+    console.log(`Calling redeem RIFPro with account: ${from} and amount: ${weiAmount}.`);
     moc.methods
-      .redeemBProVendors(weiAmount, vendorAccount)
+      .redeemRiskProVendors(weiAmount, vendorAccount)
       .send({ from, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
@@ -98,17 +98,17 @@ const execute = async () => {
       .on('error', console.error);
   };
 
-  const getAbsoluteMaxBpro = await mocState.methods.absoluteMaxBPro().call();
-  const userAmount = await bproToken.methods.balanceOf(from).call();
-  const bproFinalAmount = Math.min(userAmount, getAbsoluteMaxBpro);
-  console.log('=== User BPRO balance: ', userAmount);
-  console.log('=== Max amount of BPro to redeem ', bproFinalAmount);
+  const getAbsoluteMaxRiskPro = await mocState.methods.absoluteMaxRiskPro().call();
+  const userAmount = await riskProToken.methods.balanceOf(from).call();
+  const riskProFinalAmount = Math.min(userAmount, getAbsoluteMaxRiskPro);
+  console.log('=== User RIFPro balance: ', userAmount);
+  console.log('=== Max amount of RIFPro to redeem ', riskProFinalAmount);
 
-  const bproAmount = '0.00001';
-  const vendorAccount = '<vendor-address>'
+  const riskProAmount = '0.00001';
+  const vendorAccount = '<vendor-address>';
 
   // Call redeem
-  await redeemBpro(bproAmount, vendorAccount);
+  await redeemRiskPro(riskProAmount, vendorAccount);
 };
 
 execute()

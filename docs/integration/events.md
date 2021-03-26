@@ -9,7 +9,7 @@ In the following example we will show you how to find events that are emitted by
 
 ```js
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MocExchange = require('../../build/contracts/MoCExchange.json');
 const truffleConfig = require('../../truffle');
 
@@ -51,7 +51,7 @@ const execute = async () => {
     throw Error('Can not find MoCExchange contract.');
   }
 
-  // In this example we are getting BPro Mint events from MoCExchange contract
+  // In this example we are getting RiskPro Mint events from MoCExchange contract
   // in the interval of blocks passed by parameter
   const getEvents = () =>
     Promise.resolve(mocExchange.getPastEvents('RiskProMint', { fromBlock: 1000, toBlock: 1010 }))

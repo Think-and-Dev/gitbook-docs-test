@@ -1,9 +1,9 @@
-# Example code minting BTC2X
+# Example code minting RIF2X
 
 In the following script example we will learn how to:
 
-- Get the maximum amount of BTC2X available to mint.
-- Mint BTC2X.
+- Get the maximum amount of RIF2X available to mint.
+- Mint RIF2X.
 
 We will use **truffle** and **testnet** network.
 You can find code examples into _/examples_ dir.
@@ -11,8 +11,8 @@ You can find code examples into _/examples_ dir.
 First we create a new node project.
 
 ```
-mkdir example-mint-btc2x
-cd example-mint-btc2x
+mkdir example-mint-rif2x
+cd example-mint-rif2x
 npm init
 ```
 
@@ -28,7 +28,7 @@ npm install --save bignumber.js
 ```js
 const BigNumber = require('bignumber.js');
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const Moc = require('../../build/contracts/MoC.json');
 const MoCInrate = require('../../build/contracts/MoCInrate.json');
 const MoCExchangeAbi = require('../../build/contracts/MoCExchange.json');
@@ -103,44 +103,44 @@ const execute = async () => {
     throw Error('Can not find MoC Exchange contract.');
   }
 
-  // Loading mocState contract. It is necessary to compute max BTC2X available to mint
+  // Loading mocState contract. It is necessary to compute max RIF2X available to mint
   const mocState = await getContract(MoCState.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
   }
 
-  const mintBtc2x = async (btcAmount, vendorAccount) => {
+  const mintRif2x = async (rifAmount, vendorAccount) => {
     const [from] = await web3.eth.getAccounts();
-    const weiAmount = web3.utils.toWei(btcAmount, 'ether');
-    const btcInterestAmount = await mocInrate.methods.calcMintInterestValues(strToBytes32(bucketX2), weiAmount).call();
-    let btcCommission;
+    const weiAmount = web3.utils.toWei(rifAmount, 'ether');
+    const reserveTokenInterestAmount = await mocInrate.methods.calcMintInterestValues(strToBytes32(bucketX2), weiAmount).call();
+    let reserveTokenCommission;
     let mocCommission;
-    let btcMarkup;
+    let reserveTokenMarkup;
     let mocMarkup;
     // Set transaction types
-    const txTypeFeesRBTC = await mocInrate.methods.MINT_BTCX_FEES_RBTC();
-    const txTypeFeesMOC = await mocInrate.methods.MINT_BTCX_FEES_MOC();
+    const txTypeFeesReserveToken = await mocInrate.methods.MINT_RISKPROX_FEES_RESERVE();
+    const txTypeFeesMOC = await mocInrate.methods.MINT_RISKPROX_FEES_MOC();
     // Compute fees
     const params = {
       account: from,
       amount: toContractBN(weiAmount).toString(),
       txTypeFeesMOC: txTypeFeesMOC.toString(),
-      txTypeFeesRBTC: txTypeFeesRBTC.toString(),
+      txTypeFeesReserveToken: txTypeFeesReserveToken.toString(),
       vendorAccount
     };
 
     ({
-      btcCommission,
+      reserveTokenCommission,
       mocCommission,
-      btcMarkup,
+      reserveTokenMarkup,
       mocMarkup
     } = await mocExchange.methods.calculateCommissionsWithPrices(params, { from }));
-    // Computes totalBtcAmount to call mintBProxVendors
-    const totalBtcAmount = toContract(btcInterestAmount.plus(btcCommission).plus(btcMarkup).plus(weiAmount));
-    console.log(`Calling mint BTC2X with ${btcAmount} Btcs with account: ${from}.`);
+    // Computes totalReserveTokenAmount to call mintRiskProxVendors
+    const totalReserveTokenAmount = toContract(reserveTokenInterestAmount.plus(reserveTokenCommission).plus(reserveTokenMarkup).plus(weiAmount));
+    console.log(`Calling mint RIF2X with ${rifAmount} RIFs with account: ${from}.`);
     moc.methods
       .mintBProxVendors(strToBytes32(bucketX2), weiAmount, vendorAccount)
-      .send({ from, value: totalBtcAmount, gasPrice }, function(error, transactionHash) {
+      .send({ from, value: totalReserveTokenAmount, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
       })
@@ -153,16 +153,16 @@ const execute = async () => {
       .on('error', console.error);
   };
 
-  const btcToMint = '0.00001';
-  // Gets max BTC2X amount available to mint
-  const maxBtc2x = await mocState.methods.maxBProx(strToBytes32(bucketX2)).call();
+  const rifToMint = '0.00001';
+  // Gets max RIF2X amount available to mint
+  const maxRif2x = await mocState.methods.maxRiskProx(strToBytes32(bucketX2)).call();
 
-  console.log('=== Max Available BTC2X to mint: '.concat(maxBtc2x.toString()));
+  console.log('=== Max Available RIF2X to mint: '.concat(maxRif2x.toString()));
 
-  const vendorAccount = '<vendor-address>'
+  const vendorAccount = '<vendor-address>';
 
   // Call mint
-  await mintBtc2x(btcToMint, vendorAccount);
+  await mintRif2x(rifToMint, vendorAccount);
 };
 
 execute()

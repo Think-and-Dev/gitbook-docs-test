@@ -1,20 +1,20 @@
-# Example code redeeming Free DOC
+# Example code redeeming Free RDOC
 
-In the following example we will show how to invoke redeemFreeDoc from Money on Chain contract.This method allows to redeem DOC outside the settlement and they are limited by user balance. Check the [DOC redeemption section](redeeming-docs.md) for more details.
+In the following example we will show how to invoke redeemFreeStableTokenVendors from Money on Chain contract. This method allows to redeem RDOC outside the settlement and they are limited by user balance. Check the [RDOC redeemption section](redeeming-docs.md) for more details.
 
 We will learn how to:
 
-- Get the maximum amount of DOC available to redeem.
-- Get DOC balance of an account.
-- Redeem DOCs.
+- Get the maximum amount of RDOC available to redeem.
+- Get RDOC balance of an account.
+- Redeem RDOC.
 
 You can find code examples into _/examples_ dir.
 We will use **truffle** and **testnet** network.
 First we create a new node project.
 
 ```
-mkdir example-redeem-free-doc
-cd example-redeem-free-doc
+mkdir example-redeem-free-stabletoken
+cd example-redeem-free-stabletoken
 npm init
 ```
 
@@ -28,10 +28,10 @@ npm install --save web3
 
 ```js
 const Web3 = require('web3');
-//You must compile the smart contracts or use the official ABIs of the //repository
+//You must compile the smart contracts or use the official ABIs of the repository
 const MoC = require('../../build/contracts/MoC.json');
 const MocState = require('../../build/contracts/MoCState.json');
-const DocToken = require('../../build/contracts/DocToken.json');
+const StableToken = require('../../build/contracts/StableToken.json');
 const truffleConfig = require('../../truffle');
 /**
  * Get a provider from truffle.js file
@@ -62,7 +62,7 @@ const gasPrice = getGasPrice('rskTestnet');
 //Contract addresses on testnet
 const mocAddress = '<contract-address>';
 const mocStateAddress = '<contract-address>';
-const docTokenAddress = '<contract-address>';
+const stableTokenAddress = '<contract-address>';
 
 const execute = async () => {
   web3.eth.defaultGas = 2000000;
@@ -80,26 +80,26 @@ const execute = async () => {
     throw Error('Can not find MoC contract.');
   }
 
-  // Loading mocState contract. It is necessary to compute freeDoc
+  // Loading mocState contract. It is necessary to compute free RDoc
   const mocState = await getContract(MocState.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
   }
 
-  // Loading DocToken contract. It is necessary to compute user balance
-  const docToken = await getContract(DocToken.abi, docTokenAddress);
-  if (!docToken) {
-    throw Error('Can not find DocToken contract.');
+  // Loading StableToken contract. It is necessary to compute user balance
+  const stableToken = await getContract(StableToken.abi, stableTokenAddress);
+  if (!stableToken) {
+    throw Error('Can not find StableToken contract.');
   }
 
   const [from] = await web3.eth.getAccounts();
 
-  const redeemFreeDoc = async (docAmount, vendorAccount) => {
-    const weiAmount = web3.utils.toWei(docAmount, 'ether');
+  const redeemFreeStableToken = async (stableTokenAmount, vendorAccount) => {
+    const weiAmount = web3.utils.toWei(stableTokenAmount, 'ether');
 
-    console.log(`Calling redeem Doc request, account: ${from}, amount: ${weiAmount}.`);
+    console.log(`Calling redeem RDOC request, account: ${from}, amount: ${weiAmount}.`);
     moc.methods
-      .redeemFreeDocVendors(weiAmount, vendorAccount)
+      .redeemFreeStableTokenVendors(weiAmount, vendorAccount)
       .send({ from, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
@@ -113,17 +113,17 @@ const execute = async () => {
       .on('error', console.error);
   };
 
-  const docAmount = '10000';
-  const freeDoc = await mocState.methods.freeDoc().call();
-  const userDocBalance = await docToken.methods.balanceOf(from).call();
-  const finalDocAmount = Math.min(freeDoc, userDocBalance);
-  const vendorAccount = '<vendor-address>'
+  const stableTokenAmount = '10000';
+  const freeStableToken = await mocState.methods.freeStableToken().call();
+  const userStableTokenBalance = await stableTokenToken.methods.balanceOf(from).call();
+  const finalStableTokenAmount = Math.min(freeStableToken, userStableTokenBalance);
+  const vendorAccount = '<vendor-address>';
 
-  console.log('User DOC balance: ', userDocBalance.toString());
-  console.log('=== Max Available DOC to redeem: ', finalDocAmount);
+  console.log('User RDOC balance: ', userStableTokenBalance.toString());
+  console.log('=== Max Available RDOC to redeem: ', finalStableTokenAmount);
 
   // Call redeem
-  await redeemFreeDoc(docAmount, vendorAccount);
+  await redeemFreeStableToken(stableTokenAmount, vendorAccount);
 };
 
 execute()
