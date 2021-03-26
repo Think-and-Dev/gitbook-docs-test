@@ -16,7 +16,7 @@ It is the amount that the contract will use to redeem RIFPros and to calculate c
 
 This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and is defined in **MoCLibConnection** contract.
 
-Money on Chain is a dynamic system that allows you to redeem a maximum amount of RIFPros and can be obtained by calling the `absoluteMaxRiskPro()` view of the **MocState** contract.
+Money On Chain is a dynamic system that allows you to redeem a maximum amount of RIFPros and can be obtained by calling the `absoluteMaxRiskPro()` view of the **MocState** contract.
 
 The redeeming process is divided into 4 parts:
 
@@ -112,7 +112,7 @@ constructor (MoC _mocContract, address vendorAccount, rest of your params...) {
 //....rest of your constructor....
 }
 ```
-And redeem some BPros:
+And redeem some RIFPros:
 
 ```js
 uint256 riskProAmount = 9000000;
@@ -163,5 +163,5 @@ contract YourRedeemingRiskProContract {
 }​
 ```
 
-And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and BPro when deploying YourRedeemingRiskProContract and you are done.
+And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and RiskPro when deploying YourRedeemingRiskProContract and you are done.
 ​​

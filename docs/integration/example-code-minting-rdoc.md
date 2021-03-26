@@ -108,7 +108,7 @@ const execute = async () => {
 
   const mintRDoc = async (rifAmount, vendorAccount) => {
     const [from] = await web3.eth.getAccounts();
-    const weiAmount = web3.utils.toWei(btcAmount, 'ether');
+    const weiAmount = web3.utils.toWei(rifAmount, 'ether');
     let reserveTokenCommission;
     let mocCommission;
     let reserveTokenMarkup;

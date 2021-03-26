@@ -129,7 +129,7 @@ constructor (MoC _mocContract, address vendorAccount, rest of your params...) {
 ```js
 uint256 riskProxAmountToRedeem = 2;
 bytes32 constant public BUCKET_X2 = "X2";
-moc.redeemBProxVendors(BUCKET_X2, riskProxAmountToRedeem, vendorAccount);
+moc.redeemRiskProxVendors(BUCKET_X2, riskProxAmountToRedeem, vendorAccount);
 ```
 ​
 You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before

@@ -6,7 +6,7 @@ In this tutorial the method (or function) that is of interest to us is `function
 
 NOTE: there is a retrocompatibility function called `function mintRiskProx(bytes32 bucket, uint256 resTokensToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
-You must approve the amount of RIF token that you are willing to use on the Money on Chain platform before minting RIF2X. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
+You must approve the amount of RIF token that you are willing to use on the Money On Chain platform before minting RIF2X. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
 ## Parameters of the operation
 
@@ -139,7 +139,7 @@ params.txTypeFeesReserveToken = mocInrate.MINT_RISKPROX_FEES_RESERVE();
 params.vendorAccount = vendorAccount;
 
 CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
-// If commission is paid in RBTC, subtract it from value
+// If commission is paid in RIF, subtract it from value
 uint256 fees = commission.reserveTokenCommission - commission.reserveTokenMarkup;
 // Mint some new RIF2X
 moc.mintRiskProxVendors(BUCKET_X2, resTokenToMint - fees, vendorAccount);

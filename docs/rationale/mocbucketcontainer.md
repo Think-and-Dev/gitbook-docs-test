@@ -1,6 +1,6 @@
 # MoCBucketContainer
 
-- Referenced by: MocBproxManager
+- Referenced by: MocRiskProxManager
 - References/uses: SafeMath, Math
 - Inherits from: MocBase
 

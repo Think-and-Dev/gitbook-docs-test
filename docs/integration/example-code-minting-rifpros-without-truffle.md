@@ -2,18 +2,18 @@
 
 In the following example we will learn how to:
 
-- Use the ABIs of Money on Chain.
-- Get the maximum amount of BPRO available.
-- Get the price of the BPRO in RBTC.
-- Minting BPROs
+- Use the ABIs of Money On Chain.
+- Get the maximum amount of RIFPros available.
+- Get the price of the RIFPros in RIF.
+- Minting RIFPros
 
 We will use the **testnet** network
 
 First we create a new node project.
 
 ```
-mkdir example-mint-bpro
-cd example-mint-bpro
+mkdir example-mint-rifpro
+cd example-mint-rifpro
 npm init
 ```
 
@@ -25,7 +25,7 @@ npm install --save web3
 npm install --save truffle-hdwallet-provider
 ```
 
-Now we create a new script called **mintBpro.js** with the following code:
+Now we create a new script called **mintRiskPro.js** with the following code:
 
 ```js
 const HDWalletProvider = require('truffle-hdwallet-provider');
@@ -83,7 +83,7 @@ const execute = async () => {
     throw Error('Can not find MoC Exchange contract.');
   }
 
-  // Loading mocState contract. It is necessary to compute max BPRO available to mint
+  // Loading mocState contract. It is necessary to compute max RIFPro available to mint
   const mocState = await getContract(MoCStateAbi.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
@@ -134,11 +134,11 @@ const execute = async () => {
 
   const riskProPriceInReserveToken = await mocState.methods.riskProTecPrice().call();
   console.log('=== RIFPRO in RIF: '.concat(riskProPriceInReserveToken.toString()));
-  const btcAmount = '0.00001';
+  const rifAmount = '0.00001';
   const vendorAccount = '<vendor-address>';
 
   // Call mint
-  await mintRiskPro(btcAmount, vendorAccount, logEnd);
+  await mintRiskPro(rifAmount, vendorAccount, logEnd);
 };
 
 execute()

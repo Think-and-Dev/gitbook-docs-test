@@ -1,12 +1,12 @@
-# Minting DOCs
+# Minting RDOCs
 
-RDOC can only be minted in exchange for RIF. Given an amount of RIF paid to the contract, the system calculates the corresponding RDOCs amount to mint, RIF and RDOC balances are added to the Money on Chain system and the new tokens are sent to the user.
+RDOC can only be minted in exchange for RIF. Given an amount of RIF paid to the contract, the system calculates the corresponding RDOCs amount to mint, RIF and RDOC balances are added to the Money On Chain system and the new tokens are sent to the user.
 
 In this tutorial the method (or function) that is of interest to us is `function mintStableTokenVendors(uint256 resTokensToMint, address vendorAccount) public`.
 
 NOTE: there is a retrocompatibility function called `function mintStableToken(uint256 resTokensToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
-You must approve the amount of RIF token that you are willing to use on the Money on Chain platform before minting RDOC. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
+You must approve the amount of RIF token that you are willing to use on the Money On Chain platform before minting RDOC. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
 
 ## Parameters of the operation
@@ -99,7 +99,7 @@ constructor (MoC _mocContract, MoCInrate _mocInrateContract, MoCExchange _mocExc
 }
 ```
 
-​and, finally, when you receive a commission, exchange it for some DoCs
+​and, finally, when you receive a commission, exchange it for some RDOCs
 ​
 
 ```js
@@ -122,7 +122,7 @@ uint256 fees = commission.reserveTokenCommission - commission.reserveTokenMarkup
 moc.mintStableTokenVendors(resTokenToMint - fees, vendorAccount);
 ```
 
-You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the DoC token.
+You can send it immediately to you so you can start using it right away. In order to do this you should add a few more lines similar to the ones before, only that you will have to use the StableToken token.
 ​
 This will leave you with a contract similar to the following
 ​
@@ -174,7 +174,7 @@ contract YourMintingRDocContract {
       CommissionReturnStruct memory commission = mocExchange.calculateCommissionsWithPrices(params);
       // If commission is paid in RIF, subtract it from resTokenToMint
       uint256 fees = commission.reserveTokenCommission - commission.reserveTokenMarkup;
-      // Mint some new RDoC
+      // Mint some new RDOC
       moc.mintStableTokenVendors(resTokenToMint - fees, vendorAccount);
 ​      // Transfer it to your receiver account
       doc.transfer(receiverAddress, doc.balanceOf(address(this)));
@@ -184,4 +184,4 @@ contract YourMintingRDocContract {
 }
 ```
 
-And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and DoC when deploying YourMintingRDocContract and you are done.
+And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and StableToken when deploying YourMintingRDocContract and you are done.

@@ -1,6 +1,6 @@
 # Commission fees values
 
- Depending on the desired operation and the token used to pay commissions, this value is calculated according the following table. Keep in mind that if the account has balance and allowance of MoC token, commissions will be paid with this token; otherwise commissions will be paid in RBTC. The exact percentage of the commission is set in the variable **commissionRatesByTxType** (which maps a transaction type with its commission) of the **MocInrate** contract. The transactions types are constants defined in the same contract and are detailed next. The current commission fees are yet to be defined. The different valid transaction types are the following:
+ Depending on the desired operation and the token used to pay commissions, this value is calculated according the following table. Keep in mind that if the account has balance and allowance of MoC token, commissions will be paid with this token; otherwise commissions will be paid in RIF. The exact percentage of the commission is set in the variable **commissionRatesByTxType** (which maps a transaction type with its commission) of the **MocInrate** contract. The transactions types are constants defined in the same contract and are detailed next. The current commission fees are yet to be defined. The different valid transaction types are the following:
 | Transaction Type | Description | Value |
 | --- | --- | --- |
 | `MINT_RISKPRO_FEES_RESERVE` | Mint RIFPRO with fees in RIF | mbpr% |

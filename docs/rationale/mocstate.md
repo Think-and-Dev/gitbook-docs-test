@@ -1,23 +1,23 @@
 # MoCState
 
 - Referenced by: MoC, MoCConverter, MoCExchange, MoCInrate, MoCSettlement
-- References/uses: Math, MoCBProxManager, PriceProvider, DocToken, BProToken, MoCSettlement
+- References/uses: Math, MoCRiskProxManager, PriceProvider, StableToken, RiskProToken, MoCSettlement
 - Inherits from: MoCLibConnection, MoCBase
 
 This contract holds the system variables to manage the state, wether it's the state itself or the thresholds configurations; as well as many `view` functions to access and evaluate it.
 - State:
   - System State itself:
     `States public state = States.AboveCobj;`
-  - Global number of RBTC: Complete amount of Bitcoin in the system
+  - Global number of RIF: Complete amount of RIF in the system
     `uint256 public globalNB = 0;`
   - Configuration variables:
-    - PEG: Relation between DOC and dollar
+    - PEG: Relation between RDOC and dollar
       `uint256 public peg = 1;`
-    - BPro max discount rate: Reflects the discount spot rate at Liquidation level
-      `uint256 public bproMaxDiscountRate;`
+    - RiskPro max discount rate: Reflects the discount spot rate at Liquidation level
+      `uint256 public riskProMaxDiscountRate;`
     - Liquidation threshold:
       `uint256 public liq;`
-    - BPro with discount threshold:
+    - RiskPro with discount threshold:
       `uint256 public utpdu;`
     - Liquidation enabled:
       `bool public liquidationEnabled;`
@@ -31,7 +31,7 @@ It also defines the State enum options:
     // State 0
     Liquidated,
     // State 1
-    BProDiscount,
+    RiskProDiscount,
     // State 2
     BelowCobj,
     // State 3

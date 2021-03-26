@@ -8,15 +8,15 @@ Currently it's a mock of the future functionality, since the price can be set by
 It's assumed that in a future production release there will be a reliable, decentralized price providing oracle.
 It's used by MocState to get the token price and moving average.
 
-## BtcPriceProvider (PriceProvider)
+## PriceProvider (PriceProvider)
 
 - Referenced by: MocState, MoC
 - References/uses: SafeMath
 
-Provides the price of bitcoin in US dollars.
+Provides the price of RIF in US dollars.
 Currently it's a mock of the future functionality, since the price can be set by anyone and there isn't any consensus mechanism.
 It's assumed that in a future production release there will be a reliable, decentralized price providing oracle.
-It's used by MocState to get the bitcoin price and moving average.
+It's used by MocState to get the RIF price and moving average.
 
 ## MoCPriceProvider (PriceProvider)
 

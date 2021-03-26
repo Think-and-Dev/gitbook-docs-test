@@ -1,6 +1,6 @@
 # Using web3
 
-You can use the technology that suits you best for your project to integrate with the Money on Chain platform, but you must use web3 to invoke the functions of smart contracts. You can learn how to use it with the following tutorials:
+You can use the technology that suits you best for your project to integrate with the Money On Chain platform, but you must use web3 to invoke the functions of smart contracts. You can learn how to use it with the following tutorials:
 
 - javascript: [Intro to Web3.js · Ethereum Blockchain Developer Crash Course](https://www.dappuniversity.com/articles/web3-js-intro)
 - python: [Intro to Web3.py · Ethereum For Python Developers](https://www.dappuniversity.com/articles/web3-py-intro)

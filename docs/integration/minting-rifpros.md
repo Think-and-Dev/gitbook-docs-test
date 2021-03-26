@@ -4,7 +4,7 @@ In this tutorial the method (or function) that is of interest to us is `function
 
 NOTE: there is a retrocompatibility function called `mintRiskPro(uint256 resTokensToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
-You must approve the amount of RIF token that you are willing to use on the Money on Chain platform before minting RIFPro. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
+You must approve the amount of RIF token that you are willing to use on the Money On Chain platform before minting RIFPro. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
 ## Parameters of the operation
 
@@ -151,7 +151,7 @@ contract YourMintingRiskProContract {
     MoCInrate public mocInrate;
     // Address of the MoCExchange contract
     MoCExchange public moCExchange;
-    // Address of the bitpro token
+    // Address of the RiskPro token
     RiskProToken public riskPro;
     // Address that will receive the commissions
     address public receiverAddress;

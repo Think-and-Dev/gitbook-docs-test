@@ -1,6 +1,6 @@
 # Using RSK nodes
 
-Money on Chain contracts are executed on the RSK blockchain whose public nodes are testnet (testing environment) and mainnet (production environment). You can use a public node or install a node in your own server.
+Money On Chain contracts are executed on the RSK blockchain whose public nodes are testnet (testing environment) and mainnet (production environment). You can use a public node or install a node in your own server.
 
 ## Public node: RSK Testnet
 

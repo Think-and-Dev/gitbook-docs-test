@@ -1,6 +1,6 @@
 # OwnerBurnableToken
 
-- Referenced by: DocToken, BProToken
+- Referenced by: StableToken, RiskProToken
 - References/uses:
 - Inherits from: OpenZeppelin/Ownable, OpenZeppelin/ERC20Mintable
 

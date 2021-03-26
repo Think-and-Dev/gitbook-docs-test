@@ -13,20 +13,18 @@ if we look at the MoCHelperLib coverage method:
 
 ```
 /**
-  Coverage = nB / LB
-
-  @dev Calculates Coverage
-  @param nB Total BTC amount [using reservePrecision]
-  @param lB Locked bitcoins amount [using reservePrecision]
-  @return Coverage [using coveragePrecision]
-**/
-function coverage(MocLibConfig storage libConfig, uint256 nB, uint256 lB) public view
+  @dev Calculates Coverage: nReserve / LB
+  @param nReserve Total ReserveTokens amount [using reservePrecision]
+  @param lB Locked ReserveTokens amount [using reservePrecision]
+  @return Coverage [using mocPrecision]
+*/
+function coverage(MocLibConfig storage libConfig, uint256 nReserve, uint256 lB) public view
   returns(uint256) {
   if (lB == 0) {
     return UINT256_MAX;
   }
 
-  return nB.mul(libConfig.coveragePrecision).div(lB);
+  return nReserve.mul(libConfig.mocPrecision).div(lB);
 }
 ```
 
@@ -64,7 +62,7 @@ Most of MoC methods signatures specify the expected precision of the given input
 
 ```
   // [DISCOUNT] * [COV] / [COV] = [DISCOUNT]
-  return bproLiqDiscountRate.mul(utpduCovDiff).div(utpduLiqDiff);
+  return riskProLiqDiscountRate.mul(utpduCovDiff).div(utpduLiqDiff);
 ```
 
 where the convention is to indicate the short description of the precision on brackets ([COV] = coveragePrecision).
@@ -79,7 +77,7 @@ We understand that this solution makes the system vulnerable on deploy stage, as
 
 Although not recomended, dynamic array looping is needed to be performed on certain functions:
 
-- On Settlement, while processing _DoCRedeemRequest_ or _BProX_ collection.
+- On Settlement, while processing _RDOCRedeemRequest_ or _RIF2X_ collection.
 
 That's why this functions are wrapped on TASKs and might requires more than one call to complete. They receive a step amount parameter indicating the maximum number of iterations to be performed on each call.
 

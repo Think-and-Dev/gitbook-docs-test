@@ -1,6 +1,6 @@
 # Example code minting RIFPros
 
-In the following example we will show how to invoke the mintRiskProVendors function of the Money on Chain contract in **testnet** with **truffle**.
+In the following example we will show how to invoke the mintRiskProVendors function of the Money On Chain contract in **testnet** with **truffle**.
 
 You can find code examples into _/examples_ dir.
 
@@ -80,7 +80,7 @@ const execute = async () => {
     throw Error('Can not find MoC Exchange contract.');
   }
 
-  // Loading mocState contract. It is necessary to compute max BPRO available to mint
+  // Loading mocState contract. It is necessary to compute max RIFPro available to mint
   const mocState = await getContract(MoCStateAbi.abi, mocStateAddress);
   if (!mocState) {
     throw Error('Can not find MoCState contract.');
@@ -131,11 +131,11 @@ const execute = async () => {
 
   const riskProPriceInReserveToken = await mocState.methods.riskProTecPrice().call();
   console.log('=== RIFPRO in RIF: '.concat(riskProPriceInReserveToken.toString()));
-  const btcAmount = '0.00001';
+  const rifAmount = '0.00001';
   const vendorAccount = '<vendor-address>';
 
   // Call mint
-  await mintRiskPro(btcAmount, vendorAccount);
+  await mintRiskPro(rifAmount, vendorAccount);
 };
 
 execute()

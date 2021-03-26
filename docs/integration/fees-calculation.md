@@ -19,12 +19,12 @@ Fees will be paid in MoC in case the user has MoC token balance and allowance; o
 You will receive a **CommissionReturnStruct** struct in return with all the values calculated for you:
 ```
 struct CommissionReturnStruct{
-  uint256 reserveTokenCommission; // Commission in BTC if it is charged in BTC; otherwise 0
+  uint256 reserveTokenCommission; // Commission in RIF if it is charged in RIF; otherwise 0
   uint256 mocCommission; // Commission in MoC if it is charged in MoC; otherwise 0
-  uint256 btcPrice; // BTC price at the moment of the transaction
+  uint256 reserveTokenPrice; // RIF price at the moment of the transaction
   uint256 mocPrice; // MoC price at the moment of the transaction
-  uint256 reserveTokenMarkup; // Markup in BTC if it is charged in BTC; otherwise 0
-  uint256 mocMarkup; // Markup in MoC if it is charged in BTC; otherwise 0
+  uint256 reserveTokenMarkup; // Markup in RIF if it is charged in RIF; otherwise 0
+  uint256 mocMarkup; // Markup in MoC if it is charged in RIF; otherwise 0
 }
 ```
 
@@ -41,6 +41,6 @@ If fees are paid in MoC, then `rifSent (msg.value) == CommissionParamsStruct.amo
 
 ```
 totalRif = <token>ToResToken(finalAmount);
-rifReceived = totalRif - totalRif * CommissionReturnStruct.reserveTokenCommission - totalBtc * CommissionReturnStruct.reserveTokenMarkup - interests
+rifReceived = totalRif - totalRif * CommissionReturnStruct.reserveTokenCommission - totalRif * CommissionReturnStruct.reserveTokenMarkup - interests
 ```
 If fees are paid in MoC, then `rifReceived == CommissionParamsStruct.amount`

@@ -1,20 +1,20 @@
 # MoC
 
 - Referenced by: MoCSettlement
-- References/uses: SafeMath, MoCLibConnection, DocToken, BProToken, PriceProvider, MoCBProxManager, MoCState, MoCConverter, MoCSettlement, MoCExchange, base/MoCBase
+- References/uses: SafeMath, MoCLibConnection, StableToken, RiskProToken, PriceProvider, MoCRiskProxManager, MoCState, MoCConverter, MoCSettlement, MoCExchange, base/MoCBase
 - Inherits from: MoCEvents, MoCLibConnection, MoCBase, Stoppable
 
   MoC is the main contract of the MoC ecosystem, it's the entry point of almost every public interaction with it and it articulates the main logic and relations between the rest of the contracts.
-  It is also the _only one_ that receives RBTC and holds the actual value of the system. The only methods marked as `payable` belongs to this contract and corresponds with the actual two ways of adding "value" to the system minting BitPro and DoC: - `function mintBProVendors() public payable transitionState() { ... }` - `function mintDocVendors() public payable transitionState() atLeastState(MoCState.States.AboveCobj) { ... }`
-  You'll also notice that many of it's methods just "redirects" to a more specif contract, abstracting it from the `msg.sender` and `msg.value`; for example:
+  It is also the _only one_ that receives RIF and holds the actual value of the system. The only methods that correspond with the actual two ways of adding "value" to the system minting RIFPro and RDOC: - `function mintRiskProVendors() public payable transitionState() { ... }` - `function mintStableTokenVendors() public payable transitionState() atLeastState(MoCState.States.AboveCobj) { ... }`
+  You'll also notice that many of it's methods just "redirects" to a more specif contract, abstracting it from the `msg.sender`; for example:
 
 ```sol
   /**
-  * @dev Creates or updates the amount of a Doc redeem Request from the msg.sender
-  * @param docAmount Amount of Docs to redeem on settlement [using dollarPrecision]
+  * @dev Creates or updates the amount of a StableToken redeem Request from the msg.sender
+  * @param stableTokenAmount Amount of StableTokens to redeem on settlement [using mocPrecision]
   */
-  function redeemDocRequest(uint256 docAmount) public {
-    settlement.addRedeemRequest(docAmount, msg.sender);
+  function redeemStableTokenRequest(uint256 stableTokenAmount) public whenNotPaused() whenSettlementReady() {
+    settlement.addRedeemRequest(stableTokenAmount, msg.sender);
   }
 ```
 
@@ -47,7 +47,7 @@ MoC also handles the [System states](system-states.md) by a series of modifiers:
   }
 ```
 
-- _bucketStateTransition_: Any method that can potentially modify a bucket values is require to first verify if current conditions doesn't demand that bucket liquidation. This is currently used while minting/redeeming Leveraged instruments (BProX).
+- _bucketStateTransition_: Any method that can potentially modify a bucket values is require to first verify if current conditions doesn't demand that bucket liquidation. This is currently used while minting/redeeming Leveraged instruments (RIFX).
 
 ```
   modifier bucketStateTransition(string bucket) {

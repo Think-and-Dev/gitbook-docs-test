@@ -139,7 +139,7 @@ const execute = async () => {
     const totalReserveTokenAmount = toContract(reserveTokenInterestAmount.plus(reserveTokenCommission).plus(reserveTokenMarkup).plus(weiAmount));
     console.log(`Calling mint RIF2X with ${rifAmount} RIFs with account: ${from}.`);
     moc.methods
-      .mintBProxVendors(strToBytes32(bucketX2), weiAmount, vendorAccount)
+      .mintRiskProxVendors(strToBytes32(bucketX2), weiAmount, vendorAccount)
       .send({ from, value: totalReserveTokenAmount, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));

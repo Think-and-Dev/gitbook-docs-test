@@ -18,14 +18,14 @@ This parameter uses a precision of the type **reservePrecision** that contains 1
 It is the address of the vendor who will receive a [markup](vendors.md#markup) from the current transaction.
 
 
-Money on Chain is a dynamic system that allows you to redeem a maximum amount of free RDOCS and can be obtained by calling the `freeStableToken()` view of the **MocState** contract.
+Money On Chain is a dynamic system that allows you to redeem a maximum amount of free RDOCS and can be obtained by calling the `freeStableToken()` view of the **MocState** contract.
 
 The first part transforms the amount **stableTokenAmount** into an RIF amount, but 3 things can happen:
 
 - If the absolute maximum amount of allowed RDOCs is bigger than the user's balance in RDOCs, then the user's total balance will be used to transform it to RIF.
 
 ```
-stableTokenAmountToRedeem = Math.min(mocState.freeStableToken(), docToken.balanceOf(account));
+stableTokenAmountToRedeem = Math.min(mocState.freeStableToken(), stableToken.balanceOf(account));
 ```
 
 - If the previous amount is greater than the stableTokenAmount value, then stableTokenAmount will be used to transform it to RIF.

@@ -59,7 +59,7 @@ const gasPrice = getGasPrice('rskTestnet');
 
 //Contract addresses on testnet
 const mocContractAddress = '<contract-address>';
-const mocBProxManagerAddress = '<contract-address>';
+const mocRiskProxManagerAddress = '<contract-address>';
 
 const execute = async () => {
   web3.eth.defaultGas = 2000000;
@@ -79,7 +79,7 @@ const execute = async () => {
     throw Error('Can not find MoC contract.');
   }
 
-  // Loading MoCBProxManager contract. It is necessary to compute user RIF2X balance
+  // Loading MoCRiskProxManager contract. It is necessary to compute user RIF2X balance
   const mocRiskProxManager = await getContract(MoCRiskProxManager.abi, mocRiskProxManagerAddress);
   if (!mocRiskProxManager) {
     throw Error('Can not find MoCRiskProxManager contract.');

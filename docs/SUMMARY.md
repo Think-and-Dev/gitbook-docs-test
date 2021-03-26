@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 
-## Money on Chain platform
+## Money On Chain platform
 
 * [Main concepts](rationale/main-concepts.md)
 * [System states](rationale/system-states.md)
@@ -20,14 +20,14 @@
    * [MoCConverter](rationale/mocconverter.md)
    * [MoCExchange](rationale/mocexchange.md)
    * [MoCConnector](rationale/mocconnector.md)
-   * [MoCBProxManager](rationale/mocbproxmanager.md)
+   * [MoCRiskProxManager](rationale/mocriskproxmanager.md)
    * [MoCInrate](rationale/mocinrate.md)
    * [MoCVendors](rationale/mocvendors.md)
    * [MoCWhitelist](rationale/mocwhitelist.md)
    * [MoCBase](rationale/mocbase.md)
    * [OwnerBurnableToken](rationale/ownerburnabletoken.md)
-   * [BProToken](rationale/bprotoken.md)
-   * [DocToken](rationale/doctoken.md)
+   * [RiskProToken](rationale/riskprotoken.md)
+   * [StableToken](rationale/stabletoken.md)
    * [MoCToken](rationale/moctoken.md)
    * [PriceProvider](rationale/priceprovider.md)
 * [Contract mocks](rationale/contract-mocks.md)

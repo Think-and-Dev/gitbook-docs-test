@@ -46,7 +46,7 @@ moc.alterRedeemRequestAmount(true, 5);
 
 ```js
 //Trying to redeem All RDOCs.
-uint256 docBalance = docToken.balanceOf(userAddress);
+uint256 docBalance = stableToken.balanceOf(userAddress);
 moc.redeemFreeStableTokenVendors(docBalance, vendorAccount);
 ```
 
@@ -58,16 +58,16 @@ This will leave you with a contract similar to the following
 ```js
 pragma solidity 0.5.8;
 import "money-on-chain/contracts/MoC.sol";
-import "money-on-chain/contracts/token/DocToken.sol";
+import "money-on-chain/contracts/token/StableToken.sol";
 // Here you will import your own dependencies
 
 contract YourRedeemingRDocContract {
     // Address of the MoC contract
     MoC public moc;
     // Address of the RDOC token
-    StableToken public doc;
-    // DOC Amount
-    uint256 docAmount;
+    StableToken public stableToken;
+    // RDOC Amount
+    uint256 stableTokenAmount;
     // Address that will receive the markup
     address public vendorAccount;
     // rest of your variables
@@ -81,28 +81,28 @@ contract YourRedeemingRDocContract {
     }
 ​
     function createRedeemRequest() public {
-        uint256 previousBalance = doc.balanceOf(msg.sender);
+        uint256 previousBalance = stableToken.balanceOf(msg.sender);
         moc.redeemStableTokenRequest(stableTokenAmount);
-        uint256 newBalance = doc.balanceOf(msg.sender);
+        uint256 newBalance = stableToken.balanceOf(msg.sender);
     }
 
     function addToRedeemRequest(uint256 _addValue) public {
         moc.alterRedeemRequestAmount(true, stableTokenAmount);
-        uint256 newBalance = doc.balanceOf(msg.sender);
+        uint256 newBalance = stableToken.balanceOf(msg.sender);
     }
 
     function sustractToRedeemRequest(uint256 _addValue) public {
         moc.alterRedeemRequestAmount(false, stableTokenAmount);
-        uint256 newBalance = doc.balanceOf(msg.sender);
+        uint256 newBalance = stableToken.balanceOf(msg.sender);
     }
 
     function redeemFreeStableToken(uint256 _stableTokenAmount) public {
-        uint256 previousBalance = doc.balanceOf(msg.sender);
+        uint256 previousBalance = stableToken.balanceOf(msg.sender);
         moc.redeemFreeStableTokenVendors(_stableTokenAmount, vendorAccount);
-        uint256 newBalance = doc.balanceOf(msg.sender);
+        uint256 newBalance = stableToken.balanceOf(msg.sender);
     }
     // rest of your contract
 }​
 ```
 
-And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and RDOC when deploying YourRedeemingRDocContract and you are done.
+And that is it, the only thing left to do is to add in the [Truffle migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) scripts the address to MoC and StableToken when deploying YourRedeemingRDocContract and you are done.
