@@ -1,6 +1,6 @@
 # Example code redeeming Free RDOC
 
-In the following example we will show how to invoke redeemFreeStableTokenVendors from RIF On Chain contract. This method allows to redeem RDOC outside the settlement and they are limited by user balance. Check the [RDOC redeemption section](redeeming-docs.md) for more details.
+In the following example we will show how to invoke redeemFreeStableTokenVendors from RIF On Chain contract. This method allows to redeem RDOC outside the settlement and they are limited by user balance. Check the [RDOC redeemption section](redeeming-rdocs.md) for more details.
 
 We will learn how to:
 
