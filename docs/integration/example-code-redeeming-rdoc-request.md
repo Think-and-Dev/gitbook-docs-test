@@ -1,6 +1,6 @@
 # Example code redeeming RDOC Request
 
-In the following example we will show how to invoke redeemDocRequest using Money on Chain contract. This method can recieve any amount of RDOC to redeem, but this will be processed on the next settlement. Check the [RDOC redeemption section](redeeming-docs.md) for more details.
+In the following example we will show how to invoke redeemStableTokenRequest using Money on Chain contract. This method can recieve any amount of RDOC to redeem, but this will be processed on the next settlement. Check the [RDOC redeemption section](redeeming-rdocs.md) for more details.
 
 We will use **truffle** and **testnet** network.
 You can find code examples into _/examples_ dir.
@@ -71,13 +71,13 @@ const execute = async () => {
     throw Error('Can not find MoC contract.');
   }
 
-  const redeemDocRequest = async docAmount => {
+  const redeemStableTokenRequest = async docAmount => {
     const [from] = await web3.eth.getAccounts();
     const weiAmount = web3.utils.toWei(docAmount, 'ether');
 
     console.log(`Calling redeem Doc request, account: ${from}, amount: ${weiAmount}.`);
     moc.methods
-      .redeemDocRequest(weiAmount)
+      .redeemStableTokenRequest(weiAmount)
       .send({ from, gasPrice }, function(error, transactionHash) {
         if (error) console.log(error);
         if (transactionHash) console.log('txHash: '.concat(transactionHash));
@@ -94,7 +94,7 @@ const execute = async () => {
   const docAmount = '10000';
 
   // Call redeem
-  await redeemDocRequest(docAmount);
+  await redeemStableTokenRequest(docAmount);
 };
 
 execute()

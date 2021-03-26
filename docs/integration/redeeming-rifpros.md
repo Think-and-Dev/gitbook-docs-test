@@ -1,8 +1,8 @@
-# Redeeming BitPros
+# Redeeming RIFPros
 
 The Money On Chain's Smart Contract suite is in control of the redeeming of its tokens, including the RIFPro token. This means that the return of RIFPros is controlled programmatically by said suite. ​A user can "sell" their RIFPro back to the contract and recover the corresponding amount of RIF.
 
-This means that to redeem RIFPros you must interact with the suite. The entry point are the same as explained in [Minting RIFPros](minting-bitpros.md).
+This means that to redeem RIFPros you must interact with the suite. The entry point are the same as explained in [Minting RIFPros](minting-rifpros.md).
 
 In this tutorial the method (or function) that is of interest to us is `function redeemRiskProVendors(uint256 riskProAmount, address vendorAccount) public`
 
@@ -62,7 +62,7 @@ In the extraneous case where a coverage that barely covers the stable tokens fun
 
 ### The contract is paused:
 
-If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-bitpros.md#the-moc-contract-is-paused).
+If the system suffers some type of attack, the contract can be paused so that operations cannot be done and the risk of the users losing their funds with the operation can be minimized. The condition is the same as that explained in [The MoC contract is paused](minting-rifpros.md#the-moc-contract-is-paused).
 
 ### Not enough gas:
 
