@@ -7,7 +7,7 @@ It's identified by a name (currently `C0` and `X2`).
 It has a "balance" of RIF, RDOC, and RIFPro.
 If it's a leverage (X) bucket, it also stores the balances of the leveraged token (currently only RIF2X) holders (`riskProxBalances` and `activeBalances`).
 If it's instead a base bucket, it has a RIF balance (`inrateBag`) from interests accumulated by leveraged instruments allocations, daily processing will move the corresponding daily payment from this "bag" to base bucket balance.
-Balance accounting between buckets is articulated by a series of Smart Contracts that constitute the MoC ecosystem.
+Balance accounting between buckets is articulated by a series of Smart Contracts that constitute the RoC ecosystem.
 
 ## Coverage
 
@@ -19,13 +19,13 @@ Locked RIF amount is a result of the amount of RDOCs and their price in RIF (RIF
 ### RDOC
 
 Its value is pegged to one dollar, in the sense that the SC (using [Oracle's](main-concepts.md#oracle) rif/usd price) will always[^1] return the equivalent amount of `rif` to satisfy that convertibility. It's targeted towards users seeking to avoid crypto's market volatility.
-It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the MoC system. The more RDOCs minted, the more RIF2X can be minted, since they are used for leverage.
+It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the RoC system. The more RDOCs minted, the more RIF2X can be minted, since they are used for leverage.
 
 [^1]: Needs sufficient collateral (coverage > 1) and redeems are only processed during [Settlements](process-actions.md#settlement)
 
 ### RIFPro
 
-It's targeted towards users seeking to _hodl_ RIFs and also receive a passive income from it. It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the MoC system. The more RIFPro minted (introducing RIF to the system), the more coverage the system has, since they add value to the system without locking any.
+It's targeted towards users seeking to _hodl_ RIFs and also receive a passive income from it. It's implemented as an ERC20 token, it can be traded freely, but minted/burned only by the RoC system. The more RIFPro minted (introducing RIF to the system), the more coverage the system has, since they add value to the system without locking any.
 
 ### MoC
 
@@ -43,4 +43,4 @@ It can _not_ be traded freely and does _not_ have an ERC20 interface. RIF2X posi
 
 ## Oracle
 
-It's crucial to the system workflow to have an up to date RIF-USD rate price feed to relay on. This is currently achieved by a separate contract so that it can be easily replaced in the future without affecting the MoC system. See [PriceProvider](priceprovider.md).
+It's crucial to the system workflow to have an up to date RIF-USD rate price feed to relay on. This is currently achieved by a separate contract so that it can be easily replaced in the future without affecting the RoC system. See [PriceProvider](priceprovider.md).

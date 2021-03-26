@@ -1,12 +1,12 @@
 # Redeeming RIFPros
 
-The Money On Chain's Smart Contract suite is in control of the redeeming of its tokens, including the RIFPro token. This means that the return of RIFPros is controlled programmatically by said suite. ​A user can "sell" their RIFPro back to the contract and recover the corresponding amount of RIF.
+The RIF On Chain's Smart Contract suite is in control of the redeeming of its tokens, including the RIFPro token. This means that the return of RIFPros is controlled programmatically by said suite. ​A user can "sell" their RIFPro back to the contract and recover the corresponding amount of RIF.
 
 This means that to redeem RIFPros you must interact with the suite. The entry point are the same as explained in [Minting RIFPros](minting-rifpros.md).
 
 In this tutorial the method (or function) that is of interest to us is `function redeemRiskProVendors(uint256 riskProAmount, address vendorAccount) public`
 
-NOTE: there is a retrocompatibility function called `function redeemRiskPro(uint256 riskProAmount)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+NOTE: there is a retrocompatibility function called `function redeemRiskPro(uint256 riskProAmount)` which is suitable for those who are already integrated to RoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
 ## Parameters of the operation
 
@@ -16,7 +16,7 @@ It is the amount that the contract will use to redeem RIFPros and to calculate c
 
 This parameter uses a precision of the type **reservePrecision** that contains 18 decimal places and is defined in **MoCLibConnection** contract.
 
-Money On Chain is a dynamic system that allows you to redeem a maximum amount of RIFPros and can be obtained by calling the `absoluteMaxRiskPro()` view of the **MocState** contract.
+RIF On Chain is a dynamic system that allows you to redeem a maximum amount of RIFPros and can be obtained by calling the `absoluteMaxRiskPro()` view of the **MocState** contract.
 
 The redeeming process is divided into 4 parts:
 
@@ -76,7 +76,7 @@ In the following sections we will give some code on how this can be done through
 ### Smart Contract​
 
 ​
-To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
+To create a new Smart Contract that uses the RIF On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
 Assuming you already have your project up and running (if you don't, please follow [this link](../rationale/getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​

@@ -2,7 +2,7 @@
 
 When a transaction is mined, smart contracts can emit events and write logs to the blockchain that the frontend can then process. Click [here](https://media.consensys.net/technical-introduction-to-events-and-logs-in-ethereum-a074d65dd61e) for more information about events.
 
-In the following example we will show you how to find events that are emitted by Money On Chain smart contract in **RSK Testnet** blockchain with **truffle**.
+In the following example we will show you how to find events that are emitted by RIF On Chain smart contract in **RSK Testnet** blockchain with **truffle**.
 
 
 **Code example**

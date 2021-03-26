@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 
-## Money On Chain platform
+## RIF On Chain platform
 
 * [Main concepts](rationale/main-concepts.md)
 * [System states](rationale/system-states.md)
@@ -36,12 +36,12 @@
 * [Getting started](rationale/getting-started.md)
 
 
-## Integration with MoC platform
+## Integration with RoC platform
 
-* [Introduction to MoC](integration/introduction-to-moc.md)
+* [Introduction to RoC](integration/introduction-to-roc.md)
     * [The MoC Contract](integration/the-moc-contract.md)
-    * [MoC Precisions](integration/moc-precisions.md)
-    * [MoC State Contracts](integration/the-moc-state-contract.md)
+    * [RoC Precisions](integration/roc-precisions.md)
+    * [RoC State Contracts](integration/the-roc-state-contract.md)
 * [Getting RIFPros](integration/getting-rifpros.md)
     * [Minting RIFPros](integration/minting-rifpros.md)
     * [Redeeming RIFPros](integration/redeeming-rifpros.md)
@@ -62,7 +62,7 @@
 * [From outside the blockchain](integration/from-outside-the-blockchain.md)
     * [Using RSK nodes](integration/using-rsk-nodes.md)
     * [Using web3](integration/using-web3.md)
-    * [Official Money on Chain ABIs](integration/official-money-on-chain-abis.md)
+    * [Official RIF On Chain ABIs](integration/official-rif-on-chain-abis.md)
     * [Events](integration/events.md)
     * [Example code minting RIFPros](integration/example-code-minting-rifpros.md)
     * [Example code minting RIFPros without Truffle](integration/example-code-minting-rifpros-without-truffle.md)

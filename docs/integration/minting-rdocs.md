@@ -1,12 +1,12 @@
 # Minting RDOCs
 
-RDOC can only be minted in exchange for RIF. Given an amount of RIF paid to the contract, the system calculates the corresponding RDOCs amount to mint, RIF and RDOC balances are added to the Money On Chain system and the new tokens are sent to the user.
+RDOC can only be minted in exchange for RIF. Given an amount of RIF paid to the contract, the system calculates the corresponding RDOCs amount to mint, RIF and RDOC balances are added to the RIF On Chain system and the new tokens are sent to the user.
 
 In this tutorial the method (or function) that is of interest to us is `function mintStableTokenVendors(uint256 resTokensToMint, address vendorAccount) public`.
 
-NOTE: there is a retrocompatibility function called `function mintStableToken(uint256 resTokensToMint)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+NOTE: there is a retrocompatibility function called `function mintStableToken(uint256 resTokensToMint)` which is suitable for those who are already integrated to RoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
-You must approve the amount of RIF token that you are willing to use on the Money On Chain platform before minting RDOC. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
+You must approve the amount of RIF token that you are willing to use on the RIF On Chain platform before minting RDOC. The approved amount is called **allowedBalance**. You can do this by invoking `function approve(address _spender, uint256 _value) public returns (bool success)` that is part of the [ERC20 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
 
 ## Parameters of the operation
@@ -71,7 +71,7 @@ In the following sections we will give some code on how this can be done through
 ### Smart Contract​
 
 ​
-To create a new Smart Contract that uses the Money On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
+To create a new Smart Contract that uses the RIF On Chain platform, you can use any language and IDE you want. In this tutorial, we will show you how to do it using [Solidity language](https://solidity.readthedocs.io/en/v0.5.8/), [Truffle Framework](https://www.trufflesuite.com/) and [NPM](https://www.npmjs.com/).
 Truffle framework offers some template projects that you can use to develop applications that use smart contracts. You can get more information [here](https://www.trufflesuite.com/boxes).
 Assuming you already have your project up and running (if you don't, please follow [this link](../rationale/getting-started.md)) the only extra thing you need to do is to install our repo as a dependency in your NPM project. In order you need to do this you just need to run the following command.
 ​

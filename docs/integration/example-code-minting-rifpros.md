@@ -1,6 +1,6 @@
 # Example code minting RIFPros
 
-In the following example we will show how to invoke the mintRiskProVendors function of the Money On Chain contract in **testnet** with **truffle**.
+In the following example we will show how to invoke the mintRiskProVendors function of the RIF On Chain contract in **testnet** with **truffle**.
 
 You can find code examples into _/examples_ dir.
 

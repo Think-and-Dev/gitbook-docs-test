@@ -2,7 +2,7 @@
 
 ## Safe Math and precision
 
-MoC system requires many mathematical operations, in this model just the 2 basic operations are used (addition/subtraction, multiplication/division). To protect against overflows, OpenZeppelin SaveMath library is used on any of this operations.
+RoC system requires many mathematical operations, in this model just the 2 basic operations are used (addition/subtraction, multiplication/division). To protect against overflows, OpenZeppelin SaveMath library is used on any of this operations.
 As current RSK EVM version does not "support" decimal values, it's also important to point out that in MoC every value that is mathematically a decimal, it's represented as an integer adjusted by a given value, which is called _precision_.
 
 For example, let's take coverage formula:

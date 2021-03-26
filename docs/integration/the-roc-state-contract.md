@@ -1,8 +1,8 @@
-# MoC State Contracts
+# RoC State Contracts
 
 ## MoCInrate
 
-Deals with interest payments on leverage deposits and defines the interest rates to trade with RDOC and RIF2X. Also with the commission rates to operate on the Money On Chain platform.
+Deals with interest payments on leverage deposits and defines the interest rates to trade with RDOC and RIF2X. Also with the commission rates to operate on the RIF On Chain platform.
 
 - mainnet: [0x1DaB07c4FD07d6eE1359a5198ACa2DEe64F371f3](https://explorer.rsk.co/address/0x1DaB07c4FD07d6eE1359a5198ACa2DEe64F371f3)
 - testnet: [0x4C54053845F4f219AddB43ef3A7d4478E89a2A47](https://explorer.testnet.rsk.co/address/0x4C54053845F4f219AddB43ef3A7d4478E89a2A47)
@@ -16,7 +16,7 @@ This contract holds the system variables to manage the state, whether it's the s
 
 ## MoCVendors
 
-Deals with those [vendors](vendors.md) who want to integrate their platform with the MoC ecosystem.
+Deals with those [vendors](vendors.md) who want to integrate their platform with the RoC ecosystem.
 
 - mainnet: [ TBD ](TBD)
 - testnet: [ TBD ](TBD)

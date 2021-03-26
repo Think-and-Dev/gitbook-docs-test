@@ -42,9 +42,9 @@ For a leveraged bucket, reaching coverage liquidation point (~1) means that user
 
 ## Commission splitting
 
-By adding the CommissionSplitter contract and set it as the destination of Money On Chain commissions (just as a normal commission destination address), the splitting process can be made.
+By adding the CommissionSplitter contract and set it as the destination of RIF On Chain commissions (just as a normal commission destination address), the splitting process can be made.
 
-The CommissionSplitter contract will accumulate commissions until the `split()` function is called. At that moment a part of the commissions will be added to Money On Chain reserves using the Collateral Injection functionality and the other part will be sent to a final destination address.
+The CommissionSplitter contract will accumulate commissions until the `split()` function is called. At that moment a part of the commissions will be added to RIF On Chain reserves using the Collateral Injection functionality and the other part will be sent to a final destination address.
 
 ## Collateral injection
 

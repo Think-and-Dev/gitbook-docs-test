@@ -1,6 +1,6 @@
 # From outside the blockchain
 
-The logic of the Money On Chain platform is developed with smart contracts that run on the RSK blockchain. To interact with this kind of technology, we developed a dApp (decentralized application), which is a web or mobile application that invokes the functions of the smart contracts.
+The logic of the RIF On Chain platform is developed with smart contracts that run on the RSK blockchain. To interact with this kind of technology, we developed a dApp (decentralized application), which is a web or mobile application that invokes the functions of the smart contracts.
 
 You can find tutorials about developing dApps in the following resources:
 

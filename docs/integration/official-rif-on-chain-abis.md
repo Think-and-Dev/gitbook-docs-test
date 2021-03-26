@@ -1,6 +1,6 @@
-# Official Money On Chain ABIs
+# Official RIF On Chain ABIs
 
-In the Money On Chain repository you can find the [official ABIs of the platform](https://github.com/money-on-chain/RDOC-Contract/tree/master/abis). You can use them to build your own decentralized applications to invoke the functions of smart contracts.
+In the RIF On Chain repository you can find the [official ABIs of the platform](https://github.com/money-on-chain/RDOC-Contract/tree/master/abis). You can use them to build your own decentralized applications to invoke the functions of smart contracts.
 
 We can also compile the contracts to generate the ABIS that will be saved in the _./build/contracts_
 dir. You can do this with the following commands:

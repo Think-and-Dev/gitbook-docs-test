@@ -2,7 +2,7 @@
 
 In the following example we will learn how to:
 
-- Use the ABIs of Money On Chain.
+- Use the ABIs of RIF On Chain.
 - Get the maximum amount of RIFPros available.
 - Get the price of the RIFPros in RIF.
 - Minting RIFPros

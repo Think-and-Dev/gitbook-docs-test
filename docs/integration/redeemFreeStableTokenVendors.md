@@ -4,7 +4,7 @@
 
 Redeems the requested **stableTokenAmount** for the user or the max amount of free docs possible if **stableTokenAmount** is bigger than max.
 
-NOTE: there is a retrocompatibility function called `redeemFreeStableToken(uint256 stableTokenAmount)` which is suitable for those who are already integrated to MoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
+NOTE: there is a retrocompatibility function called `redeemFreeStableToken(uint256 stableTokenAmount)` which is suitable for those who are already integrated to RoC platform and are not ready to use vendor functionality. In the future we are planning to deprecate this method.
 
 ## Parameters of the operation
 
@@ -18,7 +18,7 @@ This parameter uses a precision of the type **reservePrecision** that contains 1
 It is the address of the vendor who will receive a [markup](vendors.md#markup) from the current transaction.
 
 
-Money On Chain is a dynamic system that allows you to redeem a maximum amount of free RDOCS and can be obtained by calling the `freeStableToken()` view of the **MocState** contract.
+RIF On Chain is a dynamic system that allows you to redeem a maximum amount of free RDOCS and can be obtained by calling the `freeStableToken()` view of the **MocState** contract.
 
 The first part transforms the amount **stableTokenAmount** into an RIF amount, but 3 things can happen:
 

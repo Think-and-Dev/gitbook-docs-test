@@ -1,6 +1,6 @@
 # Vendors
 
-Vendors are third parties who want to integrate their platform with the MoC ecosystem. Vendors can charge a markup of up to 1% of the value to mint/redeem operations, and receive this value as MoC tokens. These tokens neither receive rewards nor vote nor can they participate as an oracle or as no other function that MoC stakeholders have in the Staking Machine.
+Vendors are third parties who want to integrate their platform with the RoC ecosystem. Vendors can charge a markup of up to 1% of the value to mint/redeem operations, and receive this value as MoC tokens. These tokens neither receive rewards nor vote nor can they participate as an oracle or as no other function that MoC stakeholders have in the Staking Machine.
 
 ## Registration
 
@@ -20,7 +20,7 @@ Note that once a vendor is unregistered, they will not receive any more profits.
 
 ## Markup
 
-When a vendor decides to integrate their platform with the MoC ecosystem, they must be [registered](#vendor-registration) first. Then, they will receive a markup for every transaction they are involved in (denoted by the parameter **vendorAccount**).
+When a vendor decides to integrate their platform with the RoC ecosystem, they must be [registered](#vendor-registration) first. Then, they will receive a markup for every transaction they are involved in (denoted by the parameter **vendorAccount**).
 
 If the user who makes the transaction has balance and allowance of MoC token, this markup will be charged in MoC; otherwise it will be charged in RIF. The exact percentage of the markup cannot be more than 1%. This is set in the **vendors** mapping of the **MoCVendors** contract (the vendor account address is the key), and the value to check is **markup**.
 
